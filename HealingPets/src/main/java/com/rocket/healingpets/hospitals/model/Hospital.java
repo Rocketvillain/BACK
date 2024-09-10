@@ -2,6 +2,10 @@ package com.rocket.healingpets.hospitals.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "hospital")
@@ -14,12 +18,45 @@ public class Hospital {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int userId;
-
-    @Column(name = "pwd")
-    private String userPwd;
+    @Column(name = "hos_id")
+    // 병원 아이디
+    private int hosId;
 
     @Column(name = "name")
-    private String userName;
+    // 병원 이름
+    private String name;
+
+    @Column(name = "owner_name")
+    // 병원장 이름
+    private String ownerName;
+
+    @Column(name = "owner_image")
+    // 병원장 사진
+    private String ownerImage;
+
+    @Column(name = "info")
+    // 병원 소개
+    private String info;
+
+    @Column(name = "info_image")
+    // 소개 이미지
+    private String infoImage;
+
+    @Column(name = "address")
+    // 병원 주소
+    private String address;
+
+    @Column(name = "business_no")
+    // 사업자 등록 번호
+    private String businessNo;
+
+    @Column(name = "created_date")
+    @CreatedDate
+    // 생성일
+    private LocalDateTime createdDate;
+
+    @Column(name = "last_modified_date")
+    @LastModifiedDate
+    // 마지막 수정일
+    private LocalDateTime lastModifiedDate;
 }

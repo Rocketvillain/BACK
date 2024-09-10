@@ -48,7 +48,7 @@ public class Pet {
     // 종 유형
     private String kind;
 
-    @Column(name = "image",nullable = false)
+    @Column(name = "image")
     // 펫 이미지(이미지 파일 폴더 경로로 기입)
     private String image;
 

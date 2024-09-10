@@ -18,10 +18,9 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     // 사용자 아이디
-    private int userId;
+    private String userId;
 
     @Column(name = "hos_id")
     // 병원 고유번호(병원 관라지에게만 부여)
