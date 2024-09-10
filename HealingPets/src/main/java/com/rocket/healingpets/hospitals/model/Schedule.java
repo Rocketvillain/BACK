@@ -43,10 +43,10 @@ public class Schedule {
     // 예약 가능 여부
     private Boolean isOkay = Boolean.TRUE;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "clinic_name", nullable = false)
     // 진료 유형
-    private ClinicType clinic_name;
+    private ClinicType clinicName;
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     // 미진료 시간
