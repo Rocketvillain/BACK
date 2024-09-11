@@ -1,6 +1,5 @@
 package com.rocket.healingpets.reviews.model;
 
-import com.rocket.healingpets.hospitals.model.ClinicType;
 import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
 import lombok.*;
