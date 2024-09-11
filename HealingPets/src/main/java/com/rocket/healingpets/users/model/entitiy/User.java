@@ -56,6 +56,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId // 부모의 ID를 자식의 ID로 매핑
     // 유저 상태(activated, deActivated)
+    @JoinColumn(name = "user_id")
     private UserState userState;
 
     @Column(name = "created_date")
