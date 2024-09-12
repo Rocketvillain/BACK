@@ -3,12 +3,12 @@ spring:
     name: Rocketvillain-HealingPets
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/villaindb
+    url: jdbc:mysql://localhost:3306/villain_db
     username: villain
     password: villain
   jpa:
     hibernate:
-      ddl-auto:
+      ddl-auto: update
     show-sql: true
     database: mysql
     properties:
