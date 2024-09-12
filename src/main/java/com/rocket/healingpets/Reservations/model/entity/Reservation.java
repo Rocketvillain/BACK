@@ -1,4 +1,4 @@
-package com.rocket.healingpets.Reservations.model;
+package com.rocket.healingpets.Reservations.model.entity;
 
 import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
-public class Reservations {
+@Builder(toBuilder = true)
+public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +54,15 @@ public class Reservations {
     // 상세 설명
     private String specificDescription;
 
+    @Column(name = "state")
+    // 예약 상태(승인/취소/완료)
+    private String state;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId // 부모의 ID를 자식의 ID로 매핑
+    @JoinColumn(name = "reservation_id")
+    // 미진료 시간
+    private Review review;
     @Column(name = "created_date")
     @CreatedDate
     // 생성일
@@ -64,12 +73,4 @@ public class Reservations {
     // 마지막 수정일
     private LocalDate lastModifiedDate;
 
-    @Column(name = "state")
-    // 예약 상태(승인/취소/완료)
-    private String state;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId // 부모의 ID를 자식의 ID로 매핑
-    // 미진료 시간
-    private Review review;
 }

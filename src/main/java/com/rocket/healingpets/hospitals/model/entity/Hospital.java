@@ -6,7 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "hospital")
@@ -56,10 +56,10 @@ public class Hospital {
     @Column(name = "created_date")
     @CreatedDate
     // 생성일
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @Column(name = "last_modified_date")
     @LastModifiedDate
     // 마지막 수정일
-    private LocalDateTime lastModifiedDate;
+    private LocalDate lastModifiedDate;
 }

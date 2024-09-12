@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping()
 @Slf4j
 @RequiredArgsConstructor
-public class ReservationsController {
+public class ReservationController {
 }
