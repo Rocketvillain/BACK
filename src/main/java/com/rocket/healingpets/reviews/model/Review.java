@@ -1,7 +1,6 @@
 package com.rocket.healingpets.reviews.model;
 
 import com.rocket.healingpets.users.model.entitiy.User;
-import com.rocket.healingpets.users.model.entitiy.UserState;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

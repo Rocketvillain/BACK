@@ -8,12 +8,11 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class UserDTO {
+public class SelectUserDTO {
 
     private String userId;
     private RoleType userRole;
     private String name;
     private String email;
     private String phone;
-    private String userState;
 }
