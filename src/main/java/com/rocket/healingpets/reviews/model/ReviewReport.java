@@ -22,8 +22,4 @@ public class ReviewReport {
     // 신고 접수 상태(대기, 승인, 취소)
     private String reportState = "대기";
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    // 신고자
-    private User userId;
 }

@@ -23,10 +23,6 @@ public class Review {
     // 예약 아이디(원투원 매핑했기 때문에 동일하게 ID로 쓰인다.)
     private int reservationId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
-
     @Column(name = "title", nullable = false)
     private String title;
 
