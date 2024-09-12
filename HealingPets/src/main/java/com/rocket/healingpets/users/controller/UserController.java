@@ -1,6 +1,7 @@
 package com.rocket.healingpets.users.controller;
 
 import com.rocket.healingpets.common.ResponseMessage;
+import com.rocket.healingpets.users.model.dto.UserDTO;
 import com.rocket.healingpets.users.model.entitiy.User;
 import com.rocket.healingpets.users.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,10 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,15 +43,68 @@ public class UserController {
 
 //    //유저 단일 조회
 //    @Operation(summary ="유저 단일 조회")
-//    @GetMapping("{postId}")
-//    public ResponseEntity<ResponseMessage> findUserByUsername(@PathVariable String username){
+//    @GetMapping("{user_Id}")
+//    public ResponseEntity<ResponseMessage> findUserById(@PathVariable String user_Id){
 //
-//        User user = userService.findUserByUsername();
+//        User user = userService.findUserByUsername(user_Id);
 //
 //        Map<String, Object> responseMap = new HashMap<>();
 //        responseMap.put("user",user);
 //
 //        return ResponseEntity.ok()
-//                .body(new ResponseMessage(Http))
+//                .body(new ResponseMessage(HttpStatus.OK,"게시글 조회 성공",responseMap));
+//    }
+//
+//    // 유저 등록
+//    @PostMapping("")
+//    @Operation(summary = "유저 등록")
+//    public ResponseEntity<ResponseMessage> registUser(@RequestBody UserDTO userDTO){
+//
+//        User user = userService.registUser(userDTO);
+//
+//        Map<String, Object> responseMap = new HashMap<>();
+//        responseMap.put("user",user);
+//
+//        return ResponseEntity
+//                .created(URI.create("/users/"+user.getUserId()))
+//                .body(new ResponseMessage(HttpStatus.CREATED,"게시글 조회 성공",responseMap));
+//
+//    }
+//
+//    // 유저 수정
+//    @Operation(summary = "유저 수정")
+//    @PutMapping("/{user_Id}")
+//    public ResponseEntity<ResponseMessage> modifyUser(@PathVariable String user_Id, @RequestBody UserDTO modifyInfo) {
+//
+//        User user = userService.updateUser(user_Id, modifyInfo);
+//
+//        Map<String, Object> responseMap = new HashMap<>();
+//        responseMap.put("user",user);
+//
+//        return ResponseEntity.created(URI.create("/entity/PostEntity/" + user_Id))
+//                .body(new ResponseMessage(HttpStatus.OK, "게시글 수정 성공", responseMap));
+//    }
+//
+//
+////    @Operation(summary = "유저 삭제")
+////    @ApiResponses({
+////            @ApiResponse(responseCode = "200", description = "게시글 삭제 성공!"),
+////            //  204 No Content 대신 200 OK를 사용하여 본문에 메시지를 포함할 수 있게 했다.
+////            @ApiResponse(responseCode = "400", description = "잘못 입력된 파라미터")
+////    })
+//
+//    // 유저 삭제
+//    @Operation(summary = "유저 삭제")
+//    @DeleteMapping("/{user_Id}")
+//    public ResponseEntity<ResponseMessage> deletePost(@PathVariable String user_Id) {
+//
+//        userService.deleteUserById(user_Id);
+//
+//        Map<String, Object> responseMap = new HashMap<>();
+//        responseMap.put("message", "게시글 삭제 성공");
+//
+//        return ResponseEntity.ok()
+//                .body(new ResponseMessage(HttpStatus.OK, "게시글 삭제 성공", responseMap));
+//
 //    }
 }
