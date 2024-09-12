@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/api/vi/user")
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
@@ -47,7 +47,7 @@ public class UserController {
 
     //유저 단일 조회
     @Operation(summary ="유저 단일 조회")
-    @GetMapping("{user_Id}")
+    @GetMapping("/{user_Id}")
     public ResponseEntity<ResponseMessage> findUserById(@PathVariable String user_Id){
 
         User user = userService.findUserById(user_Id);
