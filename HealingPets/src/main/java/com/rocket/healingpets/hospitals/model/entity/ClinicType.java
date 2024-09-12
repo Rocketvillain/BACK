@@ -1,4 +1,4 @@
-package com.rocket.healingpets.hospitals.model;
+package com.rocket.healingpets.hospitals.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 public class ClinicType {
 
     @Id

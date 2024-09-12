@@ -1,4 +1,4 @@
-package com.rocket.healingpets.hospitals.model;
+package com.rocket.healingpets.hospitals.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
-public class Schedule {
+@Builder(toBuilder = true)
+public class HospitalSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +40,7 @@ public class Schedule {
     private LocalDateTime endTime;
 
     @Column(name = "is_okay", nullable = false)
+    @Builder.Default
     // 예약 가능 여부
     private Boolean isOkay = Boolean.TRUE;
 
@@ -48,7 +49,7 @@ public class Schedule {
     // 진료 유형
     private ClinicType clinicName;
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "hospitalSchedule", cascade = CascadeType.ALL, orphanRemoval = true)
     // 미진료 시간
     private List<OffTime> offTime;
 

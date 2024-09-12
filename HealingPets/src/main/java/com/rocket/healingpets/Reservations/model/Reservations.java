@@ -1,8 +1,7 @@
 package com.rocket.healingpets.Reservations.model;
 
-import com.rocket.healingpets.hospitals.model.ClinicType;
-import com.rocket.healingpets.hospitals.model.Hospital;
-import com.rocket.healingpets.hospitals.model.OffTime;
+import com.rocket.healingpets.hospitals.model.entity.ClinicType;
+import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.reviews.model.Review;
 import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
@@ -12,7 +11,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "reservation")

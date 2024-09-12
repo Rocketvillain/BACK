@@ -1,4 +1,4 @@
-package com.rocket.healingpets.users.common;
+package com.rocket.healingpets.common;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;
@@ -21,6 +21,13 @@ public class ResponseMessage {
         this.httpStatusCode = httpStatus.value();
         this.message = message;
         this.results = new HashMap<>();
+    }
+
+    // 메시지만 포함된 생성자
+    public ResponseMessage(HttpStatus httpStatus, String message) {
+        this.httpStatusCode = httpStatus.value();
+        this.message = message;
+        this.results = new HashMap<>(); // 결과를 빈 맵으로 초기화
     }
 
 }

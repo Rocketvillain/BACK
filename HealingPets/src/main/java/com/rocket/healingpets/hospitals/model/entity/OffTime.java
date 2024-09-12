@@ -1,4 +1,4 @@
-package com.rocket.healingpets.hospitals.model;
+package com.rocket.healingpets.hospitals.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 public class OffTime {
 
     @Id
     @ManyToOne
     @JoinColumn(name = "schedule_id", nullable = false)
     // 진료 유형 고유 아이디
-    private Schedule schedule;
+    private HospitalSchedule hospitalSchedule;
 
     @Column(name = "start_time")
     // 미진료시간 시작 범위
