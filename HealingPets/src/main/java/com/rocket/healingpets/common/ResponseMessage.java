@@ -1,4 +1,4 @@
-package com.rocket.healingpets.users.common;
+package com.rocket.healingpets.common;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;
