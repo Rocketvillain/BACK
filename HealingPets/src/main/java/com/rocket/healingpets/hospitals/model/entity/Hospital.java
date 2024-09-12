@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder(toBuilder = true)
 @EntityListeners(AuditingEntityListener.class)
+@ToString
 public class Hospital {
 
     @Id

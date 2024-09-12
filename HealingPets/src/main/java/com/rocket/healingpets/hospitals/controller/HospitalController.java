@@ -34,7 +34,9 @@ public class HospitalController {
         log.info("조회된 전체 병원 정보 : {}", allHospitals);
 
         Map<String, Object> responseMap = new HashMap<>();
+
         responseMap.put("hospital", allHospitals);
+
         log.info(responseMap.toString());
 
         return ResponseEntity.ok()
