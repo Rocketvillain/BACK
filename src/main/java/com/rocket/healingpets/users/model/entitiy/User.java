@@ -6,7 +6,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -25,7 +24,7 @@ public class User {
 
     @Column(name = "hos_id")
     // 병원 고유번호(병원 관라지에게만 부여)
-    private int hosId;
+    private Integer hosId; //null값
 
     @Column(name = "pwd", nullable = false)
     // 비밀번호
@@ -54,11 +53,9 @@ public class User {
     // 유저 펫 리스트
     private List<Pet> pet;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId // 부모의 ID를 자식의 ID로 매핑
-    // 유저 상태(activated, deActivated)
-    @JoinColumn(name = "user_id")
-    private UserState userState;
+    @Column(name = "user_state",nullable = false)
+    // 유저 상태 -> 디폴트: 활성화 상태(activated)
+    private String userState = "activated";
 
     @Column(name = "created_date")
     @CreatedDate
