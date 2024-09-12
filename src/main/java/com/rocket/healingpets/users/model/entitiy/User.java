@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -62,10 +63,10 @@ public class User {
     @Column(name = "created_date")
     @CreatedDate
     // 생성일
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @Column(name = "last_modified_date")
     @LastModifiedDate
     // 최근 수정일
-    private LocalDateTime lastModifiedDate;
+    private LocalDate lastModifiedDate;
 }

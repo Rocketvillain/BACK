@@ -1,5 +1,6 @@
 package com.rocket.healingpets.reviews.model;
 
+import com.rocket.healingpets.Reservations.model.entity.Reservation;
 import com.rocket.healingpets.users.model.entitiy.User;
 import com.rocket.healingpets.users.model.entitiy.UserState;
 import jakarta.persistence.*;
@@ -19,15 +20,20 @@ import java.time.LocalDate;
 public class Review {
 
     @Id
-    @Column(name = "reservation_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     // 예약 아이디(원투원 매핑했기 때문에 동일하게 ID로 쓰인다.)
-    private int reservationId;
+    private int reviewId;
 
     @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @Column(name = "report_state")
+    // 신고 접수 상태(미접수, 대기, 승인, 취소)
+    private String reportState;
 
     @Column(name = "created_date")
     @CreatedDate
@@ -39,8 +45,10 @@ public class Review {
     // 마지막 수정일
     private LocalDate lastModifiedDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId // 부모의 ID를 자식의 ID로 매핑
-    // 후기 신고
-    private ReviewReport reviewReport;
+    @OneToOne(mappedBy = "review", cascade = CascadeType.ALL)
+    private Reservation reservation;
+
+    @Column(name = "reservation_id")
+    private Integer reservationId;
+
 }
