@@ -18,7 +18,7 @@ public class ClinicType {
     // 진료 유형 고유 아이디
     private int typeId;
 
-    @Column(name = "hos_id")
+    @JoinColumn(name = "hos_id")
     // 병원 아이디
     private int hosId;
 

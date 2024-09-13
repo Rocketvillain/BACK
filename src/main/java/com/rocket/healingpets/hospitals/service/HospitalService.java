@@ -1,8 +1,8 @@
 package com.rocket.healingpets.hospitals.service;
 
-import com.rocket.healingpets.hospitals.model.dto.CreateHospitalDTO;
-import com.rocket.healingpets.hospitals.model.dto.HospitalDTO;
-import com.rocket.healingpets.hospitals.model.dto.UpdateHospitalDTO;
+import com.rocket.healingpets.hospitals.model.dto.Hospital.CreateHospitalDTO;
+import com.rocket.healingpets.hospitals.model.dto.Hospital.HospitalDTO;
+import com.rocket.healingpets.hospitals.model.dto.Hospital.UpdateHospitalDTO;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.hospitals.repository.HospitalRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -75,6 +75,7 @@ public class HospitalService {
         return hospitalRepository.save(hospital);
     }
 
+    // 병원 삭제
     public void deleteHospital(int hosId) {
         hospitalRepository.deleteById(hosId);
     }

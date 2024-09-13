@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "hospital")
@@ -62,4 +63,7 @@ public class Hospital {
     @LastModifiedDate
     // 마지막 수정일
     private LocalDate lastModifiedDate;
+
+    @OneToMany(mappedBy = "hosId",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ClinicType> clinicType;
 }
