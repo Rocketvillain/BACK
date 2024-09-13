@@ -44,10 +44,10 @@ public class Review {
     // 마지막 수정일
     private LocalDate lastModifiedDate;
 
-    @OneToOne(mappedBy = "review", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId // 부모의 ID를 자식의 ID로 매핑
+//     미진료 시간
+    @JoinColumn(name = "reservation_id")
     private Reservation reservation;
-
-    @Column(name = "reservation_id")
-    private Integer reservationId;
 
 }

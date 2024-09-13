@@ -6,6 +6,7 @@ import com.rocket.healingpets.reviews.model.Review;
 import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -28,7 +29,7 @@ public class Reservation {
     private int reservationId;
 
     @ManyToOne
-    @JoinColumn(name = "clinic_name", nullable = false)
+    @JoinColumn(name = "type_id", nullable = false)
     // 진료 유형
     private ClinicType clinicType;
 
@@ -58,11 +59,9 @@ public class Reservation {
     // 예약 상태(승인/취소/완료)
     private String state;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId // 부모의 ID를 자식의 ID로 매핑
-    @JoinColumn(name = "reservation_id")
-    // 미진료 시간
-    private Review review;
+//    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
+//    private Review review;
+
     @Column(name = "created_date")
     @CreatedDate
     // 생성일
