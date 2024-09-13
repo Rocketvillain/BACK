@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/vi/user")
+@RequestMapping("/api/v1/user")
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
@@ -105,7 +105,7 @@ public class UserController {
         userService.deleteUserById(user_Id);
 
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("message", "게시글 삭제 성공");
+        responseMap.put("message", "유저 삭제 성공");
 
         return ResponseEntity.ok()
                 .body(new ResponseMessage(HttpStatus.OK, "유저 삭제 성공", responseMap));
