@@ -203,6 +203,8 @@ INSERT INTO clinic_type (hos_id, clinic_name) VALUES
                                                   (50, '수술'),
                                                   (50, '미용');
 
+ALTER TABLE schedule MODIFY COLUMN is_okay BOOLEAN NOT NULL DEFAULT TRUE;
+
 -- 저장 프로시저 호출
 CALL InsertHospitalSchedules();
 

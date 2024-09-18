@@ -2,7 +2,6 @@ DELIMITER $$
 
 CREATE PROCEDURE InsertHospitalSchedules()
 BEGIN
-ALTER TABLE schedule MODIFY COLUMN is_okay BOOLEAN NOT NULL DEFAULT TRUE;
     DECLARE hos_id INT;
     DECLARE schedule_date DATE;
     DECLARE start_time TIME;
@@ -17,9 +16,11 @@ ALTER TABLE schedule MODIFY COLUMN is_okay BOOLEAN NOT NULL DEFAULT TRUE;
             SET end_time = ELT(FLOOR(1 + RAND() * 4), '17:00:00', '18:00:00', '19:00:00', '20:00:00');
             SET clinic_type = ELT(FLOOR(1 + RAND() * 3), '진료', '수술', '미용');
 
-INSERT INTO schedule (hos_id, date, start_time, end_time, clinic_name, is_okay)
-VALUES (hos_id, schedule_date, start_time, end_time, clinic_type, TRUE);
+            INSERT INTO schedule (hos_id, date, start_time, end_time, clinic_name, is_okay)
+            VALUES (hos_id, schedule_date, start_time, end_time, clinic_type, TRUE);
 
-SET i = i + 1;
-END WHILE;
+            SET i = i + 1;
+    END WHILE;
 END $$
+
+DELIMITER ;
