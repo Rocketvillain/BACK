@@ -1,4 +1,4 @@
-package com.rocket.healingpets.hospitals.model.dto;
+package com.rocket.healingpets.hospitals.model.dto.Hospital;
 
 import lombok.*;
 

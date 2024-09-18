@@ -6,7 +6,6 @@ import com.rocket.healingpets.reviews.model.Review;
 import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
