@@ -78,9 +78,9 @@ public class UserController {
     // 유저 수정
     @Operation(summary = "유저 수정")
     @PutMapping("/{user_Id}")
-    public ResponseEntity<ResponseMessage> modifyUser(@PathVariable String user_Id, @RequestBody UpdateUserDTO modifyInfo) {
+    public ResponseEntity<ResponseMessage> modifyUser(@PathVariable String user_Id, @RequestBody UpdateUserDTO updateUserDTO) {
 
-        User user = userService.updateUser(user_Id, modifyInfo);
+        User user = userService.updateUser(user_Id, updateUserDTO);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("user",user);
