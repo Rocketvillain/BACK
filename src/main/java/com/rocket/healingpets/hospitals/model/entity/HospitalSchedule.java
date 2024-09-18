@@ -46,7 +46,6 @@ public class HospitalSchedule {
     // 예약 가능 여부
     private Boolean isOkay;
 
-
     @Column(name = "clinic_name", nullable = false)
     // 진료 유형
     private String clinicName;

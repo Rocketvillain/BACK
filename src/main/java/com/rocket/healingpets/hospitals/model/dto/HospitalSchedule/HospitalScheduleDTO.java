@@ -1,9 +1,11 @@
 package com.rocket.healingpets.hospitals.model.dto.HospitalSchedule;
 
+import com.rocket.healingpets.hospitals.model.entity.OffTime;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,5 +22,6 @@ public class HospitalScheduleDTO {
     private LocalTime endTime;
     private Boolean isOkay;
     private String clinicName;
+    private List<OffTime> offTime;
 
 }

@@ -39,7 +39,8 @@ public class HospitalScheduleService {
                         schedule.getStartTime(),
                         schedule.getEndTime(),
                         schedule.getIsOkay(),
-                        schedule.getClinicName()
+                        schedule.getClinicName(),
+                        schedule.getOffTime()
                         )
                 )
                 .collect(Collectors.toList());
@@ -60,7 +61,8 @@ public class HospitalScheduleService {
                                 schedule.getStartTime(),
                                 schedule.getEndTime(),
                                 schedule.getIsOkay(),
-                                schedule.getClinicName()
+                                schedule.getClinicName(),
+                                schedule.getOffTime()
                         )
                 )
                 .collect(Collectors.toList());
