@@ -29,5 +29,6 @@ public class ReservationDTO {
     private String specificDescription; // 상세 설명
     private String state; // 예약 상태 (승인/취소/설명)
     private LocalDateTime reservationDate; // 예약 시작 시간
+    private LocalDate lastModifiedDate; // 최근 수정일
 
 }

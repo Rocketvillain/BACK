@@ -56,7 +56,7 @@ public class Reservation {
 
     @Column(name = "state")
     // 예약 상태(승인/취소/완료)
-    private String state;
+    private String state = "activatied";
 
 //    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
 //    private Review review;

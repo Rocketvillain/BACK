@@ -4,6 +4,7 @@ import com.rocket.healingpets.Reservations.model.dto.CreateReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.ReservationDTO;
 import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
+import com.rocket.healingpets.hospitals.repository.ClinicTypeRepository;
 import com.rocket.healingpets.hospitals.repository.HospitalRepository;
 import com.rocket.healingpets.users.model.entitiy.User;
 
@@ -33,6 +34,7 @@ public class ReservationService {
     private final ReservationsRepository reservationsRepository;
     private final UserRepository userRepository;
     private final HospitalRepository hospitalRepository;
+    private final ClinicTypeRepository clinicTypeRepository;
     private final ModelMapper modelMapper;
 
     // 예약 전체 조회
@@ -62,6 +64,7 @@ public class ReservationService {
         reservationDTO.setSpecificDescription(reservation.getSpecificDescription());
         reservationDTO.setState(reservation.getState());
         reservationDTO.setReservationDate(reservation.getReservationDate());
+        reservationDTO.setLastModifiedDate(reservation.getLastModifiedDate());
 
          return reservationDTO;
     }
@@ -69,20 +72,24 @@ public class ReservationService {
     // 예약 등록
     public ReservationDTO registReservation(CreateReservationDTO createReservationDTO) {
 
+
         // User 객체를 조회
         User user = userRepository.findById(createReservationDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
 
         // 병원 객체를 조회
-        Hospital hospital = hospitalRepository.findByid(createReservationDTO.getHosId())
+        Hospital hospital = hospitalRepository.findById(createReservationDTO.getHosId())
                 .orElseThrow(() -> new EntityNotFoundException("병원을 찾을 수 없습니다."));
 
+        // ClinicType 객체를 조회
+        ClinicType clinicType = clinicTypeRepository.findById(createReservationDTO.getTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
 
 
         Reservation reservation = Reservation.builder()
                 .userId(user)
                 .hosId(hospital)
-                .clinicType()
+                .clinicType(clinicType)
                 .description(createReservationDTO.getDescription()) // DTO에서 description 가져오기
                 .specificDescription(createReservationDTO.getSpecificDescription()) // DTO에서 specificDescription 가져오기
                 .reservationDate(createReservationDTO.getReservationDate()) // 예약 날짜 추가
@@ -99,28 +106,45 @@ public class ReservationService {
                 .clinicName(savedReservation.getClinicType().getClinicName())
                 .description(savedReservation.getDescription())
                 .specificDescription(savedReservation.getSpecificDescription())
-                .reservationDate(savedReservation.getReservationDate()) // 예약 날짜 추가
+                .reservationDate(savedReservation.getReservationDate())
                 .build();
     }
 
-//    // 예약 수정
-//    public ReservationDTO updateReservations(int reservation_id, UpdateReservationDTO updateReservationDTO){
-//
-//        Reservation reservation = reservationsRepository.findById(reservation_id)
-//                .orElseThrow(()-> new EntityNotFoundException("예약 정보를 찾을수 없습니다." + reservation_id));
-//
-//        reservation  = reservation.toBuilder()
-////                .clinicType(updateReservationDTO.getClinicType())
-//                .description(updateReservationDTO.getDescription())
-//                .specificDescription(updateReservationDTO.getSpecificDescription())
-////                .state(updateReservationDTO.getState())
-////                .lastModifiedDate(updateReservationDTO.getLastModifiedDate())
-//                .build();
-//
-//
-//
-//        return reservationsRepository.save(reservation);
-//    }
+    // 예약 수정
+    public ReservationDTO updateReservations(int reservation_id, UpdateReservationDTO updateReservationDTO){
+
+        Reservation reservation = reservationsRepository.findById(reservation_id)
+                .orElseThrow(()-> new EntityNotFoundException("예약 정보를 찾을수 없습니다." + reservation_id));
+
+
+
+        // 병원 객체를 조회
+        Hospital hospital = hospitalRepository.findById(updateReservationDTO.getHosId())
+                .orElseThrow(() -> new EntityNotFoundException("병원을 찾을 수 없습니다."));
+
+        // ClinicType 객체를 조회
+        ClinicType clinicType = clinicTypeRepository.findById(updateReservationDTO.getTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
+
+        reservation  = reservation.toBuilder()
+
+                .hosId(hospital)
+                .clinicType(clinicType)
+                .description(updateReservationDTO.getDescription()) // 설명
+                .specificDescription(updateReservationDTO.getSpecificDescription()) // 상세 설명
+                .lastModifiedDate(updateReservationDTO.getLastModifiedDate()) // 최근 수정일
+                .build();
+
+
+        Reservation modifiedReservation = reservationsRepository.save(reservation);
+        return ReservationDTO.builder()
+                .hosName(modifiedReservation.getHosId().getName())
+                .clinicName(modifiedReservation.getClinicType().getClinicName())
+                .description(modifiedReservation.getDescription())
+                .specificDescription(modifiedReservation.getSpecificDescription())
+                .reservationDate(modifiedReservation.getReservationDate())
+                .build();
+    }
 
     // 예약 삭제
     public void deleteReservationById(int reservation_id){

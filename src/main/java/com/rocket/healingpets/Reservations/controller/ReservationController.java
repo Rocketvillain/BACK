@@ -52,6 +52,7 @@ public class ReservationController {
                     dto.setSpecificDescription(reservation.getSpecificDescription()); // 상세 설명
                     dto.setState(reservation.getState());
                     dto.setReservationDate(reservation.getReservationDate());
+                    dto.setLastModifiedDate(reservation.getLastModifiedDate());
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -87,7 +88,6 @@ public class ReservationController {
 
         ReservationDTO saveReservation = reservationService.registReservation(createReservationDTO);
 
-
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservation", saveReservation);
 
@@ -96,19 +96,19 @@ public class ReservationController {
                 .body(new ResponseMessage(HttpStatus.CREATED,"예약 등록 성공",responseMap));
     }
 
-//    //예약 수정
-//    @PostMapping("{reservation_id}")
-//    @Operation(summary = "예약 수정")
-//    public ResponseEntity<ResponseMessage> modifyReservation (@PathVariable int reservation_id, @RequestBody UpdateReservationDTO updateReservationDTO){
-//
-//        ReservationDTO modifiedReservation = reservationService.updateReservations(reservation_id, updateReservationDTO);
-//
-//        Map<String, Object> responseMap = new HashMap<>();
-//        responseMap.put("reservation", modifiedReservation);
-//
-//        return ResponseEntity.created(URI.create("/entity/Reservation/" + reservation_id))
-//                .body(new ResponseMessage(HttpStatus.OK,"예약 수정 성공",responseMap));
-//    }
+    //예약 수정
+    @PostMapping("{reservation_id}")
+    @Operation(summary = "예약 수정")
+    public ResponseEntity<ResponseMessage> modifyReservation (@PathVariable int reservation_id, @RequestBody UpdateReservationDTO updateReservationDTO){
+
+        ReservationDTO modifiedReservation = reservationService.updateReservations(reservation_id, updateReservationDTO);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservation", modifiedReservation);
+
+        return ResponseEntity.created(URI.create("/entity/Reservation/" + reservation_id))
+                .body(new ResponseMessage(HttpStatus.OK,"예약 수정 성공",responseMap));
+    }
 
     @Operation(summary = "예약 삭제")
     @DeleteMapping("/{reservation_id}")

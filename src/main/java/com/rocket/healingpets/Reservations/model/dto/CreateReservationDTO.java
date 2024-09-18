@@ -24,7 +24,7 @@ public class CreateReservationDTO {
 
     // 병원 파트
     private int hosId; // 예약 대상 병원
-    private int typeId; // 진료 유형
+    private int typeId; //진료 유형
     private String description; // 설명
     private String specificDescription; // 상세 설명
     private LocalDateTime reservationDate; // 예약 시작 시간
