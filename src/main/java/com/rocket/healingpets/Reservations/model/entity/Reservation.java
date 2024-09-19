@@ -56,13 +56,10 @@ public class Reservation {
 
     @Column(name = "state")
     // 예약 상태(승인/취소/완료)
-    private String state;
+    private String state = "activatied";
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId // 부모의 ID를 자식의 ID로 매핑
-    @JoinColumn(name = "reservation_id")
-    // 미진료 시간
-    private Review review;
+//    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
+//    private Review review;
 
     @Column(name = "created_date")
     @CreatedDate
