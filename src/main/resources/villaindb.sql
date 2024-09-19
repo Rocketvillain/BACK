@@ -308,8 +308,6 @@ INSERT INTO clinic_type (hos_id, clinic_name) VALUES
                                                   (50, '수술'),
                                                   (50, '미용');
 
-
-
 INSERT INTO reservation ( type_id,created_date,hos_id,last_modified_date,reservation_date,description,specific_description,state,user_id) values
                                                                     (1,'2024-02-10',1,'2024-09-13','2024-09-13','개','말티즈','ACTIVATIED','user01'),
                                                                     (1,'2024-02-10',1,'2024-09-13','2024-09-13','개','말티즈','ACTIVATIED','user02'),
@@ -341,4 +339,3 @@ INSERT INTO reservation ( type_id,created_date,hos_id,last_modified_date,reserva
                                                                     (3,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','랙돌','ACTIVATIED','user27'),
                                                                     (3,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','랙돌','ACTIVATIED','user28'),
                                                                     (1,'2024-09-10',20,'2024-09-13','2024-09-13','고양이','랙돌','ACTIVATIED','user29');
-

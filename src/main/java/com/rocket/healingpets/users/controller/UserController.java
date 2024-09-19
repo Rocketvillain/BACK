@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/api/v1/user")
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
@@ -47,7 +47,7 @@ public class UserController {
 
     //유저 단일 조회
     @Operation(summary ="유저 단일 조회")
-    @GetMapping("{user_Id}")
+    @GetMapping("/{user_Id}")
     public ResponseEntity<ResponseMessage> findUserById(@PathVariable String user_Id){
 
         User user = userService.findUserById(user_Id);
@@ -78,9 +78,9 @@ public class UserController {
     // 유저 수정
     @Operation(summary = "유저 수정")
     @PutMapping("/{user_Id}")
-    public ResponseEntity<ResponseMessage> modifyUser(@PathVariable String user_Id, @RequestBody UpdateUserDTO modifyInfo) {
+    public ResponseEntity<ResponseMessage> modifyUser(@PathVariable String user_Id, @RequestBody UpdateUserDTO updateUserDTO) {
 
-        User user = userService.updateUser(user_Id, modifyInfo);
+        User user = userService.updateUser(user_Id, updateUserDTO);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("user",user);
@@ -105,7 +105,7 @@ public class UserController {
         userService.deleteUserById(user_Id);
 
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("message", "게시글 삭제 성공");
+        responseMap.put("message", "유저 삭제 성공");
 
         return ResponseEntity.ok()
                 .body(new ResponseMessage(HttpStatus.OK, "유저 삭제 성공", responseMap));

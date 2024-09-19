@@ -36,7 +36,7 @@ public class UserService {
     // 유저 단일 조회
     public User findUserById(String user_id) {
          User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("유저를 찾을 수 없습니다."));
 
         return user;
     }
@@ -64,7 +64,7 @@ public class UserService {
     public User updateUser(String user_id, UpdateUserDTO modifyInfo) {
 
         User user = userRepository.findById(user_id)
-                .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다.user_id:" + user_id));
+                .orElseThrow(() -> new EntityNotFoundException("유저 정보를 찾을 수 없습니다.user_id:" + user_id));
 
         user = user.toBuilder()
                 .userId(modifyInfo.getUserId())
