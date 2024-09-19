@@ -17,11 +17,7 @@ import java.util.List;
 @Transactional
 public class OffTimeService {
 
-    private final OffTimeRepository offTimeRepository;
-    private final HospitalScheduleRepository hospitalScheduleRepository;
+//    private final OffTimeRepository offTimeRepository;
+//    private final HospitalScheduleRepository hospitalScheduleRepository;
 
-    public List<OffTimeDTO> findOffTimesByHospitalId(int hosId) {
-
-        HospitalSchedule foundHospitalSchedule = hospitalScheduleRepository.findById(hosId).get();
-    }
 }

@@ -17,6 +17,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/hospital/offTime")
@@ -57,13 +58,21 @@ public class OffTimeController {
 
         List<HospitalScheduleDTO> foundHospitalSchedule = hospitalScheduleService.findHospitalSchedulesByHospitalId(hosId);
 
-        List<OffTimeDTO> foundOffTime = offTimeService.findOffTimesByHospitalId(hosId);
+        List<OffTimeDTO> offTimeDTOs = foundHospitalSchedule.stream()
+                .flatMap(schedule -> schedule.getOffTime().stream()
+                        .map(offTime -> new OffTimeDTO(
+                                offTime.getOffTimeId(), // OffTime ID
+                                schedule.getDate(), // 일정 날짜
+                                offTime.getStartTime(), // 미진료 시작 시간
+                                offTime.getEndTime() // 미진료 종료 시간
+                        )))
+                .toList(); // List로 변환
 
-        log.info("조회된 병원 미진료시간 정보 : {}", foundOffTime);
+        log.info("조회된 병원 미진료시간 정보 : {}", offTimeDTOs);
 
         Map<String, Object> responseMap = new HashMap<>();
 
-        responseMap.put("offTime", foundOffTime);
+        responseMap.put("offTime", offTimeDTOs);
 
         return ResponseEntity.ok()
                 .body(new ResponseMessage(HttpStatus.OK, hosId+"번 병원의 미진료시간을 불러옵니다...", responseMap));
