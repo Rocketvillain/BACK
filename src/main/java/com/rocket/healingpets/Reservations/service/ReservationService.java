@@ -1,125 +1,154 @@
-package com.rocket.healingpets.Reservations.controller;
+package com.rocket.healingpets.Reservations.service;
 
 import com.rocket.healingpets.Reservations.model.dto.CreateReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.ReservationDTO;
+import com.rocket.healingpets.hospitals.model.entity.ClinicType;
+import com.rocket.healingpets.hospitals.model.entity.Hospital;
+import com.rocket.healingpets.hospitals.repository.ClinicTypeRepository;
+import com.rocket.healingpets.hospitals.repository.HospitalRepository;
+import com.rocket.healingpets.users.model.entitiy.User;
+
 import com.rocket.healingpets.Reservations.model.dto.UpdateReservationDTO;
 import com.rocket.healingpets.Reservations.model.entity.Reservation;
-import com.rocket.healingpets.Reservations.service.ReservationService;
+import com.rocket.healingpets.Reservations.repository.ReservationsRepository;
 import com.rocket.healingpets.common.ResponseMessage;
-import io.swagger.v3.oas.annotations.Operation;
+import com.rocket.healingpets.users.repository.UserRepository;
+import com.rocket.healingpets.users.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/v1/reservation")
-@Slf4j
+@Service
 @RequiredArgsConstructor
-public class ReservationController {
+@Slf4j
+@Transactional
+public class ReservationService {
 
-    private final ReservationService reservationService;
+    private final ReservationsRepository reservationsRepository;
+    private final UserRepository userRepository;
+    private final HospitalRepository hospitalRepository;
+    private final ClinicTypeRepository clinicTypeRepository;
     private final ModelMapper modelMapper;
 
     // 예약 전체 조회
-    @GetMapping("")
-    @Operation(summary = "예약 전체 조회")
-    public ResponseEntity<ResponseMessage> findAllReservations() {
-        List<ReservationDTO> reservations = reservationService.findAllReservations()
-                .stream()
-                .map(reservation -> {
-                    ReservationDTO dto = new ReservationDTO();
-                    dto.setReservationId(reservation.getReservationId());
+    public List<ReservationDTO> findAllReservations() {
+        List<Reservation> allReservation = reservationsRepository.findAll();
 
-                    // 유저 파트
-                    dto.setUserid(reservation.getUserid()); // 유저 아이디
-                    dto.setUserName(reservation.getUserName()); // 유저 이름
-                    dto.setUserEmail(reservation.getUserEmail()); // 이메일
-                    dto.setUserPhone(reservation.getUserPhone()); // 전화번호
-
-                    // 병원 파트
-                    dto.setHosName(reservation.getHosName()); // 병원 이름
-                    dto.setClinicName(reservation.getClinicName()); // 진료 유형
-                    dto.setDescription(reservation.getDescription()); // 설명
-                    dto.setSpecificDescription(reservation.getSpecificDescription()); // 상세 설명
-                    dto.setState(reservation.getState());
-                    dto.setReservationDate(reservation.getReservationDate());
-                    dto.setLastModifiedDate(reservation.getLastModifiedDate());
-                    return dto;
-                })
+        return allReservation.stream()
+                .map(reservation -> modelMapper.map(reservation, ReservationDTO.class))
                 .collect(Collectors.toList());
 
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("reservations", reservations);
-
-        return ResponseEntity.ok()
-                .body(new ResponseMessage(HttpStatus.OK, "예약 전체 조회", responseMap));
     }
 
-    //예약 단일 조회
-    @GetMapping("/{reservation_id}")
-    @Operation(summary = "예약 단일 조회")
-    public ResponseEntity<ResponseMessage> findReservationById(@PathVariable int reservation_id){
+    // 예약 단일 조회
+    public ReservationDTO findReservationById(String reservation_id) {
+        Reservation reservation = reservationsRepository.findById(Integer.valueOf(reservation_id))
+                .orElseThrow(() -> new EntityNotFoundException("예약을 조회할 수 없습니다."));
 
-        ReservationDTO reservationDTO = reservationService.findReservationById(String.valueOf(reservation_id));
+        ReservationDTO reservationDTO = new ReservationDTO();
+        reservationDTO.setReservationId(reservation.getReservationId());
+        reservationDTO.setUserid(reservation.getUserId().getUserId());
+        reservationDTO.setUserName(reservation.getUserId().getUserName());
+        reservationDTO.setUserEmail(reservation.getUserId().getEmail());
+        reservationDTO.setUserPhone(reservation.getUserId().getPhone());
+        reservationDTO.setHosName(reservation.getHosId().getName());
+        reservationDTO.setClinicName(reservation.getClinicType().getClinicName());
+        reservationDTO.setDescription(reservation.getDescription());
+        reservationDTO.setSpecificDescription(reservation.getSpecificDescription());
+        reservationDTO.setState(reservation.getState());
+        reservationDTO.setReservationDate(reservation.getReservationDate());
+        reservationDTO.setLastModifiedDate(reservation.getLastModifiedDate());
 
-        Map<String, Object> responseMap = new HashMap<>();
-
-        responseMap.put("reservation", reservationDTO);
-
-        return ResponseEntity.ok()
-                .body(new ResponseMessage(HttpStatus.OK,"예약 단일 조회",responseMap));
-
+        return reservationDTO;
     }
 
     // 예약 등록
-    @PostMapping("")
-    @Operation(summary = "예약 등록")
+    public ReservationDTO registReservation(CreateReservationDTO createReservationDTO) {
 
-    public ResponseEntity<ResponseMessage> registReservations (@RequestBody CreateReservationDTO createReservationDTO){
 
-        ReservationDTO saveReservation = reservationService.registReservation(createReservationDTO);
+        // User 객체를 조회
+        User user = userRepository.findById(createReservationDTO.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
 
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("reservation", saveReservation);
+        // 병원 객체를 조회
+        Hospital hospital = hospitalRepository.findById(createReservationDTO.getHosId())
+                .orElseThrow(() -> new EntityNotFoundException("병원을 찾을 수 없습니다."));
 
-        return ResponseEntity
-                .created(URI.create("/reservation/" + saveReservation.getReservationId()))
-                .body(new ResponseMessage(HttpStatus.CREATED,"예약 등록 성공",responseMap));
+        // ClinicType 객체를 조회
+        ClinicType clinicType = clinicTypeRepository.findById(createReservationDTO.getTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
+
+
+        Reservation reservation = Reservation.builder()
+                .userId(user)
+                .hosId(hospital)
+                .clinicType(clinicType)
+                .description(createReservationDTO.getDescription()) // DTO에서 description 가져오기
+                .specificDescription(createReservationDTO.getSpecificDescription()) // DTO에서 specificDescription 가져오기
+                .reservationDate(createReservationDTO.getReservationDate()) // 예약 날짜 추가
+                .build();
+
+        Reservation savedReservation = reservationsRepository.save(reservation);
+
+        return ReservationDTO.builder()  // ReservationDTO로 반환
+                .userid(savedReservation.getUserId().getUserId())
+                .userName(savedReservation.getUserId().getUserName())
+                .userEmail(savedReservation.getUserId().getEmail())
+                .userPhone(savedReservation.getUserId().getPhone())
+                .hosName(savedReservation.getHosId().getName())
+                .clinicName(savedReservation.getClinicType().getClinicName())
+                .description(savedReservation.getDescription())
+                .specificDescription(savedReservation.getSpecificDescription())
+                .reservationDate(savedReservation.getReservationDate())
+                .build();
     }
 
-    //예약 수정
-    @PostMapping("{reservation_id}")
-    @Operation(summary = "예약 수정")
-    public ResponseEntity<ResponseMessage> modifyReservation (@PathVariable int reservation_id, @RequestBody UpdateReservationDTO updateReservationDTO){
+    // 예약 수정
+    public ReservationDTO updateReservations(int reservation_id, UpdateReservationDTO updateReservationDTO){
 
-        ReservationDTO modifiedReservation = reservationService.updateReservations(reservation_id, updateReservationDTO);
+        Reservation reservation = reservationsRepository.findById(reservation_id)
+                .orElseThrow(()-> new EntityNotFoundException("예약 정보를 찾을수 없습니다." + reservation_id));
 
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("reservation", modifiedReservation);
 
-        return ResponseEntity.created(URI.create("/entity/Reservation/" + reservation_id))
-                .body(new ResponseMessage(HttpStatus.OK,"예약 수정 성공",responseMap));
+
+        // 병원 객체를 조회
+        Hospital hospital = hospitalRepository.findById(updateReservationDTO.getHosId())
+                .orElseThrow(() -> new EntityNotFoundException("병원을 찾을 수 없습니다."));
+
+        // ClinicType 객체를 조회
+        ClinicType clinicType = clinicTypeRepository.findById(updateReservationDTO.getTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
+
+        reservation  = reservation.toBuilder()
+
+                .hosId(hospital)
+                .clinicType(clinicType)
+                .description(updateReservationDTO.getDescription()) // 설명
+                .specificDescription(updateReservationDTO.getSpecificDescription()) // 상세 설명
+                .lastModifiedDate(updateReservationDTO.getLastModifiedDate()) // 최근 수정일
+                .build();
+
+
+        Reservation modifiedReservation = reservationsRepository.save(reservation);
+        return ReservationDTO.builder()
+                .hosName(modifiedReservation.getHosId().getName())
+                .clinicName(modifiedReservation.getClinicType().getClinicName())
+                .description(modifiedReservation.getDescription())
+                .specificDescription(modifiedReservation.getSpecificDescription())
+                .reservationDate(modifiedReservation.getReservationDate())
+                .build();
     }
 
-    @Operation(summary = "예약 삭제")
-    @DeleteMapping("/{reservation_id}")
-    public ResponseEntity<ResponseMessage> deleteReservationById(@PathVariable int reservation_id){
+    // 예약 삭제
+    public void deleteReservationById(int reservation_id){
 
-        reservationService.deleteReservationById(reservation_id);
-
-        Map<String,Object> responseMap = new HashMap<>();
-        responseMap.put("message","유저 삭제 성공");
-
-        return ResponseEntity.ok()
-                .body(new ResponseMessage(HttpStatus.OK,("유저 삭제 성공")));
+        reservationsRepository.deleteById(reservation_id);
     }
 }
