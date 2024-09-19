@@ -2,6 +2,7 @@ DELIMITER $$
 
 CREATE PROCEDURE InsertHospitalSchedules()
 BEGIN
+
     DECLARE hos_id INT;
     DECLARE schedule_date DATE;
     DECLARE start_time TIME;

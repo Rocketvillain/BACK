@@ -2,6 +2,7 @@ package com.rocket.healingpets.hospitals.model.dto.OffTime;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @NoArgsConstructor
@@ -12,6 +13,7 @@ import java.time.LocalTime;
 @ToString
 public class OffTimeDTO {
     private int offTimeId;
+    private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
 }
