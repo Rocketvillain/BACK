@@ -35,7 +35,8 @@ public class User {
     private String userName;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_role")
+    @Column(name = "user_role",nullable = false)
+
     // 유저 권한
     private RoleType userRole = RoleType.ROLE_USER;
 
@@ -49,7 +50,8 @@ public class User {
 
     // cascade = CascadeType.ALL : 회원이 삭제되면 자식 엔티티도 같이 삭제
     // orphanRemoval = true : 부모 엔티티에서 자식 엔티티를 제거하면, 해당 자식 엔티티가 데이터베이스에서 삭제됩니다.
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    // 로그인 기능을 사용하기 위해 임시로 fetch = FetchType.EAGER 설정함
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     // 유저 펫 리스트
     private List<Pet> pet;
 

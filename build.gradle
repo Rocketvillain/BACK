@@ -25,14 +25,14 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // swagger
@@ -44,7 +44,14 @@ dependencies {
     // modelmapper (엔티티와 DTO 매핑해주는거)
     implementation 'org.modelmapper:modelmapper:3.1.1'
 
+    // JWT 라이브러리 (토큰)
+    implementation "io.jsonwebtoken:jjwt:0.9.1"
 
+    // json 형태로 응답할 수 있게 해주는 라이브러리
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    // spring 버전이 바뀌게 되면서 발생할 호환문제를 해결하기 위해 추가한 라이브러리
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 
 
 }

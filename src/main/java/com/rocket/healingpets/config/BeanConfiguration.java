@@ -11,6 +11,12 @@ public class BeanConfiguration {
 
         // entity와 dto 간의 변환을 용이하게 해주는 라이브러리
 
+        ModelMapper modelMapper = new ModelMapper();
+
+        modelMapper.getConfiguration()
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+                .setFieldMatchingEnabled(true);
+
         return new ModelMapper();
     }
 }
