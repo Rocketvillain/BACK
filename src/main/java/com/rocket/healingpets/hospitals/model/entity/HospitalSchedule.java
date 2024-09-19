@@ -2,9 +2,11 @@ package com.rocket.healingpets.hospitals.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -22,7 +24,7 @@ public class HospitalSchedule {
     // 일정 아이디
     private int scheduleId;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "hos_id", nullable = false)
     // 병원 아이디
     private Hospital hosId;
@@ -33,21 +35,20 @@ public class HospitalSchedule {
 
     @Column(name = "start_time", nullable = false)
     // 진료 시작시간
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     @Column(name = "end_time", nullable = false)
     // 진료 마감시간
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     @Column(name = "is_okay", nullable = false)
-    @Builder.Default
+    @ColumnDefault("1") // 기본값을 TRUE로 설정 (1은 TRUE에 해당)
     // 예약 가능 여부
-    private Boolean isOkay = Boolean.TRUE;
+    private Boolean isOkay;
 
-    @ManyToOne
-    @JoinColumn(name = "clinic_name", nullable = false)
+    @Column(name = "clinic_name", nullable = false)
     // 진료 유형
-    private ClinicType clinicName;
+    private String clinicName;
 
     @OneToMany(mappedBy = "hospitalSchedule", cascade = CascadeType.ALL, orphanRemoval = true)
     // 미진료 시간

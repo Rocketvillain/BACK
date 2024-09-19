@@ -3,7 +3,7 @@ package com.rocket.healingpets.hospitals.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "off_time")
@@ -15,17 +15,18 @@ import java.time.LocalDateTime;
 public class OffTime {
 
     @Id
+    @Column(name = "offTime_id")
+    private int offTimeId;
+
     @ManyToOne
-    @JoinColumn(name = "schedule_id", nullable = false)
-    // 진료 유형 고유 아이디
     private HospitalSchedule hospitalSchedule;
 
     @Column(name = "start_time")
     // 미진료시간 시작 범위
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     @Column(name = "end_time")
     // 미진료시간 끝 범위
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
 }

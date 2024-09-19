@@ -1,5 +1,6 @@
 use villaindb;
 
+
 INSERT INTO user (user_id, user_role, name, email, phone,hos_id,pwd,user_state,created_date,last_modified_date) VALUES
                                                               ('admin01','ROLE_ADMIN','관리자01','admin01@gmail.com','070-1111-1111',null,'qwer1234','activated','2019-02-12','2024-09-11'),
                                                               ('admin02','ROLE_ADMIN','관리자02','admin02@gmail.com','070-2222-2222',null,'qwer1234','activated','2019-04-12','2024-09-11'),
@@ -341,4 +342,3 @@ INSERT INTO reservation ( type_id,created_date,hos_id,last_modified_date,reserva
                                                                     (3,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','랙돌','ACTIVATIED','user28'),
                                                                     (1,'2024-09-10',20,'2024-09-13','2024-09-13','고양이','랙돌','ACTIVATIED','user29');
 
-ALTER TABLE reservation ALTER COLUMN state SET DEFAULT 'ACTIVATED';
