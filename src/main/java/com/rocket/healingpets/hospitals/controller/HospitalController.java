@@ -1,9 +1,9 @@
 package com.rocket.healingpets.hospitals.controller;
 
 import com.rocket.healingpets.common.ResponseMessage;
-import com.rocket.healingpets.hospitals.model.dto.CreateHospitalDTO;
-import com.rocket.healingpets.hospitals.model.dto.HospitalDTO;
-import com.rocket.healingpets.hospitals.model.dto.UpdateHospitalDTO;
+import com.rocket.healingpets.hospitals.model.dto.Hospital.CreateHospitalDTO;
+import com.rocket.healingpets.hospitals.model.dto.Hospital.HospitalDTO;
+import com.rocket.healingpets.hospitals.model.dto.Hospital.UpdateHospitalDTO;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.hospitals.service.HospitalService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +28,7 @@ public class HospitalController {
 
     @Operation(summary = "전체 병원 조회")
     @GetMapping("")
-    public ResponseEntity<ResponseMessage> findAllComments() {
+    public ResponseEntity<ResponseMessage> findAllHospital() {
 
         List<HospitalDTO> allHospitals = hospitalService.findAllHospital();
 
@@ -62,7 +62,7 @@ public class HospitalController {
         responseMap.put("hospital", foundHospital);
 
         return ResponseEntity.ok()
-                .body(new ResponseMessage(HttpStatus.OK, hosId+"번 게시글의 댓글들을 불러옵니다...", responseMap));
+                .body(new ResponseMessage(HttpStatus.OK, hosId+"번 병원의 정보를 불러옵니다...", responseMap));
     }
 
     @Operation(summary = "병원 등록")
@@ -91,7 +91,7 @@ public class HospitalController {
         responseMap.put("hospital", modifiedHospital);
 
         return ResponseEntity.created(URI.create("/hospital/" + hosId))
-                .body(new ResponseMessage(HttpStatus.OK, "댓글 수정 성공", responseMap));
+                .body(new ResponseMessage(HttpStatus.OK, "병원 수정 성공", responseMap));
     }
 
     @DeleteMapping("/{hosId}")
@@ -100,7 +100,7 @@ public class HospitalController {
         hospitalService.deleteHospital(hosId);
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT) // 204 상태 코드 반환
+                .ok()
                 .body(new ResponseMessage(HttpStatus.NO_CONTENT, "병원 삭제 성공"));
     }
 

@@ -1,22 +1,22 @@
 use villaindb;
 
 
-DROP TABLE IF EXISTS `User` CASCADE;
-
-CREATE TABLE `user`
-(
-    `user_id` VARCHAR(50) NOT NULL COMMENT '사용자 아이디',
-    `hos_id` INTEGER COMMENT '병원 고유번호',
-    `pwd` VARCHAR(255)NOT NULL COMMENT '비밀번호',
-    `user_role` VARCHAR(255) NOT NULL COMMENT '유저 권한',
-    `name`  VARCHAR(255) NOT NULL COMMENT '유저 이름',
-    `email` VARCHAR(255) NOT NULL COMMENT '이메일',
-    `phone` VARCHAR(255) NOT NULL COMMENT '전화번호',
-    `userState`
-    `create_date` DATETIME COMMENT '생성일',
-    `last_modified_date` DATETIME  COMMENT '최근 수정일',
-    PRIMARY KEY ( `user_id` )
-) COMMENT = '유저관리';
+# DROP TABLE IF EXISTS `User` CASCADE;
+#
+# CREATE TABLE `user`
+# (
+#     `user_id` VARCHAR(50) NOT NULL COMMENT '사용자 아이디',
+#     `hos_id` INTEGER COMMENT '병원 고유번호',
+#     `pwd` VARCHAR(255)NOT NULL COMMENT '비밀번호',
+#     `user_role` VARCHAR(255) NOT NULL COMMENT '유저 권한',
+#     `name`  VARCHAR(255) NOT NULL COMMENT '유저 이름',
+#     `email` VARCHAR(255) NOT NULL COMMENT '이메일',
+#     `phone` VARCHAR(255) NOT NULL COMMENT '전화번호',
+#     `userState`
+#     `create_date` DATETIME COMMENT '생성일',
+#     `last_modified_date` DATETIME  COMMENT '최근 수정일',
+#     PRIMARY KEY ( `user_id` )
+# ) COMMENT = '유저관리';
 
 UPDATE villaindb.user
 SET hos_id = NULL

@@ -28,7 +28,7 @@ public class Reservation {
     private int reservationId;
 
     @ManyToOne
-    @JoinColumn(name = "clinic_name", nullable = false)
+    @JoinColumn(name = "type_id", nullable = false)
     // 진료 유형
     private ClinicType clinicType;
 
@@ -63,6 +63,7 @@ public class Reservation {
     @JoinColumn(name = "reservation_id")
     // 미진료 시간
     private Review review;
+
     @Column(name = "created_date")
     @CreatedDate
     // 생성일
