@@ -2,8 +2,10 @@ package com.rocket.healingpets.users.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rocket.healingpets.common.ResponseMessage;
+
 import com.rocket.healingpets.users.model.dto.UserDTO;
 import com.rocket.healingpets.users.service.AuthService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,4 +42,5 @@ public class AuthController {
                 .ok()
                 .body(new ResponseMessage(HttpStatus.CREATED, "회원가입 성공", userMap));
     }
+
 }
