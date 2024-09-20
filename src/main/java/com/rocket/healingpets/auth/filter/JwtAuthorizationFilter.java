@@ -56,6 +56,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         // 헤더에서 토큰 꺼내기
         String header = request.getHeader(AuthConstants.AUTH_HEADER);
+        System.out.println(header);
 
         // 유효한 토큰 확인
         try {

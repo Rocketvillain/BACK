@@ -4,11 +4,15 @@ import com.rocket.healingpets.users.model.dto.UserDTO;
 import com.rocket.healingpets.users.model.entitiy.RoleType;
 import com.rocket.healingpets.users.model.entitiy.User;
 import com.rocket.healingpets.users.repository.UserRepository;
+import com.rocket.healingpets.util.TokenUtils;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 
 @Service
 public class AuthService {
@@ -16,19 +20,22 @@ public class AuthService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final TokenUtils tokenUtils;
 
     @Autowired
-    public AuthService(ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    private AuthenticationManager authenticationManager;
+
+
+    @Autowired
+    public AuthService(ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRepository userRepository, TokenUtils tokenUtils) {
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.tokenUtils = tokenUtils;
     }
 
     @Transactional
     public UserDTO signup(UserDTO userDTO) {
-
-        // 중복체크..(선택적)
-
 
         // 비밀번호 암호화
         userDTO.setUserPwd(passwordEncoder.encode(userDTO.getUserPwd()));
@@ -44,4 +51,5 @@ public class AuthService {
 
         return responseUserDTO;
     }
+
 }

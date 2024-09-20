@@ -20,6 +20,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -53,6 +59,8 @@ public class WebSecurityConfig {
                 // http 기본인증 (JWT를 사용한 것이므로 ) 비활성화
                 .httpBasic(AbstractHttpConfigurer::disable)
 
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
                 // 사용자가 입력한 아이디 패스워드를 전달받아 로그인 직접적으로 수행하는 필터
                 // 인증시(successHandler를 통해) 토큰을 생성해서 header 로 전달하고
                 // 실패시(failureHandler를 통해) 이유를 담아서 응답한다.
@@ -63,7 +71,8 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/signup", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll() // Swagger 관련 리소스와 회원가입 경로 허용
+                        // Swagger 관련 리소스와 회원가입 경로 허용 ( 여기서 경로 지정)
+                        .requestMatchers("/auth/signup", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
                         .anyRequest()
                         .authenticated() // 나머지 요청은 인증 필요
                 );
@@ -130,6 +139,20 @@ public class WebSecurityConfig {
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter(){
         return new JwtAuthorizationFilter(authenticationManager());
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",configuration);
+        return source;
     }
 
 }
