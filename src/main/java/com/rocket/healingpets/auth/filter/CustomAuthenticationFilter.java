@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rocket.healingpets.users.model.dto.UserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -35,7 +39,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     }
 
     private UsernamePasswordAuthenticationToken getAuthRequest(HttpServletRequest request) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
 
         objectMapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE,true);
         UserDTO user = objectMapper.readValue(request.getInputStream(), UserDTO.class);

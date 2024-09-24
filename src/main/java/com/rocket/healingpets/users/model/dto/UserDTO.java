@@ -3,6 +3,8 @@ package com.rocket.healingpets.users.model.dto;
 import com.rocket.healingpets.users.model.entitiy.RoleType;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,6 +19,8 @@ public class UserDTO {
     private String userPwd;
     private String phone;
     private String userState;
+    private LocalDate createdDate;
+    private LocalDate lastModifiedDate;
 
 
 }

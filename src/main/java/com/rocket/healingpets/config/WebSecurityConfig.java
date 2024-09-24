@@ -72,7 +72,7 @@ public class WebSecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // Swagger 관련 리소스와 회원가입 경로 허용 ( 여기서 경로 지정)
-                        .requestMatchers("/auth/signup", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+                        .requestMatchers("/auth/signup", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/api/v1/hospital").permitAll()
                         .anyRequest()
                         .authenticated() // 나머지 요청은 인증 필요
                 );
