@@ -46,7 +46,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/v3/api-docs",              //swagger 설정
                 "/v3/api-docs/(.*)",         //swagger 설정
                 "/swagger-resources",        //swagger 설정
-                "/swagger-resources/(.*)"    //swagger 설정
+                "/swagger-resources/(.*)",    //swagger 설정
+                "/auth/send-code",                 // email 보내기
+                "/auth/verify-code"                 // email 인증하기
         );
 
         if(roleLeessList.stream().anyMatch(uri -> roleLeessList.stream().anyMatch(pattern -> Pattern.matches(pattern, request.getRequestURI())))){
@@ -77,8 +79,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     // 토큰에 담긴 정보로 Member 객체를 만든다.
                     // (security context에 등록된 인증 객체를 (UserDetail)를 만들기 위해
                     User user = User.builder()
-                            .userName(claims.get("memberName").toString())
-                            .email(claims.get("memberEmail").toString())
+                            .userName(claims.get("name").toString())
+                            .email(claims.get("email").toString())
                             .userRole(RoleType.valueOf(claims.get("userRole").toString()))
                             .build();
 

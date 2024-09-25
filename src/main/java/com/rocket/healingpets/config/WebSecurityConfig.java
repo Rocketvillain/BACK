@@ -72,7 +72,7 @@ public class WebSecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // Swagger 관련 리소스와 회원가입 경로 허용 ( 여기서 경로 지정)
-                        .requestMatchers("/auth/signup", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+                        .requestMatchers("/auth/signup", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**","/auth/send-code","/auth/verify-code").permitAll()
                         .anyRequest()
                         .authenticated() // 나머지 요청은 인증 필요
                 );
@@ -148,11 +148,13 @@ public class WebSecurityConfig {
 
         configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",configuration);
         return source;
     }
+
 
 }
