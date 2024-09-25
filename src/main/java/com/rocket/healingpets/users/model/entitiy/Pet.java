@@ -23,9 +23,9 @@ public class Pet {
     // 사용자 아이디
     private User user;
 
-    @Column(name = "name",nullable = false)
+    @Column(name = "petName",nullable = false)
     // 펫 이름
-    private String name;
+    private String petName;
 
     @Column(name = "gender",nullable = false)
     // 성별

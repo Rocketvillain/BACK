@@ -1,12 +1,9 @@
 package com.rocket.healingpets.users.model.entitiy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,4 +74,5 @@ public class User {
     public boolean ownsPet(int petId) {
         return pets.stream().anyMatch(pet -> pet.getPetId() == petId);
     }
+
 }
