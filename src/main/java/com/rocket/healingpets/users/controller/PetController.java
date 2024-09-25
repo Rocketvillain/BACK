@@ -2,7 +2,6 @@ package com.rocket.healingpets.users.controller;
 
 import com.rocket.healingpets.common.ResponseMessage;
 import com.rocket.healingpets.users.model.dto.PetDTO;
-import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.service.PetService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

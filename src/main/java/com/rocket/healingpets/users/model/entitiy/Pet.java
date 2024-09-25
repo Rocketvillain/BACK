@@ -23,7 +23,7 @@ public class Pet {
     // 사용자 아이디
     private User user;
 
-    @Column(name = "petName",nullable = false)
+    @Column(name = "pet_name",nullable = false)
     // 펫 이름
     private String petName;
 

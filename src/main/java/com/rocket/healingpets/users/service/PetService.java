@@ -46,7 +46,7 @@ public class PetService {
         return pets.stream().map(pet -> new PetDTO(
                 pet.getPetId(),
                 pet.getUser().getUserId(),
-                pet.getName(),
+                pet.getPetName(),
                 pet.getGender(),
                 pet.getWeight(),
                 pet.getAge(),
@@ -76,7 +76,7 @@ public class PetService {
         // Pet 엔티티를 생성하고, 로그인한 사용자의 ID를 설정
         Pet pet = Pet.builder()
                 .user(loggedInUser) // 사용자 정보 설정, 사용자가 직접 입력할 필요 없음
-                .name(petDTO.getName())
+                .petName(petDTO.getName())
                 .gender(petDTO.getGender())
                 .weight(petDTO.getWeight())
                 .age(petDTO.getAge())
@@ -90,7 +90,7 @@ public class PetService {
 
         // 저장된 펫 정보를 PetDTO로 반환
         return new PetDTO(savedPet.getPetId(), savedPet.getUser().getUserId(),
-                savedPet.getName(), savedPet.getGender(),
+                savedPet.getPetName(), savedPet.getGender(),
                 savedPet.getWeight(), savedPet.getAge(),
                 savedPet.getSpecies(), savedPet.getKind(),
                 savedPet.getImage());
@@ -124,7 +124,7 @@ public class PetService {
                 .orElseThrow(() -> new RuntimeException("Pet not found"));
 
         // 펫 정보 수정
-        pet.setName(petDTO.getName());
+        pet.setPetName(petDTO.getName());
         pet.setGender(petDTO.getGender());
         pet.setWeight(petDTO.getWeight());
         pet.setAge(petDTO.getAge());
@@ -136,7 +136,7 @@ public class PetService {
         Pet modifyPet = petRepository.save(pet);
 
         return new PetDTO(modifyPet.getPetId(), modifyPet.getUser().getUserId(),
-                modifyPet.getName(), modifyPet.getGender(),
+                modifyPet.getPetName(), modifyPet.getGender(),
                 modifyPet.getWeight(), modifyPet.getAge(),
                 modifyPet.getSpecies(), modifyPet.getKind(),
                 modifyPet.getImage());

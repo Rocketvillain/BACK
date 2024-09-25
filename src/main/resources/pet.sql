@@ -1,4 +1,4 @@
-INSERT INTO pet (user_id, name, gender, weight, age, species, kind, image) VALUES
+INSERT INTO pet (user_id, pet_name, gender, weight, age, species, kind, image) VALUES
                                                                                 -- user01부터 user10까지의 펫
                                                                                 ('user01', '바비', '여', '3.5', 2, '강아지', '말티즈',NULL),
                                                                                 ('user01', '코코', '남', '5.0', 4, '강아지', '보더콜리',NULL),
