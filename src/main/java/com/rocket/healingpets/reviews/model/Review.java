@@ -24,9 +24,6 @@ public class Review {
     // 예약 아이디(원투원 매핑했기 때문에 동일하게 ID로 쓰인다.)
     private int reviewId;
 
-    @Column(name = "title", nullable = false)
-    private String title;
-
     @Column(name = "content", nullable = false)
     private String content;
 
@@ -46,7 +43,6 @@ public class Review {
 
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId // 부모의 ID를 자식의 ID로 매핑
-//     미진료 시간
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 

@@ -1,5 +1,6 @@
 package com.rocket.healingpets.users.model.entitiy;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

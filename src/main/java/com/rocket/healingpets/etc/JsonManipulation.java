@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 public class JsonManipulation {
 
     public static void main(String[] args) throws IOException {
-        String filePath = "C:\\Users\\80409\\Desktop\\JDH\\꾸러기로켓단\\Project\\Back\\HealingPets\\src\\main\\resources\\강남구_동물병원.json";
+        String filePath = "C:\\Users\\80409\\Desktop\\JDH\\꾸러기로켓단\\Project\\Back\\src\\main\\resources\\강남구_동물병원.json";
 
         // JsonManipulation 클래스의 인스턴스 생성
         JsonManipulation jsonManipulation = new JsonManipulation();
@@ -30,15 +30,15 @@ public class JsonManipulation {
         StringBuilder sqlBuilder = new StringBuilder();
 
         int count = 1;
-        String imgPath = "C:\\Users\\80409\\Desktop\\JDH\\꾸러기로켓단\\Project\\Back\\HealingPets\\src\\main\\resources\\static\\img\\hospital";
+        String imgPath = "images/hospital";
 
         for (int i = 0; i < dataArray.length(); i++) {
             JSONObject item = dataArray.getJSONObject(i);
             String name = item.getString("bplcnm");
             String owner_name = "병원장" + count;
-            String owner_image = imgPath + "\\owner\\" + count + ".png";
+            String owner_image = imgPath + "/owner/" + count + ".png";
             String info = "저희 " + name + "을 방문해주셔서 감사합니다!";
-            String info_image = imgPath + "\\info\\" + count + ".png";
+            String info_image = imgPath + "/info/" + count + ".png";
             String address = item.getString("sitewhladdr");
 
             String formattedCount = String.format("%02d", count);
