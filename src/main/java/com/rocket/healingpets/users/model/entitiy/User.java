@@ -1,5 +1,6 @@
 package com.rocket.healingpets.users.model.entitiy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -52,9 +54,10 @@ public class User {
     // cascade = CascadeType.ALL : 회원이 삭제되면 자식 엔티티도 같이 삭제
     // orphanRemoval = true : 부모 엔티티에서 자식 엔티티를 제거하면, 해당 자식 엔티티가 데이터베이스에서 삭제됩니다.
     // 로그인 기능을 사용하기 위해 임시로 fetch = FetchType.EAGER 설정함
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     // 유저 펫 리스트
-    private List<Pet> pet;
+    private List<Pet> pets = new ArrayList<>();
 
     @Column(name = "user_state",nullable = false)
     // 유저 상태 -> 디폴트: 활성화 상태(activated)
@@ -69,4 +72,9 @@ public class User {
     @LastModifiedDate
     // 최근 수정일
     private LocalDate lastModifiedDate;
+
+    // 유저가 가진 펫 목록에 특정 petId가 있는지 확인하는 헬퍼 메소드
+    public boolean ownsPet(int petId) {
+        return pets.stream().anyMatch(pet -> pet.getPetId() == petId);
+    }
 }

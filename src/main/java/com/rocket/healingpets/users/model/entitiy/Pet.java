@@ -1,9 +1,6 @@
 package com.rocket.healingpets.users.model.entitiy;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -16,13 +13,15 @@ import lombok.*;
 public class Pet {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pet_id")
     // 펫 고유 번호
     private int petId;
 
-    @Column(name = "user_id")
-    // 주인 아이디
-    private String userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    // 사용자 아이디
+    private User user;
 
     @Column(name = "name",nullable = false)
     // 펫 이름
@@ -51,9 +50,5 @@ public class Pet {
     @Column(name = "image")
     // 펫 이미지(이미지 파일 폴더 경로로 기입)
     private String image;
-
-
-
-
 
 }
