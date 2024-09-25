@@ -70,6 +70,4 @@ public class User {
     // 최근 수정일
     private LocalDate lastModifiedDate;
 
-    @Column(name = "enabled")
-    private boolean enabled = false;
 }
