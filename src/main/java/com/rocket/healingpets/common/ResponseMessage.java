@@ -17,6 +17,7 @@ public class ResponseMessage {
     private String message;
     private Map<String, Object> results;
 
+
     public ResponseMessage(HttpStatus httpStatus, String message, Map<String, Object> results){
         this.httpStatusCode = httpStatus.value();
         this.message = message;
@@ -29,5 +30,7 @@ public class ResponseMessage {
         this.message = message;
         this.results = new HashMap<>(); // 결과를 빈 맵으로 초기화
     }
+
+
 
 }

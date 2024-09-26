@@ -19,8 +19,6 @@ public class CreateUserDTO {
     private String name;
     private String email;
     private String phone;
-    private LocalDate createDate;
-    private LocalDate lastModifiedDate;
     private String userState;
 
 

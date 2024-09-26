@@ -1,23 +1,16 @@
 package com.rocket.healingpets.users.model.dto;
 
-import com.rocket.healingpets.users.model.entitiy.RoleType;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class UserDTO {
+public class ChangePWDDTO {
 
     private String userId;
-    private RoleType userRole;
     private String name;
     private String email;
-    private String userPwd;
-    private String phone;
-
-
+    private String newPassword;
 }

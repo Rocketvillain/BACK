@@ -52,8 +52,6 @@ public class UserService {
                 .email(createUserDTO.getEmail())
                 .userName(createUserDTO.getName())
                 .phone(createUserDTO.getPhone())
-                .createdDate(createUserDTO.getCreateDate())
-                .lastModifiedDate(createUserDTO.getLastModifiedDate())
                 .build();
 
 

@@ -69,6 +69,8 @@ public class AuthService {
         return codeBuilder.toString();
     }
 
+
+    // 인증번호 전송
     public void sendAuthCode(String email){
         String authCode = generateAuthCode();
         String subject = "이메일 인증 코드";
@@ -80,6 +82,7 @@ public class AuthService {
         authCodeStore.put(AUTH_CODE_PREFIX + email, authCode);
     }
 
+    // 인증번호 검증
     public boolean verifyAuthCode(String email, String code){
         // 메모리에서 인증 코드 조회
         String storedCode = authCodeStore.get(AUTH_CODE_PREFIX + email);
@@ -87,4 +90,33 @@ public class AuthService {
         // 코드 비교
         return storedCode != null && storedCode.equals(code);
     }
+
+    //id 찾기
+    public String findUserId(String name, String phone){
+        // 이름과 전화번호로 사용자 ID조회
+        return userRepository.findUserIdByNameAndPhone(name,phone);
+    }
+
+//    // 비밀번호 변경
+//    public boolean changePassword(String userId,String name, String email, String newPassword) {
+//
+//        User user = userRepository.findByUserIdAndUserNameAndEmail(userId, name, email);
+//        System.out.println("AuthService ======================> user : " + user);
+//
+//        // 인증 코드 검증
+//        if(user == null){
+//            throw new RuntimeException("사용자를 찾을 수 없습니다.");
+//        }
+//
+//        // 비밀번호를 인코딩
+//        String encodedPassword = passwordEncoder.encode(newPassword);
+//
+//        // 비밀번호 변경 시도
+//        int updateRows = userRepository.resetPasswordByUserAndUserNameAndEmail(encodedPassword, userId, name, email);
+//
+//        System.out.println("Updated Rows: " + updateRows);
+//
+//        // 업데이트 된 행의 수가 1인 경우 성공
+//        return updateRows == 1;
+//    }
 }
