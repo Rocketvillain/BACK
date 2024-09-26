@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,4 +85,8 @@ public class UserService {
         userRepository.deleteById(user_id);
     }
 
+    public User findByEmail(String loggedInUserEmail) {
+        return userRepository.findByEmail(loggedInUserEmail)
+                .orElseThrow(() -> new RuntimeException("User with email " + loggedInUserEmail + " not found"));
+    }
 }

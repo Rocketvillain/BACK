@@ -47,7 +47,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/v3/api-docs/(.*)",         //swagger 설정
                 "/swagger-resources",        //swagger 설정
                 "/swagger-resources/(.*)",    //swagger 설정
+                "/auth/send-code",                 // email 보내기
+                "/auth/verify-code",                 // email 인증하기
                 "/api/v1/hospital"
+//                "/api/v1/pets"
         );
 
         if(roleLeessList.stream().anyMatch(uri -> roleLeessList.stream().anyMatch(pattern -> Pattern.matches(pattern, request.getRequestURI())))){
