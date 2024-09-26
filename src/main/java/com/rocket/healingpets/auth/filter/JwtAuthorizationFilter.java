@@ -52,7 +52,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/api/v1/hospital",
                 "/auth/check-duplicate", // 중복 확인
                 "/auth/find-id", // ID찾기
-                "/auth/reset-password"  //비밀번호 변경
+               // "/auth/reset-password"  //비밀번호 변경
+                "/api/v1/hospital"
+//                "/api/v1/pets"
         );
 
         if(roleLeessList.stream().anyMatch(uri -> roleLeessList.stream().anyMatch(pattern -> Pattern.matches(pattern, request.getRequestURI())))){

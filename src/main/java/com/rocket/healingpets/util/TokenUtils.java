@@ -90,7 +90,7 @@ public class TokenUtils {
 
                 // 토큰에 담길 payload설정
                 .setClaims(createClaims(user))
-                .setSubject(user.getEmail())
+                .setSubject(user.getUserId())
                 .signWith(SignatureAlgorithm.HS256, createSignature())
 
                 // 토큰 시그니쳐 설정 (secretKey)

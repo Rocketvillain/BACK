@@ -12,7 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,12 +68,10 @@ public class UserService {
 
         user = user.toBuilder()
                 .userId(modifyInfo.getUserId())
-                .hosId(modifyInfo.getHosId())
-                .userRole(modifyInfo.getUserRole())
                 .userName(modifyInfo.getName())
                 .email(modifyInfo.getEmail())
                 .phone(modifyInfo.getPhone())
-                .lastModifiedDate(modifyInfo.getLastModifiedDate())
+                .lastModifiedDate(LocalDate.now())
                 .build();
 
         return userRepository.save(user);
@@ -83,4 +83,8 @@ public class UserService {
         userRepository.deleteById(user_id);
     }
 
+    public User findByEmail(String loggedInUserEmail) {
+        return userRepository.findByEmail(loggedInUserEmail)
+                .orElseThrow(() -> new RuntimeException("User with email " + loggedInUserEmail + " not found"));
+    }
 }

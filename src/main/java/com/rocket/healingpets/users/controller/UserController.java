@@ -85,7 +85,7 @@ public class UserController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("user",user);
 
-        return ResponseEntity.created(URI.create("/entity/PostEntity/" + user_Id))
+        return ResponseEntity.created(URI.create("/api/v1/user/" + user_Id))
                 .body(new ResponseMessage(HttpStatus.OK, "유저 수정 성공", responseMap));
     }
 
