@@ -50,6 +50,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/auth/send-code",                 // email 보내기
                 "/auth/verify-code",                 // email 인증하기
                 "/api/v1/hospital"
+//                "/api/v1/pets"
         );
 
         if(roleLeessList.stream().anyMatch(uri -> roleLeessList.stream().anyMatch(pattern -> Pattern.matches(pattern, request.getRequestURI())))){
