@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,12 +69,10 @@ public class UserService {
 
         user = user.toBuilder()
                 .userId(modifyInfo.getUserId())
-                .hosId(modifyInfo.getHosId())
-                .userRole(modifyInfo.getUserRole())
                 .userName(modifyInfo.getName())
                 .email(modifyInfo.getEmail())
                 .phone(modifyInfo.getPhone())
-                .lastModifiedDate(modifyInfo.getLastModifiedDate())
+                .lastModifiedDate(LocalDate.now())
                 .build();
 
         return userRepository.save(user);
