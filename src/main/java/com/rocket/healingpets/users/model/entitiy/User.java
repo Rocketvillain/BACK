@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder(toBuilder = true)
+@ToString
 public class User {
 
     @Id
@@ -60,15 +61,15 @@ public class User {
     // 유저 상태 -> 디폴트: 활성화 상태(activated)
     private String userState = "activated";
 
-    @Column(name = "created_date")
+    @Column(name = "created_date", nullable = false)
     @CreatedDate
     // 생성일
-    private LocalDate createdDate;
+    private LocalDate createdDate = LocalDate.now();
 
-    @Column(name = "last_modified_date")
+    @Column(name = "last_modified_date",nullable = false)
     @LastModifiedDate
     // 최근 수정일
-    private LocalDate lastModifiedDate;
+    private LocalDate lastModifiedDate = LocalDate.now();
 
     // 유저가 가진 펫 목록에 특정 petId가 있는지 확인하는 헬퍼 메소드
     public boolean ownsPet(int petId) {
