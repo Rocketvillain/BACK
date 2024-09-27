@@ -97,26 +97,33 @@ public class AuthService {
         return userRepository.findUserIdByNameAndPhone(name,phone);
     }
 
-//    // 비밀번호 변경
-//    public boolean changePassword(String userId,String name, String email, String newPassword) {
-//
-//        User user = userRepository.findByUserIdAndUserNameAndEmail(userId, name, email);
-//        System.out.println("AuthService ======================> user : " + user);
-//
-//        // 인증 코드 검증
-//        if(user == null){
-//            throw new RuntimeException("사용자를 찾을 수 없습니다.");
-//        }
-//
-//        // 비밀번호를 인코딩
-//        String encodedPassword = passwordEncoder.encode(newPassword);
-//
-//        // 비밀번호 변경 시도
-//        int updateRows = userRepository.resetPasswordByUserAndUserNameAndEmail(encodedPassword, userId, name, email);
-//
-//        System.out.println("Updated Rows: " + updateRows);
-//
-//        // 업데이트 된 행의 수가 1인 경우 성공
-//        return updateRows == 1;
-//    }
+
+    // 비밀번호 변경
+    @Transactional
+    public boolean changePassword(String userId,String name, String email, String newPassword,String code) {
+
+        // 인증 코드 검증
+        boolean isCodeVaild = verifyAuthCode(email, code);
+        if(!isCodeVaild){
+            throw new RuntimeException("유효하지 않은 인증 코드 입니다.");
+        }
+
+        // 사용자 정보 확인
+        User user = userRepository.findByUserIdAndUserNameAndEmail(userId, name, email);
+        if(user == null){
+            throw new RuntimeException("사용자를 찾을 수 없습니다.");
+        }
+
+        // 비밀번호를 인코딩(update)
+        String encodedPassword = passwordEncoder.encode(newPassword);
+
+        // 비밀번호 변경
+        user.setUserPwd(encodedPassword); // 비밀번호 설정
+
+        // 비밀번호 변경 시도
+        userRepository.save(user);
+
+        return true;
+
+    }
 }

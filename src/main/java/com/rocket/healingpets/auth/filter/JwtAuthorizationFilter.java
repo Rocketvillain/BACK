@@ -52,7 +52,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/api/v1/hospital",
                 "/auth/check-duplicate", // 중복 확인
                 "/auth/find-id", // ID찾기
-               // "/auth/reset-password"  //비밀번호 변경
+                "/auth/reset-password",  //비밀번호 변경
+                "/auth/request-reset-password", // 비밀번호 변경 요청
                 "/api/v1/hospital"
 //                "/api/v1/pets"
         );

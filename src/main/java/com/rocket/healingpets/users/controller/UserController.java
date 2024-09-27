@@ -89,14 +89,6 @@ public class UserController {
                 .body(new ResponseMessage(HttpStatus.OK, "유저 수정 성공", responseMap));
     }
 
-
-////    @Operation(summary = "유저 삭제")
-////    @ApiResponses({
-////            @ApiResponse(responseCode = "200", description = "게시글 삭제 성공!"),
-////            //  204 No Content 대신 200 OK를 사용하여 본문에 메시지를 포함할 수 있게 했다.
-////            @ApiResponse(responseCode = "400", description = "잘못 입력된 파라미터")
-////    })
-//
     // 유저 삭제
     @Operation(summary = "유저 삭제")
     @DeleteMapping("/{user_Id}")
