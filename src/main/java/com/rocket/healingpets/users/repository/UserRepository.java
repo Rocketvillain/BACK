@@ -20,10 +20,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
 
-//    @Modifying
-//    @Query("UPDATE User u SET u.userPwd = ?1 WHERE u.userId = ?2 AND u.userName = ?3 AND u.email = ?4")
-//    int resetPasswordByUserAndUserNameAndEmail(String newPassword, String userId, String name, String email);
-//
-//    User findByUserIdAndUserNameAndEmail(String userId, String name, String email);
+    User findByUserIdAndUserNameAndEmail(String userId, String name, String email);
 }
 

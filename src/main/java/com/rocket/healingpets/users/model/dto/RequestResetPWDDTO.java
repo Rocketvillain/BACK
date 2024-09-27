@@ -7,12 +7,9 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class ChangePWDDTO {
+public class RequestResetPWDDTO {
 
     private String userId;
     private String name;
     private String email;
-    private String newPassword;
-    private String code;
-
 }

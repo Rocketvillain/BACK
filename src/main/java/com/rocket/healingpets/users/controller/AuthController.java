@@ -3,6 +3,7 @@ package com.rocket.healingpets.users.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rocket.healingpets.common.ResponseMessage;
 import com.rocket.healingpets.users.model.dto.*;
+import com.rocket.healingpets.users.model.entitiy.User;
 import com.rocket.healingpets.users.repository.UserRepository;
 import com.rocket.healingpets.users.service.AuthService;
 import com.rocket.healingpets.users.service.UserService;
@@ -33,7 +34,7 @@ public class AuthController {
     }
 
     // 회원가입 요청
-    @Operation(summary ="회원가입")
+    @Operation(summary = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ResponseMessage> signup(@RequestBody UserDTO userDTO) {
         System.out.println(userDTO);
@@ -49,7 +50,7 @@ public class AuthController {
                 .body(new ResponseMessage(HttpStatus.CREATED, "회원가입 성공", userMap));
     }
 
-    @Operation(summary ="인증 코드 보내기")
+    @Operation(summary = "인증 코드 보내기")
     @PostMapping("/send-code")
     public ResponseEntity<String> sendAuthCode(@RequestBody EmailDTO emailDTO) {
         String email = emailDTO.getEmail();
@@ -57,26 +58,26 @@ public class AuthController {
         return ResponseEntity.ok("인증 코드가 이메일로 전송되었습니다.");
     }
 
-    @Operation(summary ="코드 인증하기")
+    @Operation(summary = "코드 인증하기")
     @PostMapping("/verify-code")
     public ResponseEntity<String> verifyCode(@RequestBody EmailCheckDTO emailCheckDTO) {
-        boolean isValid = authService.verifyAuthCode(emailCheckDTO.getEmail(),emailCheckDTO.getCode());
+        boolean isValid = authService.verifyAuthCode(emailCheckDTO.getEmail(), emailCheckDTO.getCode());
         return isValid ? ResponseEntity.ok("인증 성공") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 실패");
     }
 
     // 중복확인
-    @Operation(summary ="중복확인")
+    @Operation(summary = "중복확인")
     @GetMapping("/check-duplicate")
-    public ResponseEntity<Boolean> checkDuplicate(@RequestParam String userId){
+    public ResponseEntity<Boolean> checkDuplicate(@RequestParam String userId) {
         boolean exists = userRepository.existsByUserId(userId);
         return ResponseEntity.ok(exists);
     }
 
     // ID찾기
-    @Operation(summary ="ID찾기")
+    @Operation(summary = "ID찾기")
     @GetMapping("/find-id")
-    public ResponseEntity<ResponseMessage> findId(@RequestParam String name, @RequestParam String phone ) {
-        String userId = authService.findUserId(name,phone);
+    public ResponseEntity<ResponseMessage> findId(@RequestParam String name, @RequestParam String phone) {
+        String userId = authService.findUserId(name, phone);
 
         if (userId != null) {
             // ID 찾기 성공
@@ -91,24 +92,45 @@ public class AuthController {
         }
     }
 
-//    // 비밀번호 변경
-//    @Operation(summary = "비밀번호 변경")
-//    @PutMapping("/reset-password")
-//    public ResponseEntity<ResponseMessage> changePwd (@RequestBody ChangePWDDTO request){
-//
-//    try{
-//        boolean isChanged = authService.changePassword(request.getUserId(),request.getName(),request.getEmail(),request.getNewPassword());
-//        if(isChanged){
-//            // 비밀번호 변경
-//            return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK,"비밀번호가 변경되었습니다."));
-//        }else{
-//            return ResponseEntity.badRequest()
-//                    .body(new ResponseMessage(HttpStatus.BAD_REQUEST,"비밀번호 변경 실패 : 유효하지 않는 인증번호 입니다."));
-//        }
-//    } catch (RuntimeException e){
-//        return ResponseEntity.badRequest().body(new ResponseMessage(HttpStatus.BAD_REQUEST,"오류 발생"));
-//        }
-//
-//    }
+    // 비밀번호 변경 요청
+    @Operation(summary = "비밀번호 변경 요청")
+    @PostMapping("/request-reset-password")
+    public ResponseEntity<ResponseMessage> requestResetPassword(@RequestBody RequestResetPWDDTO request) {
 
+        try {
+            // 사용자 정보 확인
+            User user = userRepository.findByUserIdAndUserNameAndEmail(request.getUserId(), request.getName(), request.getEmail());
+
+            if (user == null) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseMessage(HttpStatus.BAD_REQUEST, "사용자를 찾을 수 없습니다."));
+            }
+
+            // 인증 코드 전송 밎 저장
+            authService.sendAuthCode(request.getEmail());
+
+            return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK, "인증코드가 전송되었습니다."));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(new ResponseMessage(HttpStatus.BAD_REQUEST, "오류 발생" + e.getMessage()));
+        }
+
+    }
+
+    // 비밀번호 변경
+    @Operation(summary = "비밀번호 변경")
+    @PutMapping("/reset-password")
+    public ResponseEntity<ResponseMessage> changePwd(@RequestBody ChangePWDDTO request) {
+
+        try {
+
+            boolean isChanged = authService.changePassword(request.getUserId(), request.getName(), request.getEmail(), request.getNewPassword(), request.getCode());
+            if (isChanged) {
+                return ResponseEntity.ok(new ResponseMessage(HttpStatus.OK, "비밀번호가 변경되었습니다."));
+            }
+            return ResponseEntity.badRequest().body(new ResponseMessage(HttpStatus.BAD_REQUEST, "비밀번호 변경 실패."));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(new ResponseMessage(HttpStatus.BAD_REQUEST, "인증 실패"));
+        }
+    }
 }
