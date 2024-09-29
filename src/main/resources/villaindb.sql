@@ -447,37 +447,43 @@ INSERT INTO clinic_type (hos_id, clinic_name) VALUES
                                                   (50, '미용');
 
 /* ======================================   예약 더미 데이터 ====================================== */
-INSERT INTO reservation ( type_id,created_date,hos_id,last_modified_date,reservation_date,description,specific_description,state,user_id) values
-                                                                    (1,'2024-02-10',1,'2024-09-13','2024-09-13','개','말티즈','ACTIVATIED','user01'),
-                                                                    (1,'2024-02-10',1,'2024-09-13','2024-09-13','개','말티즈','ACTIVATIED','user02'),
-                                                                    (1,'2024-02-10',1,'2024-09-13','2024-09-13','개','콜리','ACTIVATIED','user03'),
-                                                                    (3,'2024-02-10',1,'2024-09-13','2024-09-13','개','콜리','ACTIVATIED','user04'),
-                                                                    (3,'2024-02-10',1,'2024-09-13','2024-09-13','개','파브로프','ACTIVATIED','user05'),
-                                                                    (3,'2024-02-10',1,'2024-09-13','2024-09-13','개','파브로프','ACTIVATIED','user06'),
-                                                                    (2,'2024-02-10',6,'2024-09-13','2024-09-13','개','파브로프','ACTIVATIED','user07'),
-                                                                    (2,'2024-05-10',6,'2024-09-13','2024-09-13','개','파브로프','ACTIVATIED','user08'),
-                                                                    (2,'2024-05-10',6,'2024-09-13','2024-09-13','개','도배르만','ACTIVATIED','user09'),
-                                                                    (1,'2024-05-10',6,'2024-09-13','2024-09-13','개','도배르만','ACTIVATIED','user10'),
-                                                                    (1,'2024-05-10',12,'2024-09-13','2024-09-13','개','도배르만','ACTIVATIED','user11'),
-                                                                    (1,'2024-05-10',12,'2024-09-13','2024-09-13','개','시츄','ACTIVATIED','user12'),
-                                                                    (2,'2024-05-10',12,'2024-09-13','2024-09-13','개','시츄','ACTIVATIED','user13'),
-                                                                    (2,'2024-06-12',12,'2024-09-13','2024-09-13','개','시츄','ACTIVATIED','user14'),
-                                                                    (2,'2024-06-12',11,'2024-09-13','2024-09-13','개','시츄','ACTIVATIED','user15'),
-                                                                    (2,'2024-06-12',11,'2024-09-13','2024-09-13','고양이','샴(샤미즈)','ACTIVATIED','user16'),
-                                                                    (3,'2024-06-12',11,'2024-09-13','2024-09-13','고양이','샴(샤미즈)','ACTIVATIED','user17'),
-                                                                    (3,'2024-06-12',11,'2024-09-13','2024-09-13','고양이','샴(샤미즈)','ACTIVATIED','user18'),
-                                                                    (3,'2024-06-12',7,'2024-09-13','2024-09-13','고양이','아비시니안','ACTIVATIED','user19'),
-                                                                    (1,'2024-06-12',7,'2024-09-13','2024-09-13','고양이','아비시니안','ACTIVATIED','user20'),
-                                                                    (1,'2024-06-12',7,'2024-09-13','2024-09-13','고양이','아비시니안','ACTIVATIED','user21'),
-                                                                    (1,'2024-07-18',7,'2024-09-13','2024-09-13','고양이','페르시안','ACTIVATIED','user22'),
-                                                                    (2,'2024-07-18',7,'2024-09-13','2024-09-13','고양이','페르시안','ACTIVATIED','user22'),
-                                                                    (2,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','페르시안','ACTIVATIED','user23'),
-                                                                    (2,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','먼치킨','ACTIVATIED','user24'),
-                                                                    (3,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','먼치킨','ACTIVATIED','user25'),
-                                                                    (3,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','먼치킨','ACTIVATIED','user26'),
-                                                                    (3,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','랙돌','ACTIVATIED','user27'),
-                                                                    (3,'2024-07-18',20,'2024-09-13','2024-09-13','고양이','랙돌','ACTIVATIED','user28'),
-                                                                    (1,'2024-09-10',20,'2024-09-13','2024-09-13','고양이','랙돌','ACTIVATIED','user29');
+INSERT INTO reservation ( type_id,created_date,hos_id,last_modified_date,reservation_time,description,specific_description,state,user_id,pet_id) values
+                                                                                                                                                     (1, '2024-07-01', 1, '2024-07-01', '2024-07-01 10:15:00','Description 1', 'Specific Description 1', 'activated', 'user01',1),
+                                                                                                                                                     (1, '2024-07-02', 1, '2024-07-02', '2024-07-02 11:15:00','Description 1', 'Specific Description 1', 'activated', 'user02',2),
+                                                                                                                                                     (1, '2024-07-03', 1, '2024-07-03', '2024-07-03 12:15:00','Description 1', 'Specific Description 1', 'activated', 'user03',3),
+                                                                                                                                                     (1, '2024-07-04', 1, '2024-07-04', '2024-07-04 14:15:00','Description 1', 'Specific Description 1', 'activated', 'user04',4),
+                                                                                                                                                     (1, '2024-07-05', 1, '2024-07-05', '2024-07-05 15:15:00','Description 1', 'Specific Description 1', 'activated', 'user05',5),
+                                                                                                                                                     (1, '2024-07-06', 1, '2024-07-06', '2024-07-06 16:15:00','Description 1', 'Specific Description 1', 'activated', 'user06',6),
+                                                                                                                                                     (1, '2024-07-07', 1, '2024-07-07', '2024-07-07 17:15:00','Description 1', 'Specific Description 1', 'activated', 'user07',7),
+                                                                                                                                                     (1, '2024-07-08', 1, '2024-07-08', '2024-07-08 18:15:00','Description 1', 'Specific Description 1', 'activated', 'user08',8),
+                                                                                                                                                     (1, '2024-07-09', 1, '2024-07-09', '2024-07-09 10:15:00','Description 1', 'Specific Description 1', 'activated', 'user09',9),
+                                                                                                                                                     (1, '2024-07-15', 1, '2024-07-15', '2024-07-15 11:15:00','Description 1', 'Specific Description 1', 'activated', 'user10',10),
+                                                                                                                                                     (1, '2024-07-17', 1, '2024-07-17', '2024-07-17 12:15:00','Description 1', 'Specific Description 1', 'activated', 'user11',11),
+                                                                                                                                                     (1, '2024-07-19', 1, '2024-07-19', '2024-07-19 14:15:00','Description 1', 'Specific Description 1', 'activated', 'user12',12),
+                                                                                                                                                     (1, '2024-07-24', 1, '2024-07-24', '2024-07-24 15:15:00','Description 1', 'Specific Description 1', 'activated', 'user13',13),
+                                                                                                                                                     (1, '2024-07-26', 1, '2024-07-26', '2024-07-26 16:15:00','Description 1', 'Specific Description 1', 'activated', 'user14',14),
+                                                                                                                                                     (1, '2024-07-28', 1, '2024-07-28', '2024-07-28 17:15:00','Description 1', 'Specific Description 1', 'activated', 'user15',15),
+                                                                                                                                                     (1, '2024-07-30', 1, '2024-07-30', '2024-07-30 18:15:00','Description 1', 'Specific Description 1', 'activated', 'user16',16),
+                                                                                                                                                     (1, '2024-08-02', 1, '2024-08-02', '2024-08-02 10:15:00','Description 1', 'Specific Description 1', 'activated', 'user17',17),
+                                                                                                                                                     (1, '2024-08-04', 1, '2024-08-04', '2024-08-04 11:15:00','Description 1', 'Specific Description 1', 'activated', 'user18',18),
+                                                                                                                                                     (1, '2024-08-07', 1, '2024-08-07', '2024-08-07 12:15:00','Description 1', 'Specific Description 1', 'activated', 'user19',19),
+                                                                                                                                                     (1, '2024-08-11', 1, '2024-08-11', '2024-08-11 14:15:00','Description 1', 'Specific Description 1', 'activated', 'user20',20),
+                                                                                                                                                     (1, '2024-08-13', 1, '2024-08-13', '2024-08-13 15:15:00','Description 1', 'Specific Description 1', 'activated', 'user21',21),
+                                                                                                                                                     (1, '2024-08-15', 1, '2024-08-15', '2024-08-15 16:15:00','Description 1', 'Specific Description 1', 'activated', 'user22',22),
+                                                                                                                                                     (1, '2024-08-17', 1, '2024-08-17', '2024-08-17 17:15:00','Description 1', 'Specific Description 1', 'activated', 'user23',23),
+                                                                                                                                                     (1, '2024-08-18', 1, '2024-08-18', '2024-08-18 18:15:00','Description 1', 'Specific Description 1', 'activated', 'user24',24),
+                                                                                                                                                     (1, '2024-08-19', 1, '2024-08-19', '2024-08-19 10:15:00','Description 1', 'Specific Description 1', 'activated', 'user25',25),
+                                                                                                                                                     (1, '2024-08-25', 1, '2024-08-25', '2024-08-25 11:15:00','Description 1', 'Specific Description 1', 'activated', 'user26',26);
+
+
+
+
+
+
+
+
+
+
 
 /* 리뷰 더미 데이터 */
 INSERT INTO review (reservation_id, content, report_state, created_date, last_modified_date)

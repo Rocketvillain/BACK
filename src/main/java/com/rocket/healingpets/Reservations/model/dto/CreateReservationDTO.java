@@ -21,13 +21,14 @@ public class CreateReservationDTO {
     private String userName; // 예약자 이름
     private String email; // 이메일
     private String phone; // 유저
+    private int petId; // 고유 펫 id
 
     // 병원 파트
     private int hosId; // 예약 대상 병원
     private int typeId; //진료 유형
     private String description; // 설명
     private String specificDescription; // 상세 설명
-    private LocalDateTime reservationDate; // 예약 시작 시간
+    private LocalDateTime reservationTime; // 예약 시작 시간
 
 
 

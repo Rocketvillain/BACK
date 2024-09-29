@@ -22,6 +22,8 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,12 +60,13 @@ public class ReservationService {
         reservationDTO.setUserName(reservation.getUserId().getUserName());
         reservationDTO.setUserEmail(reservation.getUserId().getEmail());
         reservationDTO.setUserPhone(reservation.getUserId().getPhone());
+        reservationDTO.setPetId(reservation.getPetId()); // 추가 petId
         reservationDTO.setHosName(reservation.getHosId().getName());
         reservationDTO.setClinicName(reservation.getClinicType().getClinicName());
         reservationDTO.setDescription(reservation.getDescription());
         reservationDTO.setSpecificDescription(reservation.getSpecificDescription());
         reservationDTO.setState(reservation.getState());
-        reservationDTO.setReservationDate(reservation.getReservationDate());
+        reservationDTO.setReservationTime(reservation.getReservationTime());
         reservationDTO.setLastModifiedDate(reservation.getLastModifiedDate());
 
         return reservationDTO;
@@ -85,14 +88,23 @@ public class ReservationService {
         ClinicType clinicType = clinicTypeRepository.findById(createReservationDTO.getTypeId())
                 .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
 
+        // 예약 시간을 검증
+        LocalDateTime reservationTime = createReservationDTO.getReservationTime();
+        LocalDateTime startTime = LocalDateTime.of(reservationTime.toLocalDate(), LocalTime.of(10, 0)); // 오전 10시
+        LocalDateTime endTime = LocalDateTime.of(reservationTime.toLocalDate(), LocalTime.of(19, 0)); // 오후 7시
+
+        if (reservationTime.isBefore(startTime) || reservationTime.isAfter(endTime)) {
+            throw new IllegalArgumentException("예약 시간은 오전 10시부터 오후 7시 사이여야 합니다.");
+        }
 
         Reservation reservation = Reservation.builder()
                 .userId(user)
                 .hosId(hospital)
                 .clinicType(clinicType)
+                .petId(createReservationDTO.getPetId()) // 추가 펫ID
                 .description(createReservationDTO.getDescription()) // DTO에서 description 가져오기
                 .specificDescription(createReservationDTO.getSpecificDescription()) // DTO에서 specificDescription 가져오기
-                .reservationDate(createReservationDTO.getReservationDate()) // 예약 날짜 추가
+                .reservationTime(createReservationDTO.getReservationTime()) // 예약 날짜 추가
                 .build();
 
         Reservation savedReservation = reservationsRepository.save(reservation);
@@ -102,11 +114,12 @@ public class ReservationService {
                 .userName(savedReservation.getUserId().getUserName())
                 .userEmail(savedReservation.getUserId().getEmail())
                 .userPhone(savedReservation.getUserId().getPhone())
+                .petId(savedReservation.getPetId())
                 .hosName(savedReservation.getHosId().getName())
                 .clinicName(savedReservation.getClinicType().getClinicName())
                 .description(savedReservation.getDescription())
                 .specificDescription(savedReservation.getSpecificDescription())
-                .reservationDate(savedReservation.getReservationDate())
+                .reservationTime(savedReservation.getReservationTime())
                 .build();
     }
 
@@ -116,8 +129,6 @@ public class ReservationService {
         Reservation reservation = reservationsRepository.findById(reservation_id)
                 .orElseThrow(()-> new EntityNotFoundException("예약 정보를 찾을수 없습니다." + reservation_id));
 
-
-
         // 병원 객체를 조회
         Hospital hospital = hospitalRepository.findById(updateReservationDTO.getHosId())
                 .orElseThrow(() -> new EntityNotFoundException("병원을 찾을 수 없습니다."));
@@ -126,12 +137,22 @@ public class ReservationService {
         ClinicType clinicType = clinicTypeRepository.findById(updateReservationDTO.getTypeId())
                 .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
 
+        // 예약 시간을 검증
+        LocalDateTime reservationTime = updateReservationDTO.getReservationTime();
+        LocalDateTime startTime = LocalDateTime.of(reservationTime.toLocalDate(), LocalTime.of(10, 0)); // 오전 10시
+        LocalDateTime endTime = LocalDateTime.of(reservationTime.toLocalDate(), LocalTime.of(19, 0)); // 오후 7시
+
+        if (reservationTime.isBefore(startTime) || reservationTime.isAfter(endTime)) {
+            throw new IllegalArgumentException("예약 시간은 오전 10시부터 오후 7시 사이여야 합니다.");
+        }
+
         reservation  = reservation.toBuilder()
 
                 .hosId(hospital)
                 .clinicType(clinicType)
                 .description(updateReservationDTO.getDescription()) // 설명
                 .specificDescription(updateReservationDTO.getSpecificDescription()) // 상세 설명
+                .reservationTime(updateReservationDTO.getReservationTime()) // 예약 시간
                 .lastModifiedDate(updateReservationDTO.getLastModifiedDate()) // 최근 수정일
                 .build();
 
@@ -142,7 +163,8 @@ public class ReservationService {
                 .clinicName(modifiedReservation.getClinicType().getClinicName())
                 .description(modifiedReservation.getDescription())
                 .specificDescription(modifiedReservation.getSpecificDescription())
-                .reservationDate(modifiedReservation.getReservationDate())
+                .reservationTime(modifiedReservation.getReservationTime())
+                .lastModifiedDate(modifiedReservation.getLastModifiedDate())
                 .build();
     }
 

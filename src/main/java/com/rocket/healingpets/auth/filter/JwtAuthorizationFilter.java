@@ -49,12 +49,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/swagger-resources/(.*)",    //swagger 설정
                 "/auth/send-code",                 // email 보내기
                 "/auth/verify-code",                 // email 인증하기
+                "/api/v1/reservation",               // 병원 진료 예약
+                "/api/v1/reservation/.*", // 에약 하위 경로
                 "/api/v1/hospital",
                 "/auth/check-duplicate", // 중복 확인
                 "/auth/find-id", // ID찾기
                 "/auth/reset-password",  //비밀번호 변경
-                "/auth/request-reset-password", // 비밀번호 변경 요청
-                "/api/v1/hospital"
+                "/auth/request-reset-password" // 비밀번호 변경 요청
 //                "/api/v1/pets"
         );
 
