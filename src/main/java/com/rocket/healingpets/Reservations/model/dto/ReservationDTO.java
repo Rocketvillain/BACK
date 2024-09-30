@@ -21,6 +21,7 @@ public class ReservationDTO {
     private String userName; // 유저 이름
     private String userEmail; // 이메일
     private String userPhone; // 전화번호
+    private int petId; // 고유 펫 id
 
     // 병원 파트
     private String hosName; // 예약 대상 병원
@@ -28,7 +29,7 @@ public class ReservationDTO {
     private String description; // 설명
     private String specificDescription; // 상세 설명
     private String state; // 예약 상태 (승인/취소/설명)
-    private LocalDateTime reservationDate; // 예약 시작 시간
+    private LocalDateTime reservationTime; // 예약 시작 시간
     private LocalDate lastModifiedDate; // 최근 수정일
 
 }

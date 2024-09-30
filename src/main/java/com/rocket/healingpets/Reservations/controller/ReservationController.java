@@ -44,6 +44,7 @@ public class ReservationController {
                     dto.setUserName(reservation.getUserName()); // 유저 이름
                     dto.setUserEmail(reservation.getUserEmail()); // 이메일
                     dto.setUserPhone(reservation.getUserPhone()); // 전화번호
+                    dto.setPetId(reservation.getPetId()); // 펫 id (추가)
 
                     // 병원 파트
                     dto.setHosName(reservation.getHosName()); // 병원 이름
@@ -51,7 +52,7 @@ public class ReservationController {
                     dto.setDescription(reservation.getDescription()); // 설명
                     dto.setSpecificDescription(reservation.getSpecificDescription()); // 상세 설명
                     dto.setState(reservation.getState());
-                    dto.setReservationDate(reservation.getReservationDate());
+                    dto.setReservationTime(reservation.getReservationTime());
                     dto.setLastModifiedDate(reservation.getLastModifiedDate());
                     return dto;
                 })

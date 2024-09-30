@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "reservation")
@@ -42,9 +43,13 @@ public class Reservation {
     // 예약 대상 병원
     private Hospital hosId;
 
-    @Column(name = "reservation_date")
+    @Column(name = "reservation_time")
     // 예약 시작 시간
-    private LocalDateTime reservationDate;
+    private LocalDateTime reservationTime;
+
+    @Column(name = "pet_id")
+    // 고유 펫 id
+    private int petId;
 
     @Column(name = "description")
     // 설명
@@ -58,17 +63,14 @@ public class Reservation {
     // 예약 상태(승인/취소/완료)
     private String state = "activatied";
 
-//    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
-//    private Review review;
-
     @Column(name = "created_date")
     @CreatedDate
     // 생성일
-    private LocalDate createdDate;
+    private LocalDate createdDate=LocalDate.now();
 
     @Column(name = "last_modified_date")
     @LastModifiedDate
     // 마지막 수정일
-    private LocalDate lastModifiedDate;
+    private LocalDate lastModifiedDate = LocalDate.now();
 
 }

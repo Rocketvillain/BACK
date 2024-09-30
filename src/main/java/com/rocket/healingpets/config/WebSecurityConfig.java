@@ -71,8 +71,8 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)
 
                 .authorizeHttpRequests(auth -> auth
-                        // Swagger 관련 리소스와 회원가입 경로 허용 ( 여기서 경로 지정)
-                        .requestMatchers("/auth/signup", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**","/auth/send-code","/auth/verify-code", "/api/v1/hospital","/auth/check-duplicate","/auth/find-id","/auth/reset-password","/auth/request-reset-password").permitAll()
+                        // Swagger 관련 리소스와 회원가입 경로 허용 ( 여기서 경로 지정) , 403 fobidden
+                        .requestMatchers("/auth/signup", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**","/auth/send-code","/auth/verify-code", "/api/v1/hospital","/auth/check-duplicate","/auth/find-id","/auth/reset-password","/auth/request-reset-password","/api/v1/reservation","/api/v1/reservation/**").permitAll()
                         .anyRequest()
                         .authenticated() // 나머지 요청은 인증 필요
                 );

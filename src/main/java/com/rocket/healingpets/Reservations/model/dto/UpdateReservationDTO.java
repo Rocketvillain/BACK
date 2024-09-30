@@ -20,6 +20,6 @@ public class UpdateReservationDTO {
     private int typeId; // 진료 유형
     private String description; // 설명
     private String specificDescription; // 상세 설명
-    private LocalDateTime reservationDate; // 예약 시작 시간
+    private LocalDateTime reservationTime; // 예약 시작 시간
     private LocalDate lastModifiedDate; // 최근 수정일
 }
