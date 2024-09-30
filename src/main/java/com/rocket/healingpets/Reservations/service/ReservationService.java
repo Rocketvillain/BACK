@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,16 @@ public class ReservationService {
                 .map(reservation -> modelMapper.map(reservation, ReservationDTO.class))
                 .collect(Collectors.toList());
 
+    }
+
+    // 특정 병원에 대한 예약 전체 조회하기
+    public List<ReservationDTO> findReservationsByHosId(int hosId) {
+        Hospital foundHospital = hospitalRepository.findById(hosId).get();
+        List<Reservation> foundReservations = reservationsRepository.findReservationsByHosId(foundHospital);
+
+        return foundReservations.stream()
+                .map(reservation -> modelMapper.map(reservation, ReservationDTO.class))
+                .collect(Collectors.toList());
     }
 
     // 예약 단일 조회
@@ -173,4 +184,5 @@ public class ReservationService {
 
         reservationsRepository.deleteById(reservation_id);
     }
+
 }
