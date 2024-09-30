@@ -1,8 +1,10 @@
 package com.rocket.healingpets.hospitals.model.dto.Hospital;
 
+import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,4 +23,5 @@ public class HospitalDTO {
     private String infoImage;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
+    private List<ClinicType> clinicType;
 }
