@@ -18,4 +18,6 @@ public class CreateHospitalScheduleDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private Boolean isOkay = Boolean.TRUE;
+    private LocalTime lunchTime;
+
 }

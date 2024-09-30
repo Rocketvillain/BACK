@@ -40,7 +40,8 @@ public class HospitalScheduleService {
                         schedule.getDate(),
                         schedule.getStartTime(),
                         schedule.getEndTime(),
-                        schedule.getIsOkay()
+                        schedule.getIsOkay(),
+                        schedule.getLunchTime()
                         )
                 )
                 .collect(Collectors.toList());
@@ -60,7 +61,8 @@ public class HospitalScheduleService {
                                 schedule.getDate(),
                                 schedule.getStartTime(),
                                 schedule.getEndTime(),
-                                schedule.getIsOkay()
+                                schedule.getIsOkay(),
+                                schedule.getLunchTime()
                         )
                 )
                 .collect(Collectors.toList());
@@ -77,6 +79,7 @@ public class HospitalScheduleService {
                 .startTime(hospitalScheduleDTO.getStartTime())
                 .endTime(hospitalScheduleDTO.getEndTime())
                 .isOkay(hospitalScheduleDTO.getIsOkay())
+                .lunchTime(hospitalScheduleDTO.getLunchTime())
                 .build();
 
         HospitalSchedule savedHospitalSchedule = hospitalScheduleRepository.save(hospitalSchedule);
@@ -101,6 +104,7 @@ public class HospitalScheduleService {
                 .startTime(hospitalScheduleDTO.getStartTime())
                 .endTime(hospitalScheduleDTO.getEndTime())
                 .isOkay(hospitalScheduleDTO.getIsOkay())
+                .lunchTime(hospitalScheduleDTO.getLunchTime())
                 .build();
 
         HospitalSchedule modifiedHospitalSchedule = hospitalScheduleRepository.save(hospitalSchedule);
@@ -110,6 +114,7 @@ public class HospitalScheduleService {
                 .startTime(modifiedHospitalSchedule.getStartTime())
                 .endTime(modifiedHospitalSchedule.getEndTime())
                 .isOkay(modifiedHospitalSchedule.getIsOkay())
+                .lunchTime(modifiedHospitalSchedule.getLunchTime())
                 .build();
     }
 
