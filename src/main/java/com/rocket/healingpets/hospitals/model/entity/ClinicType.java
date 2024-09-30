@@ -27,8 +27,4 @@ public class ClinicType {
     @Column(name = "clinic_name")
     // 진료 유형
     private String clinicName;
-
-    @OneToMany(mappedBy = "clinicType",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    // 해당 병원 일정
-    private List<HospitalSchedule> hospitalSchedule;
 }
