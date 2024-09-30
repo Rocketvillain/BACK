@@ -5,9 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Table(name = "schedule")
@@ -45,11 +43,6 @@ public class HospitalSchedule {
     @ColumnDefault("1") // 기본값을 TRUE로 설정 (1은 TRUE에 해당)
     // 예약 가능 여부
     private Boolean isOkay;
-
-    @ManyToOne
-    @JoinColumn(name = "clinic_type", nullable = false)
-    // 진료 유형
-    private ClinicType clinicType;
 
     @Column(name = "lunch_time")
     // 점심 시간(시작시간 기준)

@@ -1,6 +1,35 @@
 DELIMITER $$
 
-CREATE PROCEDURE InsertHospitalSchedules()
+CREATE PROCEDURE InsertHospitalSchedules1()
+BEGIN
+
+    DECLARE hos_id INT;
+    DECLARE schedule_date DATE;
+    DECLARE start_time TIME;
+    DECLARE end_time TIME;
+    DECLARE lunch_time TIME;
+    DECLARE i INT DEFAULT 0;  -- 0부터 시작하여 60까지 사용
+
+    WHILE i < 61 DO
+            SET hos_id = 1;
+            -- 2024-09-01부터 시작하여 i일을 더함
+            SET schedule_date = DATE('2024-09-01') + INTERVAL i DAY;
+            SET start_time = TIME('09:00:00');
+            SET end_time = ELT(FLOOR(1 + RAND() * 3), '17:00:00', '18:00:00', '19:00:00');
+            SET lunch_time = TIME('12:00:00');
+
+            INSERT INTO schedule (hos_id, date, start_time, end_time, is_okay, lunch_time)
+            VALUES (hos_id, schedule_date, start_time, end_time, TRUE, lunch_time);
+
+            SET i = i + 1;
+        END WHILE;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertHospitalSchedules2()
 BEGIN
 
     DECLARE hos_id INT;
@@ -21,7 +50,7 @@ BEGIN
             VALUES (hos_id, schedule_date, start_time, end_time, clinic_type, TRUE);
 
             SET i = i + 1;
-    END WHILE;
+        END WHILE;
 END $$
 
 DELIMITER ;

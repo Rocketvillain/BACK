@@ -20,6 +20,4 @@ public class HospitalScheduleDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private Boolean isOkay;
-    private String clinicName;
-
 }
