@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ClinicTypeRepository extends JpaRepository<ClinicType, Integer> {
     List<ClinicType> findClinicTypesByHosId(int hosId);
+
+    ClinicType findClinicTypeByHosIdAndClinicName(int hosId, String clinicName);
 }

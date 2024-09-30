@@ -3,8 +3,10 @@ package com.rocket.healingpets.hospitals.service;
 import com.rocket.healingpets.hospitals.model.dto.HospitalSchedule.CreateHospitalScheduleDTO;
 import com.rocket.healingpets.hospitals.model.dto.HospitalSchedule.HospitalScheduleDTO;
 import com.rocket.healingpets.hospitals.model.dto.HospitalSchedule.UpdateHospitalScheduleDTO;
+import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.hospitals.model.entity.HospitalSchedule;
+import com.rocket.healingpets.hospitals.repository.ClinicTypeRepository;
 import com.rocket.healingpets.hospitals.repository.HospitalRepository;
 import com.rocket.healingpets.hospitals.repository.HospitalScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class HospitalScheduleService {
 
     private final HospitalRepository hospitalRepository;
     private final HospitalScheduleRepository hospitalScheduleRepository;
+    private final ClinicTypeRepository clinicTypeRepository;
 
     // 전체 병원 일정 조회
     public List<HospitalScheduleDTO> findAllHospitalSchedule() {
@@ -39,8 +42,7 @@ public class HospitalScheduleService {
                         schedule.getStartTime(),
                         schedule.getEndTime(),
                         schedule.getIsOkay(),
-                        schedule.getClinicName(),
-                        schedule.getOffTime()
+                        schedule.getClinicType().getClinicName()
                         )
                 )
                 .collect(Collectors.toList());
@@ -61,8 +63,7 @@ public class HospitalScheduleService {
                                 schedule.getStartTime(),
                                 schedule.getEndTime(),
                                 schedule.getIsOkay(),
-                                schedule.getClinicName(),
-                                schedule.getOffTime()
+                                schedule.getClinicType().getClinicName()
                         )
                 )
                 .collect(Collectors.toList());
@@ -72,6 +73,7 @@ public class HospitalScheduleService {
     public HospitalScheduleDTO registHospitalSchedule(CreateHospitalScheduleDTO hospitalScheduleDTO) {
 
         Hospital foundHospital = hospitalRepository.findById(hospitalScheduleDTO.getHosId()).get();
+        ClinicType foundClinicType = clinicTypeRepository.findClinicTypeByHosIdAndClinicName(hospitalScheduleDTO.getHosId(),hospitalScheduleDTO.getClinicName());
 
         HospitalSchedule hospitalSchedule = HospitalSchedule.builder()
                 .hosId(foundHospital)
@@ -79,7 +81,7 @@ public class HospitalScheduleService {
                 .startTime(hospitalScheduleDTO.getStartTime())
                 .endTime(hospitalScheduleDTO.getEndTime())
                 .isOkay(hospitalScheduleDTO.getIsOkay())
-                .clinicName(hospitalScheduleDTO.getClinicName())
+                .clinicType(foundClinicType)
                 .build();
 
         HospitalSchedule savedHospitalSchedule = hospitalScheduleRepository.save(hospitalSchedule);
@@ -90,7 +92,7 @@ public class HospitalScheduleService {
                 .startTime(savedHospitalSchedule.getStartTime())
                 .endTime(savedHospitalSchedule.getEndTime())
                 .isOkay(savedHospitalSchedule.getIsOkay())
-                .clinicName(savedHospitalSchedule.getClinicName())
+                .clinicName(savedHospitalSchedule.getClinicType().getClinicName())
                 .build();
     }
 
@@ -105,7 +107,6 @@ public class HospitalScheduleService {
                 .startTime(hospitalScheduleDTO.getStartTime())
                 .endTime(hospitalScheduleDTO.getEndTime())
                 .isOkay(hospitalScheduleDTO.getIsOkay())
-                .clinicName(hospitalScheduleDTO.getClinicName())
                 .build();
 
         HospitalSchedule modifiedHospitalSchedule = hospitalScheduleRepository.save(hospitalSchedule);
@@ -115,7 +116,7 @@ public class HospitalScheduleService {
                 .startTime(modifiedHospitalSchedule.getStartTime())
                 .endTime(modifiedHospitalSchedule.getEndTime())
                 .isOkay(modifiedHospitalSchedule.getIsOkay())
-                .clinicName(modifiedHospitalSchedule.getClinicName())
+                .clinicName(modifiedHospitalSchedule.getClinicType().getClinicName())
                 .build();
     }
 

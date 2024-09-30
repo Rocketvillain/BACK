@@ -46,12 +46,12 @@ public class HospitalSchedule {
     // 예약 가능 여부
     private Boolean isOkay;
 
-    @Column(name = "clinic_name", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "clinic_type", nullable = false)
     // 진료 유형
-    private String clinicName;
+    private ClinicType clinicType;
 
-    @OneToMany(mappedBy = "hospitalSchedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    // 미진료 시간
-    private List<OffTime> offTime;
-
+    @Column(name = "lunch_time")
+    // 점심 시간(시작시간 기준)
+    private LocalTime lunchTime;
 }
