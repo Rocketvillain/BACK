@@ -90,6 +90,7 @@ public class HospitalScheduleService {
                 .startTime(savedHospitalSchedule.getStartTime())
                 .endTime(savedHospitalSchedule.getEndTime())
                 .isOkay(savedHospitalSchedule.getIsOkay())
+                .lunchTime(savedHospitalSchedule.getLunchTime())
                 .build();
     }
 
