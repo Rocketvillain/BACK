@@ -85,7 +85,7 @@ public class AuthService {
         userDTO2.setUserPwd(passwordEncoder.encode(userDTO2.getUserPwd()));
 
         // 유저 역할
-        userDTO2.setUserRole(RoleType.ROLE_USER);
+        userDTO2.setUserRole(RoleType.ROLE_HOSPITAL);
 
         // 데이터베이스에 저장하기 위해 DTO에 담긴 값을 Entity로 변경
         User registUser2 = modelMapper.map(userDTO2, User.class);

@@ -39,7 +39,7 @@ public class User {
     @Column(name = "user_role",nullable = false)
 
     // 유저 권한
-    private RoleType userRole = RoleType.ROLE_USER;
+    private RoleType userRole;
 
     @Column(name = "email", nullable = false)
     // 유저 이메일
