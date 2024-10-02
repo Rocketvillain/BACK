@@ -1,11 +1,12 @@
 package com.rocket.healingpets.users.service;
 
 import com.rocket.healingpets.auth.service.CustomUserDetails;
-import com.rocket.healingpets.users.model.dto.PetDTO;
+import com.rocket.healingpets.users.model.dto.*;
 import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.User;
 import com.rocket.healingpets.users.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.Update;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,8 +57,10 @@ public class PetService {
         )).collect(Collectors.toList());
     }
 
+
+
     // 회원의 펫 등록 (로그인한 회원 기준)
-    public PetDTO registerPet(PetDTO petDTO) {
+    public PetDTO registerPet(CreatePetDTO createPetDTO) {
         // 현재 로그인한 회원의 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUserEmail = null;
@@ -76,20 +79,19 @@ public class PetService {
         // Pet 엔티티를 생성하고, 로그인한 사용자의 ID를 설정
         Pet pet = Pet.builder()
                 .user(loggedInUser) // 사용자 정보 설정, 사용자가 직접 입력할 필요 없음
-                .petName(petDTO.getName())
-                .gender(petDTO.getGender())
-                .weight(petDTO.getWeight())
-                .age(petDTO.getAge())
-                .species(petDTO.getSpecies())
-                .kind(petDTO.getKind())
-                .image(petDTO.getImage()) // 이미지 필드 추가
+                .petName(createPetDTO.getPetName())
+                .gender(createPetDTO.getGender())
+                .weight(createPetDTO.getWeight())
+                .age(createPetDTO.getAge())
+                .species(createPetDTO.getSpecies())
+                .kind(createPetDTO.getKind())
                 .build();
 
         // 펫 저장
         Pet savedPet = petRepository.save(pet);
 
         // 저장된 펫 정보를 PetDTO로 반환
-        return new PetDTO(savedPet.getPetId(), savedPet.getUser().getUserId(),
+        return new PetDTO(savedPet.getPetId(),savedPet.getUser().getUserId(),
                 savedPet.getPetName(), savedPet.getGender(),
                 savedPet.getWeight(), savedPet.getAge(),
                 savedPet.getSpecies(), savedPet.getKind(),
@@ -98,7 +100,7 @@ public class PetService {
 
 
     // 회원의 펫 정보 수정
-    public PetDTO modifyPet(int petId, PetDTO petDTO) {
+    public PetDTO modifyPet(int petId, UpdatePetDTO updatePetDTO) {
         // 현재 로그인한 회원의 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loggedInUserEmail = null;
@@ -124,18 +126,17 @@ public class PetService {
                 .orElseThrow(() -> new RuntimeException("Pet not found"));
 
         // 펫 정보 수정
-        pet.setPetName(petDTO.getName());
-        pet.setGender(petDTO.getGender());
-        pet.setWeight(petDTO.getWeight());
-        pet.setAge(petDTO.getAge());
-        pet.setSpecies(petDTO.getSpecies());
-        pet.setKind(petDTO.getKind());
-        pet.setImage(petDTO.getImage());
+        pet.setPetName(updatePetDTO.getName());
+        pet.setGender(updatePetDTO.getGender());
+        pet.setWeight(updatePetDTO.getWeight());
+        pet.setAge(updatePetDTO.getAge());
+        pet.setSpecies(updatePetDTO.getSpecies());
+        pet.setKind(updatePetDTO.getKind());
 
         // 수정된 펫 저장
         Pet modifyPet = petRepository.save(pet);
 
-        return new PetDTO(modifyPet.getPetId(), modifyPet.getUser().getUserId(),
+        return new PetDTO(modifyPet.getPetId(),modifyPet.getUser().getUserId(),
                 modifyPet.getPetName(), modifyPet.getGender(),
                 modifyPet.getWeight(), modifyPet.getAge(),
                 modifyPet.getSpecies(), modifyPet.getKind(),
