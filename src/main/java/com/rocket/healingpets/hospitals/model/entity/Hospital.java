@@ -1,5 +1,6 @@
 package com.rocket.healingpets.hospitals.model.entity;
 
+import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,6 +27,11 @@ public class Hospital {
     @Column(name = "hos_id")
     // 병원 아이디
     private int hosId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    // 사용자 아이디
+    private User user;
 
     @Column(name = "name")
     // 병원 이름

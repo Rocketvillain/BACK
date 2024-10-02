@@ -5,7 +5,7 @@ INSERT INTO user (user_id, user_role, name, email, phone,hos_id,pwd,user_state,c
                                                               ('admin01','ROLE_ADMIN','관리자01','admin01@gmail.com','070-1111-1111',null,'$2a$10$hRzf2HYBzRKiWK1A3XVglOOko6tF3hoJy9Eob9YLf','activated','2019-02-12','2024-09-11'), /*qwer1234!*/
                                                               ('admin02','ROLE_ADMIN','관리자02','admin02@gmail.com','070-2222-2222',null,'$2a$10$hRzf2HYBzRKiWK1A3XVglOOko6tF3hoJy9Eob9YLf','activated','2019-04-12','2024-09-11'),
                                                               ('admin03','ROLE_ADMIN','관리자03','admin03@gmail.com','070-3333-3333',null,'$2a$10$hRzf2HYBzRKiWK1A3XVglOOko6tF3hoJy9Eob9YLf','activated','2019-08-12','2024-09-11'),
-                                                              ('hospital01','ROLE_HOSPITAL','병원관리자01','hospital01@gmail','02-1111-1111',1,'$2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie','activated','2020-01-12','2024-09-11'),/* $2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie */
+                                                              ('hospital01','ROLE_HOSPITAL','병원관리자01','hospital01@gmail','02-1111-1111',1,'$2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie','activated','2020-01-12','2024-09-11'),/* 1q2w3e4r! */
                                                               ('hospital02','ROLE_HOSPITAL','병원관리자02','hospital02@gmail','02-1111-2222',2,'$2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie','activated','2020-02-12','2024-09-11'),
                                                               ('hospital03','ROLE_HOSPITAL','병원관리자03','hospital03@gmail','02-1111-3333',3,'$2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie','activated','2020-03-12','2024-09-11'),
                                                               ('hospital04','ROLE_HOSPITAL','병원관리자04','hospital04@gmail','02-1111-4444',4,'$2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie','activated','2020-04-12','2024-09-11'),
@@ -512,13 +512,7 @@ VALUES
     (22, '고양이 수술 후 회복 과정도 매우 신경 써주셨습니다.', NULL, '2024-09-14', NULL),
     (23, '페르시안 고양이 미용 결과가 아주 좋습니다. 다음에도 방문할 예정입니다.', NULL, '2024-09-14', NULL),
     (24, '진료를 받으면서 느낀 건 병원 전반적으로 직원 태도가 엉망이라는 점입니다.', '취소', '2024-09-14', '2024-09-15'),
-    (25, '고양이 진료를 받았는데, 세심한 설명에 감사드립니다.', NULL, '2024-09-14', NULL),
-    (26, '고양이 건강 검진 결과를 상세히 설명해 주셔서 이해하기 쉬웠습니다.', NULL, '2024-09-14', NULL),
-    (27, '랙돌 고양이 수술이 무사히 끝났습니다. 감사합니다.', NULL, '2024-09-14', NULL),
-    (28, '의사 선생님이 대충 진료하는 것 같았습니다. 고양이가 아픈데 전혀 도움 안 됐어요.', '대기', '2024-09-14', NULL),
-    (29, '렉돌 고양이 정기 검진을 받았는데, 신속하고 정확한 진단이었습니다.', NULL, '2024-09-14', NULL),
-    (30, '직원이 반말로 응대해서 기분이 매우 나빴습니다.', '대기', '2024-09-14', NULL);
-
+    (25, '고양이 진료를 받았는데, 세심한 설명에 감사드립니다.', NULL, '2024-09-14', NULL);
 
 ALTER TABLE schedule MODIFY COLUMN is_okay BOOLEAN NOT NULL DEFAULT TRUE;
 

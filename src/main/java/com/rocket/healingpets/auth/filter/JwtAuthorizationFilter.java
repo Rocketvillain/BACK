@@ -40,7 +40,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         List<String> roleLeessList = Arrays.asList(
-                "/auth/signup",             // 회원가입
+                // 토큰 사용하지 않아도 기능 수행할 수 있게 설정 ( 로그인해서 사용하는 기능은 안 써도 됨)
+                "/auth/signup",             // 일반 사용자 회원가입
+                "/auth/signup2",            // 병원 관리자 회원가입
                 "/swagger-ui/(.*)",        //swagger 설정
                 "/swagger-ui/index.html",  //swagger 설정
                 "/v3/api-docs",              //swagger 설정
@@ -51,12 +53,13 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/auth/verify-code",                 // email 인증하기
                 "/api/v1/reservation",               // 병원 진료 예약
                 "/api/v1/reservation/.*", // 에약 하위 경로
+                "/api/v1/user/.*",
                 "/api/v1/hospital",
                 "/auth/check-duplicate", // 중복 확인
                 "/auth/find-id", // ID찾기
                 "/auth/reset-password",  //비밀번호 변경
-                "/auth/request-reset-password" // 비밀번호 변경 요청
-//                "/api/v1/pets"
+                "/auth/request-reset-password", // 비밀번호 변경 요청
+               "auth/pet" // 회원가입 펫 등록
         );
 
         if(roleLeessList.stream().anyMatch(uri -> roleLeessList.stream().anyMatch(pattern -> Pattern.matches(pattern, request.getRequestURI())))){
