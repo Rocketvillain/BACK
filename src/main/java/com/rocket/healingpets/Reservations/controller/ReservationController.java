@@ -33,36 +33,26 @@ public class ReservationController {
     @GetMapping("")
     @Operation(summary = "예약 전체 조회")
     public ResponseEntity<ResponseMessage> findAllReservations() {
-        List<ReservationDTO> reservations = reservationService.findAllReservations()
-                .stream()
-                .map(reservation -> {
-                    ReservationDTO dto = new ReservationDTO();
-                    dto.setReservationId(reservation.getReservationId());
-
-                    // 유저 파트
-                    dto.setUserid(reservation.getUserid()); // 유저 아이디
-                    dto.setUserName(reservation.getUserName()); // 유저 이름
-                    dto.setUserEmail(reservation.getUserEmail()); // 이메일
-                    dto.setUserPhone(reservation.getUserPhone()); // 전화번호
-                    dto.setPetId(reservation.getPetId()); // 펫 id (추가)
-
-                    // 병원 파트
-                    dto.setHosName(reservation.getHosName()); // 병원 이름
-                    dto.setClinicName(reservation.getClinicName()); // 진료 유형
-                    dto.setDescription(reservation.getDescription()); // 설명
-                    dto.setSpecificDescription(reservation.getSpecificDescription()); // 상세 설명
-                    dto.setState(reservation.getState());
-                    dto.setReservationTime(reservation.getReservationTime());
-                    dto.setLastModifiedDate(reservation.getLastModifiedDate());
-                    return dto;
-                })
-                .collect(Collectors.toList());
+        List<ReservationDTO> reservations = reservationService.findAllReservations();
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservations", reservations);
 
         return ResponseEntity.ok()
                 .body(new ResponseMessage(HttpStatus.OK, "예약 전체 조회", responseMap));
+    }
+
+    // 특정 병원에 대한 예약 전체 조회하기
+    @GetMapping("hospital/{hosId}")
+    @Operation(summary = "특정 병원에 대한 예약 전체 조회하기")
+    public ResponseEntity<ResponseMessage> findReservationsByHosId(@PathVariable int hosId) {
+        List<ReservationDTO> reservations = reservationService.findReservationsByHosId(hosId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservations", reservations);
+
+        return ResponseEntity.ok()
+                .body(new ResponseMessage(HttpStatus.OK,hosId + "번 병원 예약 전체 조회", responseMap));
     }
 
     //예약 단일 조회

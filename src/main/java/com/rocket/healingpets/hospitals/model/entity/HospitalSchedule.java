@@ -5,9 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Table(name = "schedule")
@@ -46,12 +44,7 @@ public class HospitalSchedule {
     // 예약 가능 여부
     private Boolean isOkay;
 
-    @Column(name = "clinic_name", nullable = false)
-    // 진료 유형
-    private String clinicName;
-
-    @OneToMany(mappedBy = "hospitalSchedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    // 미진료 시간
-    private List<OffTime> offTime;
-
+    @Column(name = "lunch_time")
+    // 점심 시간(시작시간 기준)
+    private LocalTime lunchTime;
 }

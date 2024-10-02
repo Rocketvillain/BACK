@@ -5,6 +5,7 @@ import com.rocket.healingpets.hospitals.model.dto.HospitalSchedule.HospitalSched
 import com.rocket.healingpets.hospitals.model.dto.HospitalSchedule.UpdateHospitalScheduleDTO;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.hospitals.model.entity.HospitalSchedule;
+import com.rocket.healingpets.hospitals.repository.ClinicTypeRepository;
 import com.rocket.healingpets.hospitals.repository.HospitalRepository;
 import com.rocket.healingpets.hospitals.repository.HospitalScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class HospitalScheduleService {
 
     private final HospitalRepository hospitalRepository;
     private final HospitalScheduleRepository hospitalScheduleRepository;
+    private final ClinicTypeRepository clinicTypeRepository;
 
     // 전체 병원 일정 조회
     public List<HospitalScheduleDTO> findAllHospitalSchedule() {
@@ -39,8 +41,7 @@ public class HospitalScheduleService {
                         schedule.getStartTime(),
                         schedule.getEndTime(),
                         schedule.getIsOkay(),
-                        schedule.getClinicName(),
-                        schedule.getOffTime()
+                        schedule.getLunchTime()
                         )
                 )
                 .collect(Collectors.toList());
@@ -61,8 +62,7 @@ public class HospitalScheduleService {
                                 schedule.getStartTime(),
                                 schedule.getEndTime(),
                                 schedule.getIsOkay(),
-                                schedule.getClinicName(),
-                                schedule.getOffTime()
+                                schedule.getLunchTime()
                         )
                 )
                 .collect(Collectors.toList());
@@ -79,7 +79,7 @@ public class HospitalScheduleService {
                 .startTime(hospitalScheduleDTO.getStartTime())
                 .endTime(hospitalScheduleDTO.getEndTime())
                 .isOkay(hospitalScheduleDTO.getIsOkay())
-                .clinicName(hospitalScheduleDTO.getClinicName())
+                .lunchTime(hospitalScheduleDTO.getLunchTime())
                 .build();
 
         HospitalSchedule savedHospitalSchedule = hospitalScheduleRepository.save(hospitalSchedule);
@@ -90,7 +90,7 @@ public class HospitalScheduleService {
                 .startTime(savedHospitalSchedule.getStartTime())
                 .endTime(savedHospitalSchedule.getEndTime())
                 .isOkay(savedHospitalSchedule.getIsOkay())
-                .clinicName(savedHospitalSchedule.getClinicName())
+                .lunchTime(savedHospitalSchedule.getLunchTime())
                 .build();
     }
 
@@ -105,7 +105,7 @@ public class HospitalScheduleService {
                 .startTime(hospitalScheduleDTO.getStartTime())
                 .endTime(hospitalScheduleDTO.getEndTime())
                 .isOkay(hospitalScheduleDTO.getIsOkay())
-                .clinicName(hospitalScheduleDTO.getClinicName())
+                .lunchTime(hospitalScheduleDTO.getLunchTime())
                 .build();
 
         HospitalSchedule modifiedHospitalSchedule = hospitalScheduleRepository.save(hospitalSchedule);
@@ -115,7 +115,7 @@ public class HospitalScheduleService {
                 .startTime(modifiedHospitalSchedule.getStartTime())
                 .endTime(modifiedHospitalSchedule.getEndTime())
                 .isOkay(modifiedHospitalSchedule.getIsOkay())
-                .clinicName(modifiedHospitalSchedule.getClinicName())
+                .lunchTime(modifiedHospitalSchedule.getLunchTime())
                 .build();
     }
 

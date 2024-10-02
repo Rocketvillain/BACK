@@ -19,6 +19,6 @@ public class UpdateHospitalScheduleDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private Boolean isOkay = Boolean.TRUE;
-    private String clinicName;
+    private LocalTime lunchTime;
 
 }
