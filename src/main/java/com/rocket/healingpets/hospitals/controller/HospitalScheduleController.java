@@ -70,7 +70,6 @@ public class HospitalScheduleController {
     @Operation(summary = "병원 일정 등록")
     @PostMapping("")
     public ResponseEntity<ResponseMessage> registHospitalSchedule(@RequestBody CreateHospitalScheduleDTO hospitalScheduleDTO) {
-
         HospitalScheduleDTO savedHospitalSchedule = hospitalScheduleService.registHospitalSchedule(hospitalScheduleDTO);
 
         log.info("등록된 병원 일정 정보 : {}", savedHospitalSchedule);
@@ -88,6 +87,8 @@ public class HospitalScheduleController {
     public ResponseEntity<ResponseMessage> modifyHospitalSchedule(@PathVariable int scheduleId, @RequestBody UpdateHospitalScheduleDTO hospitalScheduleDTO) {
 
         HospitalScheduleDTO modifiedHospitalSchedule = hospitalScheduleService.modifyHospitalSchedule(scheduleId, hospitalScheduleDTO);
+
+        log.info("수정된 병원 일정 정보 : {}", modifiedHospitalSchedule);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("hospitalSchedule", modifiedHospitalSchedule);
