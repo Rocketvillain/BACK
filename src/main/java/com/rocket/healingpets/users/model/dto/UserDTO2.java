@@ -8,14 +8,14 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class UserDTO {
+public class UserDTO2 {
 
     private String userId;
-    private RoleType userRole = RoleType.ROLE_USER;
+    private RoleType userRole=RoleType.ROLE_HOSPITAL;
     private String name;
     private String email;
     private String userPwd;
     private String phone;
-    private CreatePetDTO2 petInfo; // 펫 정보
+    private CreateHospitalDTO2 hosInfo; // 펫 정보
 
 }

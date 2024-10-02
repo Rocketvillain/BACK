@@ -27,4 +27,5 @@ public class ClinicType {
     @Column(name = "clinic_name")
     // 진료 유형
     private String clinicName;
+
 }
