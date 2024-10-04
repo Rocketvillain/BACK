@@ -59,7 +59,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/auth/find-id", // ID찾기
                 "/auth/reset-password",  //비밀번호 변경
                 "/auth/request-reset-password", // 비밀번호 변경 요청
-               "auth/pet" // 회원가입 펫 등록
+               "/auth/pet" // 회원가입 펫 등록
+
         );
 
         if(roleLeessList.stream().anyMatch(uri -> roleLeessList.stream().anyMatch(pattern -> Pattern.matches(pattern, request.getRequestURI())))){
@@ -118,17 +119,20 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 throw new RuntimeException("토큰이 존재하지 않습니다.");
             }
         }catch (Exception e){
+            if (!response.isCommitted()) {
+                // 응답이 이미 커밋되지 않은 경우에만 응답 작성
 
-            // Exception 발생시 Exception 내용을 응답해준다.
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("application/json");
-            PrintWriter printWriter = response.getWriter();
+                // Exception 발생시 Exception 내용을 응답해준다.
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
+                PrintWriter printWriter = response.getWriter();
 
-            JSONObject jsonObject = jsonresponseWrapper(e);
+                JSONObject jsonObject = jsonresponseWrapper(e);
 
-            printWriter.print(jsonObject);
-            printWriter.flush();
-            printWriter.close();
+                printWriter.print(jsonObject);
+                printWriter.flush();
+                printWriter.close();
+            }
         }
     }
 
