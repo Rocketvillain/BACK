@@ -1,10 +1,20 @@
 package com.rocket.healingpets.users.service;
 
+import com.rocket.healingpets.hospitals.model.entity.ClinicType;
+import com.rocket.healingpets.hospitals.repository.ClinicTypeRepository;
+import com.rocket.healingpets.users.model.dto.HospitalDTO2;
+import com.rocket.healingpets.hospitals.model.entity.Hospital;
+import com.rocket.healingpets.users.model.dto.PetDTO2;
 import com.rocket.healingpets.users.model.dto.UserDTO;
+import com.rocket.healingpets.users.model.dto.UserDTO2;
+import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.RoleType;
 import com.rocket.healingpets.users.model.entitiy.User;
+import com.rocket.healingpets.users.repository.PetRepository;
 import com.rocket.healingpets.users.repository.UserRepository;
+import com.rocket.healingpets.hospitals.repository.HospitalRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +23,10 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,16 +39,23 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final MailService mailService;
+    private final PetRepository petRepository;
+    private final HospitalRepository hospitalRepository;
 
     @Autowired
     public AuthService(ModelMapper modelMapper,
                        PasswordEncoder passwordEncoder,
                        UserRepository userRepository,
-                       MailService mailService) {
+                       MailService mailService,
+                       PetRepository petRepository,
+                       HospitalRepository hospitalRepository
+                       ) {
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.mailService = mailService;
+        this.petRepository = petRepository;
+        this.hospitalRepository = hospitalRepository;
 
     }
 
@@ -56,6 +76,25 @@ public class AuthService {
 
         UserDTO responseUserDTO = modelMapper.map(savedUser, UserDTO.class);
         return responseUserDTO;
+    }
+
+    @Transactional
+    public UserDTO2 signup2(UserDTO2 userDTO2) {
+
+        // 비밀번호 암호화
+        userDTO2.setUserPwd(passwordEncoder.encode(userDTO2.getUserPwd()));
+
+        // 유저 역할
+        userDTO2.setUserRole(RoleType.ROLE_HOSPITAL);
+
+        // 데이터베이스에 저장하기 위해 DTO에 담긴 값을 Entity로 변경
+        User registUser2 = modelMapper.map(userDTO2, User.class);
+
+        // 저장
+        User savedUser2 = userRepository.save(registUser2);
+
+        UserDTO2 responseUserDTO2 = modelMapper.map(savedUser2, UserDTO2.class);
+        return responseUserDTO2;
     }
 
     // 인증번호 랜덤 설정
@@ -125,5 +164,59 @@ public class AuthService {
 
         return true;
 
+    }
+
+    // 회원가입 펫 등록
+    public PetDTO2 registerPet2(Pet pet){
+
+        // 펫 저장
+        Pet savedPet = petRepository.save(pet);
+
+        // 저장된 펫 정보를 PetDTO2로 반환
+        return new PetDTO2(savedPet.getPetId(),
+                savedPet.getPetName(), savedPet.getGender(),
+                savedPet.getWeight(), savedPet.getAge(),
+                savedPet.getSpecies(), savedPet.getKind(),savedPet.getUser().getUserId()
+        );
+    }
+
+    // 회원가입 병원 등록
+    public HospitalDTO2 registHospital(Hospital hospital) {
+
+        // 병원 저장
+        Hospital saveHos = hospitalRepository.save(hospital);
+
+        // clinicType 리스트 가져오기
+        List<String> clinicNames = saveHos.getClinicType().stream()
+                .map(ClinicType::getClinicName)
+                .collect(Collectors.toList());
+
+        return new HospitalDTO2(
+                saveHos.getHosId(),
+                saveHos.getName(),
+                saveHos.getAddress(),
+                saveHos.getOwnerName(),
+                saveHos.getBusinessNo(),
+                clinicNames,
+                saveHos.getUser().getUserId()
+                );
+    }
+
+    public User updateUser(User user) {
+        // 기존 유저를 데이터베이스에서 찾기
+        Optional<User> existingUserOpt = userRepository.findById(user.getUserId());
+
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+            // 필요한 필드 업데이트
+            existingUser.setEmail(user.getEmail());
+            existingUser.setHosId(user.getHosId());
+            // 추가적인 필드들 업데이트...
+
+            // 변경된 유저 정보 저장
+            return userRepository.save(existingUser);
+        } else {
+            throw new EntityNotFoundException("User not found with id: " + user.getUserId());
+        }
     }
 }

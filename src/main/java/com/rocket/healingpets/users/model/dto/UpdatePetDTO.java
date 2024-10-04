@@ -7,16 +7,15 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class PetDTO {
+
+public class UpdatePetDTO {
 
     private int petId;
-    private String userId;
-    private String petName;
+    private String name;
     private String gender;
     private String weight;
     private int age;
     private String species;
     private String kind;
-    private String Image;
 
 }
