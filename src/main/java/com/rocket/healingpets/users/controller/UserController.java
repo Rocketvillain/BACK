@@ -2,6 +2,7 @@ package com.rocket.healingpets.users.controller;
 
 import com.rocket.healingpets.common.ResponseMessage;
 import com.rocket.healingpets.users.model.dto.CreateUserDTO;
+import com.rocket.healingpets.users.model.dto.ReadUserDTO;
 import com.rocket.healingpets.users.model.dto.UpdateUserDTO;
 import com.rocket.healingpets.users.model.dto.UserDTO;
 import com.rocket.healingpets.users.model.entitiy.User;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -29,6 +31,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final ModelMapper modelMapper;
 
     //유저 전체 조회
     @Operation(summary = "유저 전체 조회")
@@ -52,8 +55,10 @@ public class UserController {
 
         User user = userService.findUserById(user_Id);
 
+        ReadUserDTO foundUser = modelMapper.map(user, ReadUserDTO.class);
+
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("user",user);
+        responseMap.put("user",foundUser);
 
         return ResponseEntity.ok()
                 .body(new ResponseMessage(HttpStatus.OK,"유저 단일 조회 성공",responseMap));
