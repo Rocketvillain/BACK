@@ -28,8 +28,7 @@ public class Hospital {
     // 병원 아이디
     private int hosId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(mappedBy = "hosId", cascade = CascadeType.ALL)
     // 사용자 아이디
     private User user;
 
