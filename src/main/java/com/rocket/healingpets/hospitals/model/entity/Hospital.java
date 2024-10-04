@@ -28,7 +28,7 @@ public class Hospital {
     // 병원 아이디
     private int hosId;
 
-    @OneToOne(mappedBy = "userId", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "hosId", cascade = CascadeType.ALL)
     // 사용자 아이디
     private User user;
 
