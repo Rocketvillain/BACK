@@ -29,6 +29,7 @@ public class Hospital {
     // 병원 아이디
     private int hosId;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "hosId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     // 사용자 아이디
     private User user;
