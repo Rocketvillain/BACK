@@ -89,6 +89,20 @@ public class UserController {
                 .body(new ResponseMessage(HttpStatus.OK, "유저 수정 성공", responseMap));
     }
 
+    // 유저 상태 수정
+    @Operation(summary = "유저 상태 수정")
+    @PutMapping("/{user_Id}/userState")
+    public ResponseEntity<ResponseMessage> modifyUserState(@PathVariable String user_Id) {
+
+        User user = userService.modifyUserState(user_Id);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("user",user);
+
+        return ResponseEntity.created(URI.create("/api/v1/user/" + user_Id))
+                .body(new ResponseMessage(HttpStatus.OK, "유저 수정 성공", responseMap));
+    }
+
     // 유저 삭제
     @Operation(summary = "유저 삭제")
     @DeleteMapping("/{user_Id}")

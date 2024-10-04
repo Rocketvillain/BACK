@@ -70,6 +70,6 @@ public class Hospital {
     // 마지막 수정일
     private LocalDate lastModifiedDate;
 
-    @OneToMany(mappedBy = "hosId",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hosId",cascade = CascadeType.ALL)
     private List<ClinicType> clinicType;
 }
