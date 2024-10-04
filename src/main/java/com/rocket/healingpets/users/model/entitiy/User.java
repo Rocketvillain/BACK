@@ -24,6 +24,7 @@ public class User {
     // 사용자 아이디
     private String userId;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hos_id")
     // 병원 고유번호(병원 관라지에게만 부여)
