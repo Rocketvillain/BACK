@@ -2,7 +2,6 @@ package com.rocket.healingpets.users.controller;
 
 import com.rocket.healingpets.common.ResponseMessage;
 import com.rocket.healingpets.users.model.dto.CreateUserDTO;
-import com.rocket.healingpets.users.model.dto.SelectUserDTO;
 import com.rocket.healingpets.users.model.dto.UpdateUserDTO;
 import com.rocket.healingpets.users.model.dto.UserDTO;
 import com.rocket.healingpets.users.model.entitiy.User;
@@ -18,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +81,20 @@ public class UserController {
     public ResponseEntity<ResponseMessage> modifyUser(@PathVariable String user_Id, @RequestBody UpdateUserDTO updateUserDTO) {
 
         User user = userService.updateUser(user_Id, updateUserDTO);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("user",user);
+
+        return ResponseEntity.created(URI.create("/api/v1/user/" + user_Id))
+                .body(new ResponseMessage(HttpStatus.OK, "유저 수정 성공", responseMap));
+    }
+
+    // 유저 상태 수정
+    @Operation(summary = "유저 상태 수정")
+    @PutMapping("/{user_Id}/userState")
+    public ResponseEntity<ResponseMessage> modifyUserState(@PathVariable String user_Id) {
+
+        User user = userService.modifyUserState(user_Id);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("user",user);

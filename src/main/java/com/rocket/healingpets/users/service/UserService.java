@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,6 +79,21 @@ public class UserService {
                 .phone(modifyInfo.getPhone())
                 .lastModifiedDate(LocalDate.now())
                 .userState(modifyInfo.getUserState())
+                .build();
+
+        System.out.println("UserService ===================> Update user Info : " + user);
+
+        return userRepository.save(user);
+    }
+
+    // 유저 상태 수정
+    public User modifyUserState(String userId) {
+
+        User user = userRepository.findById(userId).get();
+
+        user = user.toBuilder()
+                .userState("secession")
+                .lastModifiedDate(LocalDate.now())
                 .build();
 
         System.out.println("UserService ===================> Update user Info : " + user);
