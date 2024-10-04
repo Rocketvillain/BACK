@@ -1,5 +1,6 @@
 package com.rocket.healingpets.users.model.entitiy;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,9 +24,10 @@ public class User {
     // 사용자 아이디
     private String userId;
 
-    @Column(name = "hos_id")
+    @OneToOne
+    @JoinColumn(name = "hos_id")
     // 병원 고유번호(병원 관라지에게만 부여)
-    private Integer hosId; //null값
+    private Hospital hosId; //null값
 
     @Column(name = "pwd", nullable = false)
     // 비밀번호
