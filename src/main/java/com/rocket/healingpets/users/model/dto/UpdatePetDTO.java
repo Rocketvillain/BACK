@@ -11,7 +11,7 @@ import lombok.*;
 public class UpdatePetDTO {
 
     private int petId;
-    private String name;
+    private String petName;
     private String gender;
     private String weight;
     private int age;

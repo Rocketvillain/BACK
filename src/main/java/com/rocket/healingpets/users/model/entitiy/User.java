@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder(toBuilder = true)
-@ToString
+@ToString(exclude = "pets") // pets를 제외하여 무한 루프 방지
 public class User {
 
     @Id
@@ -24,7 +24,8 @@ public class User {
     // 사용자 아이디
     private String userId;
 
-    @OneToOne
+    @JsonIgnore
+    @OneToOne()
     @JoinColumn(name = "hos_id")
     // 병원 고유번호(병원 관라지에게만 부여)
     private Hospital hosId; //null값
