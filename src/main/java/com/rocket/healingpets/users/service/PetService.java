@@ -126,7 +126,7 @@ public class PetService {
                 .orElseThrow(() -> new RuntimeException("Pet not found"));
 
         // 펫 정보 수정
-        pet.setPetName(updatePetDTO.getName());
+        pet.setPetName(updatePetDTO.getPetName());
         pet.setGender(updatePetDTO.getGender());
         pet.setWeight(updatePetDTO.getWeight());
         pet.setAge(updatePetDTO.getAge());

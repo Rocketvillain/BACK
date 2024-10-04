@@ -1,5 +1,6 @@
 package com.rocket.healingpets.hospitals.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +20,7 @@ import java.util.List;
 @Setter
 @Builder(toBuilder = true)
 @EntityListeners(AuditingEntityListener.class)
-@ToString(exclude = "user")
+@ToString(exclude = "user") // user를 제외하여 무한 루프 방지
 public class Hospital {
 
     @Id
@@ -27,7 +28,6 @@ public class Hospital {
     @Column(name = "hos_id")
     // 병원 아이디
     private int hosId;
-
 
     @OneToOne(mappedBy = "hosId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     // 사용자 아이디
@@ -71,6 +71,6 @@ public class Hospital {
     // 마지막 수정일
     private LocalDate lastModifiedDate;
 
-    @OneToMany(mappedBy = "hosId",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "hosId",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ClinicType> clinicType;
 }
