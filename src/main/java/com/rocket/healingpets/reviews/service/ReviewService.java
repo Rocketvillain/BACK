@@ -57,7 +57,8 @@ public class ReviewService {
         reviewDTO.setUserName(review.getReservation().getUserId().getUserName());
         reviewDTO.setClinicName(review.getReservation().getClinicType().getClinicName());
 
-        reviewDTO.setHosName(review.getReservation().getHosId().getName());
+        reviewDTO.setName(review.getReservation().getHosId().getName());
+        reviewDTO.setAddress(review.getReservation().getHosId().getAddress());
 
         return reviewDTO;
 

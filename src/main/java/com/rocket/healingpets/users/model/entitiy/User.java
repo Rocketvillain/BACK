@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder(toBuilder = true)
-@ToString(exclude = "hosId")
+@ToString(exclude = "pets")
 public class User {
 
     @Id
