@@ -5,6 +5,7 @@ import com.rocket.healingpets.common.ResponseMessage;
 import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.hospitals.repository.ClinicTypeRepository;
+import com.rocket.healingpets.hospitals.service.HospitalService;
 import com.rocket.healingpets.users.model.dto.*;
 import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.User;
@@ -29,14 +30,16 @@ public class AuthController {
 
     private final AuthService authService;
     private final ClinicTypeRepository clinicTypeRepository;
+    private final HospitalService hospitalService;
     private UserRepository userRepository;
 
 
     @Autowired
-    public AuthController(AuthService authService, UserRepository userRepository, ClinicTypeRepository clinicTypeRepository) {
+    public AuthController(AuthService authService, UserRepository userRepository, ClinicTypeRepository clinicTypeRepository, HospitalService hospitalService) {
         this.authService = authService;
         this.userRepository = userRepository;
         this.clinicTypeRepository = clinicTypeRepository;
+        this.hospitalService = hospitalService;
     }
 
     // 회원가입 요청
@@ -113,8 +116,10 @@ public class AuthController {
             // 병원 등록
             HospitalDTO2 registeredHospital = authService.registHospital(hospital);
 
+            Hospital foundHospital = hospitalService.findHospitalById(registeredHospital.getHosId());
+
             // 병원 등록 후 hosId를 user와 clinicType에 설정
-            user.setHosId(registeredHospital.getHosId());
+            user.setHosId(foundHospital);
 
             // ClinicType에 hosId를 설정
             for(ClinicType clinicType : hospital.getClinicType()){
