@@ -72,6 +72,7 @@ public class UserService {
                 .email(modifyInfo.getEmail())
                 .phone(modifyInfo.getPhone())
                 .lastModifiedDate(LocalDate.now())
+                .userState(modifyInfo.getUserState())
                 .build();
 
         return userRepository.save(user);

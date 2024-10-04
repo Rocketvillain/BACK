@@ -19,5 +19,6 @@ public class UpdateUserDTO {
     private String name;
     private String email;
     private String phone;
+    private String userState = "activated";
     private LocalDate lastModifiedDate;
 }
