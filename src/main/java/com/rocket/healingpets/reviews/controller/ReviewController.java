@@ -26,6 +26,7 @@ import java.util.Map;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final ModelMapper modelMapper;
 
     @Operation(summary = "전체 리뷰 조회")
     @GetMapping("")
@@ -85,10 +86,12 @@ public class ReviewController {
         @PostMapping("")
         public ResponseEntity<ResponseMessage> createReview(@RequestParam int reservationId, @RequestBody CreateReviewDTO createReviewDTO) {
             // Review 생성
-            Review createdReview = reviewService.createReview(createReviewDTO, reservationId);
+            Review Review = reviewService.createReview(createReviewDTO, reservationId);
+
+            ReadReviewDTO createReview = modelMapper.map(Review,ReadReviewDTO.class);
 
             Map<String, Object> responseMap = new HashMap<>();
-            responseMap.put("review", createdReview);
+            responseMap.put("review", createReview);
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseMessage(HttpStatus.CREATED,
@@ -99,7 +102,9 @@ public class ReviewController {
         @Operation(summary = "리뷰 수정")
         @PutMapping("/{reviewId}")
         public ResponseEntity<ResponseMessage> modifyReview(@PathVariable int reviewId, @RequestBody CreateReviewDTO reviewDTO) {
-            Review updatedReview = reviewService.modifyReview(reviewId, reviewDTO);
+            Review Review = reviewService.modifyReview(reviewId, reviewDTO);
+
+            ReadReviewDTO updatedReview = modelMapper.map(Review, ReadReviewDTO.class);
 
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("review", updatedReview);
