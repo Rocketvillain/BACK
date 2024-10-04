@@ -80,7 +80,7 @@ public class ReviewController {
 //                .body(new ResponseMessage(HttpStatus.CREATED, "리뷰가 생성되었습니다.", responseMap));
 //    }
 
-        // 리뷰 작성
+        // 리뷰 등록(작성)
         @Operation(summary = "리뷰 등록(작성)")
         @PostMapping("")
         public ResponseEntity<ResponseMessage> createReview(@RequestParam int reservationId, @RequestBody CreateReviewDTO createReviewDTO) {
