@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @Builder(toBuilder = true)
 @EntityListeners(AuditingEntityListener.class)
-@ToString
+@ToString(exclude = "user")
 public class Hospital {
 
     @Id
@@ -28,7 +28,8 @@ public class Hospital {
     // 병원 아이디
     private int hosId;
 
-    @OneToOne(mappedBy = "hosId", cascade = CascadeType.ALL)
+
+    @OneToOne(mappedBy = "hosId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     // 사용자 아이디
     private User user;
 
