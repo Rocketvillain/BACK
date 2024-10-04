@@ -99,15 +99,6 @@ public class ReservationService {
         ClinicType clinicType = clinicTypeRepository.findById(createReservationDTO.getTypeId())
                 .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
 
-        // 예약 시간을 검증
-        LocalDateTime reservationTime = createReservationDTO.getReservationTime();
-        LocalDateTime startTime = LocalDateTime.of(reservationTime.toLocalDate(), LocalTime.of(10, 0)); // 오전 10시
-        LocalDateTime endTime = LocalDateTime.of(reservationTime.toLocalDate(), LocalTime.of(19, 0)); // 오후 7시
-
-        if (reservationTime.isBefore(startTime) || reservationTime.isAfter(endTime)) {
-            throw new IllegalArgumentException("예약 시간은 오전 10시부터 오후 7시 사이여야 합니다.");
-        }
-
         Reservation reservation = Reservation.builder()
                 .userId(user)
                 .hosId(hospital)
@@ -121,6 +112,7 @@ public class ReservationService {
         Reservation savedReservation = reservationsRepository.save(reservation);
 
         return ReservationDTO.builder()  // ReservationDTO로 반환
+                .reservationId((savedReservation.getReservationId()))
                 .userid(savedReservation.getUserId().getUserId())
                 .userName(savedReservation.getUserId().getUserName())
                 .userEmail(savedReservation.getUserId().getEmail())
