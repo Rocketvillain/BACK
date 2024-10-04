@@ -2,7 +2,6 @@ package com.rocket.healingpets.users.controller;
 
 import com.rocket.healingpets.common.ResponseMessage;
 import com.rocket.healingpets.users.model.dto.CreateUserDTO;
-import com.rocket.healingpets.users.model.dto.SelectUserDTO;
 import com.rocket.healingpets.users.model.dto.UpdateUserDTO;
 import com.rocket.healingpets.users.model.dto.UserDTO;
 import com.rocket.healingpets.users.model.entitiy.User;
@@ -18,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
