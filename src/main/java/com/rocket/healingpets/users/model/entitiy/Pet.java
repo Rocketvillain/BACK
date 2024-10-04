@@ -1,7 +1,11 @@
 package com.rocket.healingpets.users.model.entitiy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rocket.healingpets.Reservations.model.entity.Reservation;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "pet")
@@ -18,6 +22,7 @@ public class Pet {
     @Column(name = "pet_id")
     // 펫 고유 번호
     private int petId;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -51,5 +56,6 @@ public class Pet {
     @Column(name = "image")
     // 펫 이미지(이미지 파일 폴더 경로로 기입)
     private String image;
+
 
 }

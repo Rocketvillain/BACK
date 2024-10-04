@@ -6,12 +6,14 @@ import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.hospitals.repository.ClinicTypeRepository;
 import com.rocket.healingpets.hospitals.repository.HospitalRepository;
+import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.User;
 
 import com.rocket.healingpets.Reservations.model.dto.UpdateReservationDTO;
 import com.rocket.healingpets.Reservations.model.entity.Reservation;
 import com.rocket.healingpets.Reservations.repository.ReservationsRepository;
 import com.rocket.healingpets.common.ResponseMessage;
+import com.rocket.healingpets.users.repository.PetRepository;
 import com.rocket.healingpets.users.repository.UserRepository;
 import com.rocket.healingpets.users.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -39,13 +41,33 @@ public class ReservationService {
     private final HospitalRepository hospitalRepository;
     private final ClinicTypeRepository clinicTypeRepository;
     private final ModelMapper modelMapper;
+    private final PetRepository petRepository;
+
 
     // 예약 전체 조회
     public List<ReservationDTO> findAllReservations() {
         List<Reservation> allReservation = reservationsRepository.findAll();
 
         return allReservation.stream()
-                .map(reservation -> modelMapper.map(reservation, ReservationDTO.class))
+                .map(reservation -> {
+                    ReservationDTO reservationDTO = new ReservationDTO();
+                    reservationDTO.setReservationId(reservation.getReservationId());
+                    reservationDTO.setUserid(reservation.getUserId().getUserId());
+                    reservationDTO.setUserName(reservation.getUserId().getUserName());
+                    reservationDTO.setUserEmail(reservation.getUserId().getEmail());
+                    reservationDTO.setUserPhone(reservation.getUserId().getPhone());
+                    reservationDTO.setPetId(reservation.getPetId().getPetId()); // 추가 petId
+                    reservationDTO.setPetName(reservation.getPetId().getPetName());
+                    reservationDTO.setHosName(reservation.getHosId().getName());
+                    reservationDTO.setClinicName(reservation.getClinicType().getClinicName());
+                    reservationDTO.setDescription(reservation.getDescription());
+                    reservationDTO.setSpecificDescription(reservation.getSpecificDescription());
+                    reservationDTO.setState(reservation.getState());
+                    reservationDTO.setReservationTime(reservation.getReservationTime());
+                    reservationDTO.setLastModifiedDate(reservation.getLastModifiedDate());
+
+                    return reservationDTO;
+                })
                 .collect(Collectors.toList());
 
     }
@@ -56,7 +78,25 @@ public class ReservationService {
         List<Reservation> foundReservations = reservationsRepository.findReservationsByHosId(foundHospital);
 
         return foundReservations.stream()
-                .map(reservation -> modelMapper.map(reservation, ReservationDTO.class))
+                .map(reservation -> {
+                    ReservationDTO reservationDTO = new ReservationDTO();
+                    reservationDTO.setReservationId(reservation.getReservationId());
+                    reservationDTO.setUserid(reservation.getUserId().getUserId());
+                    reservationDTO.setUserName(reservation.getUserId().getUserName());
+                    reservationDTO.setUserEmail(reservation.getUserId().getEmail());
+                    reservationDTO.setUserPhone(reservation.getUserId().getPhone());
+                    reservationDTO.setPetId(reservation.getPetId().getPetId()); // 추가 petId
+                    reservationDTO.setPetName(reservation.getPetId().getPetName());
+                    reservationDTO.setHosName(reservation.getHosId().getName());
+                    reservationDTO.setClinicName(reservation.getClinicType().getClinicName());
+                    reservationDTO.setDescription(reservation.getDescription());
+                    reservationDTO.setSpecificDescription(reservation.getSpecificDescription());
+                    reservationDTO.setState(reservation.getState());
+                    reservationDTO.setReservationTime(reservation.getReservationTime());
+                    reservationDTO.setLastModifiedDate(reservation.getLastModifiedDate());
+
+                    return reservationDTO;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -71,7 +111,8 @@ public class ReservationService {
         reservationDTO.setUserName(reservation.getUserId().getUserName());
         reservationDTO.setUserEmail(reservation.getUserId().getEmail());
         reservationDTO.setUserPhone(reservation.getUserId().getPhone());
-        reservationDTO.setPetId(reservation.getPetId()); // 추가 petId
+        reservationDTO.setPetId(reservation.getPetId().getPetId()); // 추가 petId
+        reservationDTO.setPetName(reservation.getPetId().getPetName());
         reservationDTO.setHosName(reservation.getHosId().getName());
         reservationDTO.setClinicName(reservation.getClinicType().getClinicName());
         reservationDTO.setDescription(reservation.getDescription());
@@ -99,11 +140,14 @@ public class ReservationService {
         ClinicType clinicType = clinicTypeRepository.findById(createReservationDTO.getTypeId())
                 .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
 
+        // Pet 객체를 조회
+        Pet pet = petRepository.findById(createReservationDTO.getPetId()).get();
+
         Reservation reservation = Reservation.builder()
                 .userId(user)
                 .hosId(hospital)
                 .clinicType(clinicType)
-                .petId(createReservationDTO.getPetId()) // 추가 펫ID
+                .petId(pet) // 추가 펫ID
                 .description(createReservationDTO.getDescription()) // DTO에서 description 가져오기
                 .specificDescription(createReservationDTO.getSpecificDescription()) // DTO에서 specificDescription 가져오기
                 .reservationTime(createReservationDTO.getReservationTime()) // 예약 날짜 추가
@@ -117,7 +161,8 @@ public class ReservationService {
                 .userName(savedReservation.getUserId().getUserName())
                 .userEmail(savedReservation.getUserId().getEmail())
                 .userPhone(savedReservation.getUserId().getPhone())
-                .petId(savedReservation.getPetId())
+                .petId(savedReservation.getPetId().getPetId())
+                .petName(savedReservation.getPetId().getPetName())
                 .hosName(savedReservation.getHosId().getName())
                 .clinicName(savedReservation.getClinicType().getClinicName())
                 .description(savedReservation.getDescription())
