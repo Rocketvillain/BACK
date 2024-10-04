@@ -66,14 +66,17 @@ public class UserService {
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new EntityNotFoundException("유저 정보를 찾을 수 없습니다.user_id:" + user_id));
 
+        System.out.println("UserService ===================> modify user Info : " + modifyInfo);
+
         user = user.toBuilder()
-                .userId(modifyInfo.getUserId())
                 .userName(modifyInfo.getName())
                 .email(modifyInfo.getEmail())
                 .phone(modifyInfo.getPhone())
                 .lastModifiedDate(LocalDate.now())
                 .userState(modifyInfo.getUserState())
                 .build();
+
+        System.out.println("UserService ===================> Update user Info : " + user);
 
         return userRepository.save(user);
     }
