@@ -18,7 +18,7 @@ public class ReservationDTO {
     private int reservationId; // 예약 아이디
 
     // 유저 파트
-    private String userid; // 유저 아이디
+    private String userId; // 유저 아이디
     private String userName; // 유저 이름
     private String userEmail; // 이메일
     private String userPhone; // 전화번호

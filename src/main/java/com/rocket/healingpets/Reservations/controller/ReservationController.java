@@ -1,5 +1,6 @@
 package com.rocket.healingpets.Reservations.controller;
 
+import com.rocket.healingpets.Reservations.model.dto.CancelReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.CreateReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.ReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.UpdateReservationDTO;
@@ -93,6 +94,20 @@ public class ReservationController {
     public ResponseEntity<ResponseMessage> modifyReservation (@PathVariable int reservation_id, @RequestBody UpdateReservationDTO updateReservationDTO){
 
         ReservationDTO modifiedReservation = reservationService.updateReservations(reservation_id, updateReservationDTO);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservation", modifiedReservation);
+
+        return ResponseEntity.created(URI.create("/entity/Reservation/" + reservation_id))
+                .body(new ResponseMessage(HttpStatus.OK,"예약 수정 성공",responseMap));
+    }
+
+    //예약 수정 (취소 상태만 반영)
+    @PutMapping("{reservation_id}")
+    @Operation(summary = "예약 수정")
+    public ResponseEntity<ResponseMessage> modifyReservationStatus (@PathVariable int reservation_id, @RequestBody CancelReservationDTO reservationDTO){
+
+        ReservationDTO modifiedReservation = reservationService.updateReservationStatus(reservation_id, reservationDTO);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservation", modifiedReservation);

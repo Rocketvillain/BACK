@@ -1,5 +1,6 @@
 package com.rocket.healingpets.Reservations.service;
 
+import com.rocket.healingpets.Reservations.model.dto.CancelReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.CreateReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.ReservationDTO;
 import com.rocket.healingpets.hospitals.model.entity.ClinicType;
@@ -52,7 +53,7 @@ public class ReservationService {
                 .map(reservation -> {
                     ReservationDTO reservationDTO = new ReservationDTO();
                     reservationDTO.setReservationId(reservation.getReservationId());
-                    reservationDTO.setUserid(reservation.getUserId().getUserId());
+                    reservationDTO.setUserId(reservation.getUserId().getUserId());
                     reservationDTO.setUserName(reservation.getUserId().getUserName());
                     reservationDTO.setUserEmail(reservation.getUserId().getEmail());
                     reservationDTO.setUserPhone(reservation.getUserId().getPhone());
@@ -81,7 +82,7 @@ public class ReservationService {
                 .map(reservation -> {
                     ReservationDTO reservationDTO = new ReservationDTO();
                     reservationDTO.setReservationId(reservation.getReservationId());
-                    reservationDTO.setUserid(reservation.getUserId().getUserId());
+                    reservationDTO.setUserId(reservation.getUserId().getUserId());
                     reservationDTO.setUserName(reservation.getUserId().getUserName());
                     reservationDTO.setUserEmail(reservation.getUserId().getEmail());
                     reservationDTO.setUserPhone(reservation.getUserId().getPhone());
@@ -107,7 +108,7 @@ public class ReservationService {
 
         ReservationDTO reservationDTO = new ReservationDTO();
         reservationDTO.setReservationId(reservation.getReservationId());
-        reservationDTO.setUserid(reservation.getUserId().getUserId());
+        reservationDTO.setUserId(reservation.getUserId().getUserId());
         reservationDTO.setUserName(reservation.getUserId().getUserName());
         reservationDTO.setUserEmail(reservation.getUserId().getEmail());
         reservationDTO.setUserPhone(reservation.getUserId().getPhone());
@@ -157,7 +158,7 @@ public class ReservationService {
 
         return ReservationDTO.builder()  // ReservationDTO로 반환
                 .reservationId((savedReservation.getReservationId()))
-                .userid(savedReservation.getUserId().getUserId())
+                .userId(savedReservation.getUserId().getUserId())
                 .userName(savedReservation.getUserId().getUserName())
                 .userEmail(savedReservation.getUserId().getEmail())
                 .userPhone(savedReservation.getUserId().getPhone())
@@ -185,14 +186,6 @@ public class ReservationService {
         ClinicType clinicType = clinicTypeRepository.findById(updateReservationDTO.getTypeId())
                 .orElseThrow(() -> new EntityNotFoundException("진료 유형을 찾을 수 없습니다."));
 
-        // 예약 시간을 검증
-        LocalDateTime reservationTime = updateReservationDTO.getReservationTime();
-        LocalDateTime startTime = LocalDateTime.of(reservationTime.toLocalDate(), LocalTime.of(10, 0)); // 오전 10시
-        LocalDateTime endTime = LocalDateTime.of(reservationTime.toLocalDate(), LocalTime.of(19, 0)); // 오후 7시
-
-        if (reservationTime.isBefore(startTime) || reservationTime.isAfter(endTime)) {
-            throw new IllegalArgumentException("예약 시간은 오전 10시부터 오후 7시 사이여야 합니다.");
-        }
 
         reservation  = reservation.toBuilder()
 
@@ -216,10 +209,33 @@ public class ReservationService {
                 .build();
     }
 
+    //예약 수정 (취소 상태만 반영)
+    public ReservationDTO updateReservationStatus(int reservationId, CancelReservationDTO reservationDTO) {
+
+        Reservation foundReservation = reservationsRepository.findById(reservationId).get();
+
+        foundReservation = foundReservation.toBuilder()
+                .state(reservationDTO.getState())
+                .description((reservationDTO.getDescription()))
+                .build();
+
+        Reservation modifiedReservation = reservationsRepository.save(foundReservation);
+
+        return ReservationDTO.builder()
+                .reservationId(reservationId)
+                .hosName(modifiedReservation.getHosId().getName())
+                .clinicName(modifiedReservation.getClinicType().getClinicName())
+                .description(modifiedReservation.getDescription())
+                .specificDescription(modifiedReservation.getSpecificDescription())
+                .reservationTime(modifiedReservation.getReservationTime())
+                .lastModifiedDate(modifiedReservation.getLastModifiedDate())
+                .state(foundReservation.getState())
+                .build();
+    }
+
     // 예약 삭제
     public void deleteReservationById(int reservation_id){
 
         reservationsRepository.deleteById(reservation_id);
     }
-
 }
