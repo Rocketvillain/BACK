@@ -2,6 +2,7 @@ package com.rocket.healingpets.Reservations.model.entity;
 
 import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
+import com.rocket.healingpets.reviews.model.entity.Review;
 import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
@@ -62,6 +63,9 @@ public class Reservation {
     @Column(name = "state")
     // 예약 상태(승인/취소/완료)
     private String state = "activatied";
+
+    @OneToOne(mappedBy = "reservation")
+    private Review review;
 
     @Column(name = "created_date")
     @CreatedDate
