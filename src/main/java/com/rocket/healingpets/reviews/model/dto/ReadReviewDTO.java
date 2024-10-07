@@ -19,6 +19,8 @@ public class ReadReviewDTO {
     private int reviewId;
 
     // 예약
+    private int hosId;
+    private String address;
     private String userId;
     private String userName;
     private String hosName;

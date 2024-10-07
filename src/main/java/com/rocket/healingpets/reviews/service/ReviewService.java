@@ -65,7 +65,9 @@ public class ReviewService {
                         // 예약 정보에서 병원 정보 설정 (null이 아닌 경우만 설정)
                         Hospital hospital = reservation.getHosId();
                         if (hospital != null) {
+                            readReviewDTO.setHosId(hospital.getHosId()); // 병원 아이디
                             readReviewDTO.setHosName(hospital.getName()); // 병원 이름
+                            readReviewDTO.setAddress(hospital.getAddress()); //병원 주소
                         }
 
                         // 예약 정보에서 진료 유형 설정 (null이 아닌 경우만 설정)
