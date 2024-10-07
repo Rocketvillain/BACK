@@ -2,6 +2,8 @@ package com.rocket.healingpets.reviews.service;
 
 import com.rocket.healingpets.Reservations.model.entity.Reservation;
 import com.rocket.healingpets.Reservations.repository.ReservationsRepository;
+import com.rocket.healingpets.hospitals.model.entity.Hospital;
+import com.rocket.healingpets.hospitals.repository.HospitalRepository;
 import com.rocket.healingpets.reviews.model.dto.CreateReviewDTO;
 import com.rocket.healingpets.reviews.model.dto.ReadReviewDTO;
 import com.rocket.healingpets.reviews.model.dto.ReviewDTO;
@@ -27,6 +29,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReservationsRepository reservationsRepository;
     private final ModelMapper modelMapper;
+    private final HospitalRepository hospitalRepository;
     // 필터링할 단어 목록
     private List<String> inappropriateWords = Arrays.asList(
             "바보", "멍청이", "존나", "꺼져", "쓰레기", "개새끼", "시발", "병신", "좆", "지랄",
@@ -70,6 +73,27 @@ public class ReviewService {
 
         return reviewDTO;
 
+    }
+
+    // 병원 아이디로 해당 리뷰 조회
+    public List<ReviewDTO> findReviewByHosId(int hosId) {
+        List<Review> foundReviews = reviewRepository.findReviewsByHosId(hosId);
+
+        return foundReviews.stream()
+                .map(review -> {
+                    ReviewDTO reviewDTO = new ReviewDTO();
+                    reviewDTO.setReviewId(review.getReviewId());
+                    reviewDTO.setContent(review.getContent());
+                    reviewDTO.setReportState(review.getReportState());
+                    reviewDTO.setCreatedDate(review.getCreatedDate());
+                    reviewDTO.setLastModifiedDate(review.getLastModifiedDate());
+                    reviewDTO.setReservationId(review.getReservation().getReservationId());
+                    reviewDTO.setUserid(review.getReservation().getUserId().getUserId());
+                    reviewDTO.setUserName(review.getReservation().getUserId().getUserName());
+                    reviewDTO.setClinicName(review.getReservation().getClinicType().getClinicName());
+                    reviewDTO.setHosName(review.getReservation().getHosId().getName());
+                    return reviewDTO;
+                }).collect(Collectors.toList());
     }
 
     // 리뷰 등록
@@ -126,4 +150,5 @@ public class ReviewService {
 
         reviewRepository.delete(review);
     }
+
 }
