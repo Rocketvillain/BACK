@@ -16,13 +16,6 @@ public class ReadReviewDTO {
     private String reportState;
     private LocalDate createdDate;
     private LocalDate lastModifiedDate;
-    private int reviewId;
+    private Reservation reservation;
 
-    // 예약
-    private int hosId;
-    private String address;
-    private String userId;
-    private String userName;
-    private String hosName;
-    private String clinicName;
 }

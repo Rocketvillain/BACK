@@ -1,5 +1,6 @@
 package com.rocket.healingpets.Reservations.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.reviews.model.entity.Review;
@@ -65,6 +66,7 @@ public class Reservation {
     private String state = "activatied";
 
     @OneToOne(mappedBy = "reservation")
+    @JsonIgnore
     private Review review;
 
     @Column(name = "created_date")
