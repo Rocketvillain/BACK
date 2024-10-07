@@ -2,11 +2,14 @@ package com.rocket.healingpets.reviews.service;
 
 import com.rocket.healingpets.Reservations.model.entity.Reservation;
 import com.rocket.healingpets.Reservations.repository.ReservationsRepository;
+import com.rocket.healingpets.hospitals.model.entity.ClinicType;
+import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.reviews.model.dto.CreateReviewDTO;
 import com.rocket.healingpets.reviews.model.dto.ReadReviewDTO;
 import com.rocket.healingpets.reviews.model.dto.ReviewDTO;
 import com.rocket.healingpets.reviews.model.entity.Review;
 import com.rocket.healingpets.reviews.repository.ReviewRepository;
+import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +45,38 @@ public class ReviewService {
         List<Review> allReview = reviewRepository.findAll();
 
         return allReview.stream()
-                .map(review -> modelMapper.map(review, ReadReviewDTO.class))
+                .map(review -> {
+                    ReadReviewDTO readReviewDTO = new ReadReviewDTO();
+                    readReviewDTO.setContent(review.getContent());
+                    readReviewDTO.setCreatedDate(review.getCreatedDate());
+                    readReviewDTO.setLastModifiedDate(review.getLastModifiedDate());
+                    readReviewDTO.setReviewId(review.getReviewId());
+                    Reservation reservation = review.getReservation();
+
+                    if (reservation != null) {
+
+                        // 예약 정보에서 유저 정보 설정 (null이 아닌 경우만 설정)
+                        User user = reservation.getUserId();
+                        if (user != null) {
+                            readReviewDTO.setUserId(user.getUserId()); // 유저 아이디
+                            readReviewDTO.setUserName(user.getUserName()); // 유저 이름
+                        }
+
+                        // 예약 정보에서 병원 정보 설정 (null이 아닌 경우만 설정)
+                        Hospital hospital = reservation.getHosId();
+                        if (hospital != null) {
+                            readReviewDTO.setHosName(hospital.getName()); // 병원 이름
+                        }
+
+                        // 예약 정보에서 진료 유형 설정 (null이 아닌 경우만 설정)
+                        ClinicType clinicType = reservation.getClinicType();
+                        if (clinicType != null) {
+                            readReviewDTO.setClinicName(clinicType.getClinicName()); // 진료 유형 이름
+                        }
+
+                    }
+                    return readReviewDTO;
+                })
                 .collect(Collectors.toList());
     }
 
