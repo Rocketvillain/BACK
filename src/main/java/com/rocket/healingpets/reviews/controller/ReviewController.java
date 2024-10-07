@@ -87,6 +87,25 @@ public class ReviewController {
 
     }
 
+    @Operation(summary = "병원 아이디로 리뷰 전체 조회")
+    @GetMapping("/hospital/{hosId}")
+    public ResponseEntity<ResponseMessage> findReviewByHosId(@PathVariable int hosId){
+
+        List<ReviewDTO> review = reviewService.findReviewByHosId(hosId);
+
+        log.info("조회된 리뷰 정보 : {}", review);
+
+        Map<String, Object> responseMap = new HashMap<>();
+
+        responseMap.put("review", review);
+
+        return ResponseEntity.ok()
+                .body(
+                        new ResponseMessage(HttpStatus.OK,
+                                hosId + "번 병원의 모든 리뷰 정보를 불러옵니다...", responseMap));
+
+    }
+
 //    // 리뷰 작성
 //    @Operation(summary = "리뷰 등록(작성)")
 //    @PostMapping("")
