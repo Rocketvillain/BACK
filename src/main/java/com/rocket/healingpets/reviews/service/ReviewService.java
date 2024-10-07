@@ -132,7 +132,7 @@ public class ReviewService {
                     reviewDTO.setCreatedDate(review.getCreatedDate());
                     reviewDTO.setLastModifiedDate(review.getLastModifiedDate());
                     reviewDTO.setReservationId(review.getReservation().getReservationId());
-                    reviewDTO.setUserid(review.getReservation().getUserId().getUserId());
+                    reviewDTO.setUserId(review.getReservation().getUserId().getUserId());
                     reviewDTO.setUserName(review.getReservation().getUserId().getUserName());
                     reviewDTO.setClinicName(review.getReservation().getClinicType().getClinicName());
                     reviewDTO.setHosName(review.getReservation().getHosId().getName());
