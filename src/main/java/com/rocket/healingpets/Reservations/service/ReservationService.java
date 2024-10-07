@@ -101,6 +101,33 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
+    public List<ReservationDTO> findReservationsByUserId(String userId) {
+        User foundUser = userRepository.findById(userId).get();
+        List<Reservation> foundReservations = reservationsRepository.findReservationsByUserId(foundUser);
+
+        return foundReservations.stream()
+                .map(reservation -> {
+                    ReservationDTO reservationDTO = new ReservationDTO();
+                    reservationDTO.setReservationId(reservation.getReservationId());
+                    reservationDTO.setUserId(reservation.getUserId().getUserId());
+                    reservationDTO.setUserName(reservation.getUserId().getUserName());
+                    reservationDTO.setUserEmail(reservation.getUserId().getEmail());
+                    reservationDTO.setUserPhone(reservation.getUserId().getPhone());
+                    reservationDTO.setPetId(reservation.getPetId().getPetId());
+                    reservationDTO.setPetName(reservation.getPetId().getPetName());
+                    reservationDTO.setHosName(reservation.getHosId().getName());
+                    reservationDTO.setClinicName(reservation.getClinicType().getClinicName());
+                    reservationDTO.setDescription(reservation.getDescription());
+                    reservationDTO.setSpecificDescription(reservation.getSpecificDescription());
+                    reservationDTO.setState(reservation.getState());
+                    reservationDTO.setReservationTime(reservation.getReservationTime());
+                    reservationDTO.setLastModifiedDate(reservation.getLastModifiedDate());
+
+                    return reservationDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
     // 예약 단일 조회
     public ReservationDTO findReservationById(String reservation_id) {
         Reservation reservation = reservationsRepository.findById(Integer.valueOf(reservation_id))
@@ -152,6 +179,7 @@ public class ReservationService {
                 .description(createReservationDTO.getDescription()) // DTO에서 description 가져오기
                 .specificDescription(createReservationDTO.getSpecificDescription()) // DTO에서 specificDescription 가져오기
                 .reservationTime(createReservationDTO.getReservationTime()) // 예약 날짜 추가
+                .state("activated")
                 .build();
 
         Reservation savedReservation = reservationsRepository.save(reservation);
@@ -238,4 +266,6 @@ public class ReservationService {
 
         reservationsRepository.deleteById(reservation_id);
     }
+
+
 }
