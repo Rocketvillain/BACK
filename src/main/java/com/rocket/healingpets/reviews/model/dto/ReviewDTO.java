@@ -22,11 +22,13 @@ public class ReviewDTO {
     private int reservationId;
 
     // 유저 엔티티
-    private String userid; // 유저 아이디
+    private String userId; // 유저 아이디
     private String userName; // 유저 이름
 
     // 병원 엔티티
     private String clinicName; //진료 유형
     private String hosName; // 예약 대상 병원
+    private String address; // 병원 주소
+    private int hosId; // 병원 아이디
 
 }
