@@ -109,6 +109,7 @@ public class ReviewService {
         reviewDTO.setUserName(review.getReservation().getUserId().getUserName());
         reviewDTO.setClinicName(review.getReservation().getClinicType().getClinicName());
 
+        reviewDTO.setHosId(review.getReservation().getHosId().getHosId());
         reviewDTO.setHosName(review.getReservation().getHosId().getName());
 
         return reviewDTO;
