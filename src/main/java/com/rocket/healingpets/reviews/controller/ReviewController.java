@@ -48,6 +48,26 @@ public class ReviewController {
                 ));
     }
 
+    @Operation(summary = "전체 리뷰 조회(하나씩)")
+    @GetMapping("/one")
+    public ResponseEntity<ResponseMessage> findAllReview2(){
+        List<ReviewDTO> allReview = reviewService.findAllReview2();
+
+        log.info("조회된 전체 리뷰 정보 : {}", allReview);
+
+        Map<String, Object> responsMap = new HashMap<>();
+        responsMap.put("review", allReview);
+
+        log.info(responsMap.toString());
+
+        return ResponseEntity.ok()
+                .body(new ResponseMessage(
+                        HttpStatus.OK,
+                        "전체 리뷰 목록",
+                        responsMap
+                ));
+    }
+
     @Operation(summary = "리뷰 아이디로 해당 리뷰 조회")
     @GetMapping("/{reviewId}")
     public ResponseEntity<ResponseMessage> findReviewById(@PathVariable int reviewId){
