@@ -7,6 +7,8 @@ import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import com.rocket.healingpets.hospitals.repository.ClinicTypeRepository;
 import com.rocket.healingpets.hospitals.repository.HospitalRepository;
+import com.rocket.healingpets.reviews.model.entity.Review;
+import com.rocket.healingpets.reviews.repository.ReviewRepository;
 import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.User;
 
@@ -43,6 +45,7 @@ public class ReservationService {
     private final ClinicTypeRepository clinicTypeRepository;
     private final ModelMapper modelMapper;
     private final PetRepository petRepository;
+    private final ReviewRepository reviewRepository;
 
 
     // 예약 전체 조회
@@ -105,6 +108,7 @@ public class ReservationService {
         User foundUser = userRepository.findById(userId).get();
         List<Reservation> foundReservations = reservationsRepository.findReservationsByUserId(foundUser);
 
+
         return foundReservations.stream()
                 .map(reservation -> {
                     ReservationDTO reservationDTO = new ReservationDTO();
@@ -122,6 +126,8 @@ public class ReservationService {
                     reservationDTO.setState(reservation.getState());
                     reservationDTO.setReservationTime(reservation.getReservationTime());
                     reservationDTO.setLastModifiedDate(reservation.getLastModifiedDate());
+                    Review foundReview = reviewRepository.findByReservation(reservation);
+                    reservationDTO.setReview(foundReview);
 
                     return reservationDTO;
                 })

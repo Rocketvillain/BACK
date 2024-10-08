@@ -59,9 +59,11 @@ public class ReviewService {
                 .map(review -> {
                     ReviewDTO reviewDTO = new ReviewDTO();
                     reviewDTO.setContent(review.getContent());
+                    reviewDTO.setReservationId(review.getReservation().getReservationId());
                     reviewDTO.setCreatedDate(review.getCreatedDate());
                     reviewDTO.setLastModifiedDate(review.getLastModifiedDate());
                     reviewDTO.setReviewId(review.getReviewId());
+                    reviewDTO.setReservationTime(review.getReservation().getReservationTime());
                     Reservation reservation = review.getReservation();
 
                     if (reservation != null) {
