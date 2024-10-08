@@ -2,9 +2,9 @@ use villaindb;
 
 /* ======================================   유저 더미 데이터 ====================================== */
 INSERT INTO user (user_id, user_role, name, email, phone,hos_id,pwd,user_state,created_date,last_modified_date) VALUES
-                                                              ('admin01','ROLE_ADMIN','관리자01','admin01@gmail.com','070-1111-1111',null,'$2a$10$hRzf2HYBzRKiWK1A3XVglOOko6tF3hoJy9Eob9YLf','activated','2019-02-12','2024-09-11'), /*qwer1234!*/
-                                                              ('admin02','ROLE_ADMIN','관리자02','admin02@gmail.com','070-2222-2222',null,'$2a$10$hRzf2HYBzRKiWK1A3XVglOOko6tF3hoJy9Eob9YLf','activated','2019-04-12','2024-09-11'),
-                                                              ('admin03','ROLE_ADMIN','관리자03','admin03@gmail.com','070-3333-3333',null,'$2a$10$hRzf2HYBzRKiWK1A3XVglOOko6tF3hoJy9Eob9YLf','activated','2019-08-12','2024-09-11'),
+                                                              ('admin01','ROLE_ADMIN','관리자01','admin01@gmail.com','070-1111-1111',null,'$2a$10$Jsgl12XbZ6Bk.DOZJIhwOe55gGJgeAnKIqLZnZj/wMGqDliajuUdi ','activated','2019-02-12','2024-09-11'), /*qwer1234!*/
+                                                              ('admin02','ROLE_ADMIN','관리자02','admin02@gmail.com','070-2222-2222',null,'$2a$10$Jsgl12XbZ6Bk.DOZJIhwOe55gGJgeAnKIqLZnZj/wMGqDliajuUdi ','activated','2019-04-12','2024-09-11'),
+                                                              ('admin03','ROLE_ADMIN','관리자03','admin03@gmail.com','070-3333-3333',null,'$2a$10$Jsgl12XbZ6Bk.DOZJIhwOe55gGJgeAnKIqLZnZj/wMGqDliajuUdi ','activated','2019-08-12','2024-09-11'),
                                                               ('hospital01','ROLE_HOSPITAL','병원관리자01','hospital01@gmail','02-1111-1111',1,'$2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie','activated','2020-01-12','2024-09-11'),/* 1q2w3e4r! */
                                                               ('hospital02','ROLE_HOSPITAL','병원관리자02','hospital02@gmail','02-1111-2222',2,'$2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie','activated','2020-02-12','2024-09-11'),
                                                               ('hospital03','ROLE_HOSPITAL','병원관리자03','hospital03@gmail','02-1111-3333',3,'$2a$10$QXuk3EDI8V2nYq5rDhMzDu0lWrPd37k/AP.DYxYUjuIutsGQlnKie','activated','2020-03-12','2024-09-11'),

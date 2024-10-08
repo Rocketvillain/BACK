@@ -59,7 +59,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 "/auth/find-id", // ID찾기
                 "/auth/reset-password",  //비밀번호 변경
                 "/auth/request-reset-password", // 비밀번호 변경 요청
-               "auth/pet" // 회원가입 펫 등록
+                "/uploads/(.*)"
+
         );
 
         if(roleLeessList.stream().anyMatch(uri -> roleLeessList.stream().anyMatch(pattern -> Pattern.matches(pattern, request.getRequestURI())))){
