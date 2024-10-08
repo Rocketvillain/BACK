@@ -52,14 +52,16 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    // 리뷰 전체 조회(하나씩)
+    // 리뷰 전체 조회(하나씩) + 클린봇 적용
     public List<ReviewDTO> findAllReview2() {
         List<Review> allReview = reviewRepository.findAll();
 
         return allReview.stream()
                 .map(review -> {
                     ReviewDTO reviewDTO = new ReviewDTO();
-                    reviewDTO.setContent(review.getContent());
+                    reviewDTO.setContent(checkBadContent(review.getContent())
+                            ? "해당 후기는 클린봇에 의해 가려진 게시글입니다."
+                            : review.getContent());
                     reviewDTO.setCreatedDate(review.getCreatedDate());
                     reviewDTO.setLastModifiedDate(review.getLastModifiedDate());
                     reviewDTO.setReviewId(review.getReviewId());
@@ -146,15 +148,8 @@ public class ReviewService {
         Reservation reservation = reservationsRepository.findById(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 예약을 찾을 수 없습니다."));
 
-        boolean badContent = false;
-
         // 후기 내용에 부적절한 단어가 포함되어 있으면 클린봇 제재
-        for (String word : inappropriateWords) {
-            if (createReviewDTO.getContent().contains(word)) {
-                badContent = true;
-                break;
-            }
-        }
+        boolean badContent = checkBadContent(createReviewDTO.getContent());
 
         if (badContent) {
             Review review = Review.builder()
@@ -193,6 +188,21 @@ public class ReviewService {
                 .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
 
         reviewRepository.delete(review);
+    }
+
+    // 클린봇 필터링
+    public Boolean checkBadContent(String content) {
+
+        Boolean badContent = false;
+
+        // 후기 내용에 부적절한 단어가 포함되어 있으면 클린봇 제재
+        for (String word : inappropriateWords) {
+            if (content.contains(word)) {
+                badContent = true;
+                break;
+            }
+        }
+        return badContent;
     }
 
 }
