@@ -54,3 +54,8 @@ DELIMITER ;
 # END $$
 #
 # DELIMITER ;
+
+SELECT email, COUNT(*)
+FROM user
+GROUP BY email
+HAVING COUNT(*) > 1;

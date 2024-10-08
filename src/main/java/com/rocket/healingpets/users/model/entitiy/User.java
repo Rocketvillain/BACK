@@ -61,7 +61,7 @@ public class User {
 
     @Column(name = "user_state",nullable = false)
     // 유저 상태 -> 디폴트: 활성화 상태(activated)
-    private String userState = "activated";
+    private String userState;
 
     @Column(name = "created_date", nullable = false)
     @CreatedDate

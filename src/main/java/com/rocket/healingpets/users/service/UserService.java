@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,7 +42,6 @@ public class UserService {
     public User findUserById(String user_id) {
          User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new EntityNotFoundException("유저를 찾을 수 없습니다."));
-
         return user;
     }
 

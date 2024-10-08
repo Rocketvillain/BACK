@@ -10,12 +10,12 @@ import lombok.*;
 @ToString
 public class CreatePetDTO {
 
-    private int petId;
     private String petName;
     private String gender;
     private String weight;
     private int age;
     private String species;
     private String kind;
+    private String image;
 
 }
