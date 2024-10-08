@@ -1,5 +1,6 @@
 package com.rocket.healingpets.Reservations.controller;
 
+import com.rocket.healingpets.Reservations.model.dto.CancelReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.CreateReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.ReservationDTO;
 import com.rocket.healingpets.Reservations.model.dto.UpdateReservationDTO;
@@ -55,6 +56,19 @@ public class ReservationController {
                 .body(new ResponseMessage(HttpStatus.OK,hosId + "번 병원 예약 전체 조회", responseMap));
     }
 
+    // 특정 사용자 아이디에 대한 예약 전체 조회하기
+    @GetMapping("user/{userId}")
+    @Operation(summary = "특정 사용자 아이디에 대한 예약 전체 조회하기")
+    public ResponseEntity<ResponseMessage> findReservationsByUserId(@PathVariable String userId) {
+        List<ReservationDTO> reservations = reservationService.findReservationsByUserId(userId);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservations", reservations);
+
+        return ResponseEntity.ok()
+                .body(new ResponseMessage(HttpStatus.OK,userId + "의 예약 전체 조회", responseMap));
+    }
+
     //예약 단일 조회
     @GetMapping("/{reservation_id}")
     @Operation(summary = "예약 단일 조회")
@@ -93,6 +107,20 @@ public class ReservationController {
     public ResponseEntity<ResponseMessage> modifyReservation (@PathVariable int reservation_id, @RequestBody UpdateReservationDTO updateReservationDTO){
 
         ReservationDTO modifiedReservation = reservationService.updateReservations(reservation_id, updateReservationDTO);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reservation", modifiedReservation);
+
+        return ResponseEntity.created(URI.create("/entity/Reservation/" + reservation_id))
+                .body(new ResponseMessage(HttpStatus.OK,"예약 수정 성공",responseMap));
+    }
+
+    //예약 수정 (취소 상태만 반영)
+    @PutMapping("{reservation_id}")
+    @Operation(summary = "예약 수정 (취소 상태만 반영)")
+    public ResponseEntity<ResponseMessage> modifyReservationStatus (@PathVariable int reservation_id, @RequestBody CancelReservationDTO reservationDTO){
+
+        ReservationDTO modifiedReservation = reservationService.updateReservationStatus(reservation_id, reservationDTO);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("reservation", modifiedReservation);

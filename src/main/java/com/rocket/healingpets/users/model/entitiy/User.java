@@ -1,5 +1,6 @@
 package com.rocket.healingpets.users.model.entitiy;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rocket.healingpets.hospitals.model.entity.Hospital;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder(toBuilder = true)
-@ToString
+@ToString(exclude = "pets") // pets를 제외하여 무한 루프 방지
 public class User {
 
     @Id
@@ -23,9 +24,11 @@ public class User {
     // 사용자 아이디
     private String userId;
 
-    @Column(name = "hos_id")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hos_id")
     // 병원 고유번호(병원 관라지에게만 부여)
-    private Integer hosId; //null값
+    private Hospital hosId; //null값
 
     @Column(name = "pwd", nullable = false)
     // 비밀번호
@@ -37,7 +40,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role",nullable = false)
-
     // 유저 권한
     private RoleType userRole;
 

@@ -1,5 +1,6 @@
 package com.rocket.healingpets.hospitals.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +20,7 @@ import java.util.List;
 @Setter
 @Builder(toBuilder = true)
 @EntityListeners(AuditingEntityListener.class)
-@ToString
+@ToString(exclude = "user") // user를 제외하여 무한 루프 방지
 public class Hospital {
 
     @Id
@@ -28,8 +29,8 @@ public class Hospital {
     // 병원 아이디
     private int hosId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    @OneToOne(mappedBy = "hosId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     // 사용자 아이디
     private User user;
 

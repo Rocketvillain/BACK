@@ -16,6 +16,7 @@ public class UserDTO {
     private String email;
     private String userPwd;
     private String phone;
+    private String userState;
     private CreatePetDTO2 petInfo; // 펫 정보
 
 }

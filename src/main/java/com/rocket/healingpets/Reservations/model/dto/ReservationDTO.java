@@ -1,5 +1,6 @@
 package com.rocket.healingpets.Reservations.model.dto;
 
+import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.User;
 import lombok.*;
 
@@ -17,11 +18,12 @@ public class ReservationDTO {
     private int reservationId; // 예약 아이디
 
     // 유저 파트
-    private String userid; // 유저 아이디
+    private String userId; // 유저 아이디
     private String userName; // 유저 이름
     private String userEmail; // 이메일
     private String userPhone; // 전화번호
-    private int petId; // 고유 펫 id
+    private int petId;
+    private String petName;
 
     // 병원 파트
     private String hosName; // 예약 대상 병원

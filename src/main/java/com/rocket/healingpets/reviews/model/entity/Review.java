@@ -1,7 +1,6 @@
-package com.rocket.healingpets.reviews.model;
+package com.rocket.healingpets.reviews.model.entity;
 
 import com.rocket.healingpets.Reservations.model.entity.Reservation;
-import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 public class Review {
 
     @Id

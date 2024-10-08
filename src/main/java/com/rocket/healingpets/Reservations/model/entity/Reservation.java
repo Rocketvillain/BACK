@@ -1,12 +1,16 @@
 package com.rocket.healingpets.Reservations.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.healingpets.hospitals.model.entity.ClinicType;
 import com.rocket.healingpets.hospitals.model.entity.Hospital;
+import com.rocket.healingpets.reviews.model.entity.Review;
+import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +21,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 @Builder(toBuilder = true)
 public class Reservation {
 
@@ -45,9 +50,10 @@ public class Reservation {
     // 예약 시작 시간
     private LocalDateTime reservationTime;
 
-    @Column(name = "pet_id")
+    @ManyToOne
+    @JoinColumn(name = "pet_id")
     // 고유 펫 id
-    private int petId;
+    private Pet petId;
 
     @Column(name = "description")
     // 설명
@@ -60,6 +66,10 @@ public class Reservation {
     @Column(name = "state")
     // 예약 상태(승인/취소/완료)
     private String state = "activatied";
+
+    @OneToOne(mappedBy = "reservation")
+    @JsonIgnore
+    private Review review;
 
     @Column(name = "created_date")
     @CreatedDate

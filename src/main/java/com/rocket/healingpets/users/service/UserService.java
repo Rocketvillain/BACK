@@ -1,5 +1,7 @@
 package com.rocket.healingpets.users.service;
 
+import com.rocket.healingpets.hospitals.model.entity.Hospital;
+import com.rocket.healingpets.hospitals.service.HospitalService;
 import com.rocket.healingpets.users.model.dto.CreateUserDTO;
 import com.rocket.healingpets.users.model.dto.UpdateUserDTO;
 import com.rocket.healingpets.users.model.dto.UserDTO;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final HospitalService hospitalService;
 
     // 유저 전체 조회
     public List<UserDTO> findAllUsers() {
@@ -43,9 +47,10 @@ public class UserService {
 
     // 유저 등록
     public User registUser(CreateUserDTO createUserDTO) {
+        Hospital foundHospital = hospitalService.findHospitalById(createUserDTO.getHosId());
         User user =  User.builder()
                 .userId(createUserDTO.getUserId())
-                .hosId(createUserDTO.getHosId())
+                .hosId(foundHospital)
                 .userPwd(createUserDTO.getUserPwd())
                 .userRole(createUserDTO.getUserRole())
                 .userState(createUserDTO.getUserState())
@@ -64,13 +69,32 @@ public class UserService {
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new EntityNotFoundException("유저 정보를 찾을 수 없습니다.user_id:" + user_id));
 
+        System.out.println("UserService ===================> modify user Info : " + modifyInfo);
+
         user = user.toBuilder()
-                .userId(modifyInfo.getUserId())
                 .userName(modifyInfo.getName())
                 .email(modifyInfo.getEmail())
                 .phone(modifyInfo.getPhone())
                 .lastModifiedDate(LocalDate.now())
+                .userState(modifyInfo.getUserState())
                 .build();
+
+        System.out.println("UserService ===================> Update user Info : " + user);
+
+        return userRepository.save(user);
+    }
+
+    // 유저 상태 수정
+    public User modifyUserState(String userId) {
+
+        User user = userRepository.findById(userId).get();
+
+        user = user.toBuilder()
+                .userState("secession")
+                .lastModifiedDate(LocalDate.now())
+                .build();
+
+        System.out.println("UserService ===================> Update user Info : " + user);
 
         return userRepository.save(user);
     }
