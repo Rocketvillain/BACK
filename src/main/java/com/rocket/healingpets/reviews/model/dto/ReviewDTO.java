@@ -3,6 +3,7 @@ import com.rocket.healingpets.Reservations.model.entity.Reservation;
 import com.rocket.healingpets.users.model.entitiy.User;
 import lombok.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +21,8 @@ public class ReviewDTO {
 
     // 예약 엔티티
     private int reservationId;
+    private LocalDateTime reservationTime;
+
 
     // 유저 엔티티
     private String userId; // 유저 아이디

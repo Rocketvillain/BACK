@@ -1,5 +1,6 @@
 package com.rocket.healingpets.Reservations.model.dto;
 
+import com.rocket.healingpets.reviews.model.entity.Review;
 import com.rocket.healingpets.users.model.entitiy.Pet;
 import com.rocket.healingpets.users.model.entitiy.User;
 import lombok.*;
@@ -33,5 +34,8 @@ public class ReservationDTO {
     private String state; // 예약 상태 (승인/취소/설명)
     private LocalDateTime reservationTime; // 예약 시작 시간
     private LocalDate lastModifiedDate; // 최근 수정일
+
+    // 리뷰 파트
+    private Review review;
 
 }
