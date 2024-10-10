@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PetService {
 
-
     @Value("${file.upload-dir}")
     private String uploadDir;
 
