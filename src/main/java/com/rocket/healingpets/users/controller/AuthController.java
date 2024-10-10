@@ -96,48 +96,11 @@ public class AuthController {
         // 사용자 정보 저장
         UserDTO2 savedUserDTO = authService.signup2(userDTO2);
 
-        CreateHospitalDTO2 hosDTO2 = userDTO2.getHosInfo(); // userDTO에서 병원 정보를 가져옴
-
-        // User 객체 생성하고 userId 설정
-        User user = new User();
-        user.setUserId(savedUserDTO.getUserId()); // 저장된 사용자 ID 설정
-        user.setEmail(userDTO2.getEmail()); // 이메일 설정 (필요한 경우)
-
-        // 병원 엔티티를 생성하고, 로그인한 사용자의 ID를 설정
-        Hospital hospital = Hospital.builder()
-                .user(user)
-                .name(hosDTO2.getHospitalName())
-                .address(hosDTO2.getAddress())
-                .businessNo(hosDTO2.getBusinessNo())
-                .ownerName(hosDTO2.getOwnerName())
-                .clinicType(hosDTO2.getClinicType())
-                .build();
-
-            // 병원 등록
-            HospitalDTO2 registeredHospital = authService.registHospital(hospital);
-
-            Hospital foundHospital = hospitalService.findHospitalById(registeredHospital.getHosId());
-
-            // 병원 등록 후 hosId를 user와 clinicType에 설정
-            user.setHosId(foundHospital);
-
-            // ClinicType에 hosId를 설정
-            for(ClinicType clinicType : hospital.getClinicType()){
-                clinicType.setHosId(registeredHospital.getHosId());
-            }
-
-            // 유저 정보 업데이트
-            authService.updateUser(user);
-
-            //클리닉 타입 저장
-            clinicTypeRepository.saveAll(hospital.getClinicType());
-
-
-            // 병원 등록 성공
-            Map<String, Object> hospitalResponseMap = new HashMap<>();
-            hospitalResponseMap.put("hospital",registeredHospital);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ResponseMessage(HttpStatus.CREATED," 병원 등록 성공",hospitalResponseMap));
+        // 병원 등록 성공
+        Map<String, Object> hospitalResponseMap = new HashMap<>();
+        hospitalResponseMap.put("hospital",savedUserDTO);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ResponseMessage(HttpStatus.CREATED," 병원 및 유저 등록 성공",hospitalResponseMap));
 
     }
 

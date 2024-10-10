@@ -41,6 +41,7 @@ public class AuthService {
     private final MailService mailService;
     private final PetRepository petRepository;
     private final HospitalRepository hospitalRepository;
+    private final ClinicTypeRepository clinicTypeRepository;
 
     @Autowired
     public AuthService(ModelMapper modelMapper,
@@ -48,15 +49,15 @@ public class AuthService {
                        UserRepository userRepository,
                        MailService mailService,
                        PetRepository petRepository,
-                       HospitalRepository hospitalRepository
-                       ) {
+                       HospitalRepository hospitalRepository,
+                       ClinicTypeRepository clinicTypeRepository) {
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.petRepository = petRepository;
         this.hospitalRepository = hospitalRepository;
-
+        this.clinicTypeRepository = clinicTypeRepository;
     }
 
     @Transactional
@@ -88,13 +89,51 @@ public class AuthService {
         userDTO2.setUserRole(RoleType.ROLE_HOSPITAL);
 
         // 데이터베이스에 저장하기 위해 DTO에 담긴 값을 Entity로 변경
-        User registUser2 = modelMapper.map(userDTO2, User.class);
+        User registUser2 = User.builder()
+                .userId(userDTO2.getUserId())
+                .userPwd(userDTO2.getUserPwd())
+                .userName(userDTO2.getName())
+                .phone(userDTO2.getPhone())
+                .email(userDTO2.getEmail())
+                .userRole(userDTO2.getUserRole())
+                .userState("activated")
+                .build();
 
         // 저장
         User savedUser2 = userRepository.save(registUser2);
 
-        UserDTO2 responseUserDTO2 = modelMapper.map(savedUser2, UserDTO2.class);
-        return responseUserDTO2;
+        // 병원 등록
+        Hospital hospital = Hospital.builder()
+                .user(savedUser2)
+                .name(userDTO2.getHosInfo().getHospitalName())
+                .address(userDTO2.getHosInfo().getAddress())
+                .businessNo(userDTO2.getHosInfo().getBusinessNo())
+                .ownerName(userDTO2.getHosInfo().getOwnerName())
+                .build();
+
+        Hospital registeredHospital = hospitalRepository.save(hospital);
+
+        // 병원 생성 후 유저에 병원 엔티티 매핑
+        savedUser2 = savedUser2.toBuilder()
+                .hosId(registeredHospital)
+                .build();
+
+        savedUser2 = userRepository.save(savedUser2);
+
+        // ClinicType 등록
+        int hosId = registeredHospital.getHosId();
+        for(ClinicType clinicType : userDTO2.getHosInfo().getClinicType()){
+            String clinicName = clinicType.getClinicName();
+
+            ClinicType registerClinicType = ClinicType.builder()
+                    .hosId(hosId)
+                    .clinicName(clinicName)
+                    .build();
+
+            clinicTypeRepository.save(registerClinicType);
+        }
+
+        return modelMapper.map(savedUser2, UserDTO2.class);
     }
 
     // 인증번호 랜덤 설정
