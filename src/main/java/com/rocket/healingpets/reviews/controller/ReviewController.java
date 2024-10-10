@@ -125,8 +125,8 @@ public class ReviewController {
 
         // 리뷰 등록(작성)
         @Operation(summary = "리뷰 등록(작성)")
-        @PostMapping("")
-        public ResponseEntity<ResponseMessage> createReview(@RequestParam int reservationId, @RequestBody CreateReviewDTO createReviewDTO) {
+        @PostMapping("/{reservationId}")
+        public ResponseEntity<ResponseMessage> createReview(@PathVariable int reservationId, @RequestBody CreateReviewDTO createReviewDTO) {
             // Review 생성
             Review Review = reviewService.createReview(createReviewDTO, reservationId);
 
@@ -143,7 +143,7 @@ public class ReviewController {
         // 리뷰 수정
         @Operation(summary = "리뷰 수정")
         @PutMapping("/{reviewId}")
-        public ResponseEntity<ResponseMessage> modifyReview(@PathVariable int reviewId, @RequestBody CreateReviewDTO reviewDTO) {
+        public ResponseEntity<ResponseMessage> modifyReview(@PathVariable int reviewId, @RequestBody ReadReviewDTO reviewDTO) {
             Review Review = reviewService.modifyReview(reviewId, reviewDTO);
 
             ReadReviewDTO updatedReview = modelMapper.map(Review, ReadReviewDTO.class);
