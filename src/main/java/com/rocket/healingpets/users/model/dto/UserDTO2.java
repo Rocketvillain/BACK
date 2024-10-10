@@ -16,6 +16,6 @@ public class UserDTO2 {
     private String email;
     private String userPwd;
     private String phone;
-    private CreateHospitalDTO2 hosInfo; // 펫 정보
+    private CreateHospitalDTO2 hosInfo; // 병원 정보
 
 }

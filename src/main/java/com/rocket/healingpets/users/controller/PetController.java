@@ -55,15 +55,6 @@ public class PetController {
         }
     }
 
-//    @Operation(summary = "회원의 펫 정보 수정")
-//    @PutMapping("/update/{petId}")
-//    public ResponseEntity<ResponseMessage> modifyPet(@PathVariable int petId, @RequestBody UpdatePetDTO updatePetDTO) {
-//        PetDTO modifyPet = petService.modifyPet(petId, updatePetDTO);
-//        Map<String, Object> responseMap = new HashMap<>();
-//        responseMap.put("pet", modifyPet);
-//        return ResponseEntity.ok()
-//                .body(new ResponseMessage(HttpStatus.OK, "펫 수정 성공", responseMap));
-//    }
 
     @Operation(summary = "회원의 펫 정보 수정")
     @PutMapping("/update/{petId}")
