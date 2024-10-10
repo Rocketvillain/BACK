@@ -198,7 +198,7 @@ public class ReviewService {
     }
     // 리뷰 수정
 
-    public Review modifyReview(int reviewId, CreateReviewDTO reviewDTO) {
+    public Review modifyReview(int reviewId, ReadReviewDTO reviewDTO) {
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
