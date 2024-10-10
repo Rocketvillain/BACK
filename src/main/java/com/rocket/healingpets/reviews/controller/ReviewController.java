@@ -106,24 +106,27 @@ public class ReviewController {
 
     }
 
-//    // 리뷰 작성
-//    @Operation(summary = "리뷰 등록(작성)")
-//    @PostMapping("")
-//    public ResponseEntity<ResponseMessage> createReview(@RequestParam int reservationId, @RequestBody CreateReviewDTO createReviewDTO) {
-//        // Review 생성
-//        Review createdReview = reviewService.createReview(createReviewDTO, reservationId);
-//
-//        Map<String, Object> responseMap = new HashMap<>();
-//        responseMap.put("review", createdReview);
-//
-//        return ResponseEntity.created(URI.create("/review/" + createdReview.getReviewId()))
-//                .body(new ResponseMessage(HttpStatus.CREATED, "리뷰가 생성되었습니다.", responseMap));
-//    }
+
+    @Operation(summary = "사용자 아이디로 리뷰 전체 조회")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ResponseMessage> findReviewByUserId(@PathVariable String userId){
+        List<ReviewDTO> reviewDTO = reviewService.findReviewByUserId(userId);
+
+        log.info("사용자 아이디로 조회된 리뷰 정보 : {}", reviewDTO);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("reviewDTO", reviewDTO);
+
+        return ResponseEntity.ok().body(
+                new ResponseMessage(HttpStatus.OK,
+                        userId + "의 리뷰 정보를 불러옵니다...", responseMap));
+    }
+
 
         // 리뷰 등록(작성)
         @Operation(summary = "리뷰 등록(작성)")
-        @PostMapping("")
-        public ResponseEntity<ResponseMessage> createReview(@RequestParam int reservationId, @RequestBody CreateReviewDTO createReviewDTO) {
+        @PostMapping("/{reservationId}")
+        public ResponseEntity<ResponseMessage> createReview(@PathVariable int reservationId, @RequestBody CreateReviewDTO createReviewDTO) {
             // Review 생성
             Review Review = reviewService.createReview(createReviewDTO, reservationId);
 
@@ -140,7 +143,7 @@ public class ReviewController {
         // 리뷰 수정
         @Operation(summary = "리뷰 수정")
         @PutMapping("/{reviewId}")
-        public ResponseEntity<ResponseMessage> modifyReview(@PathVariable int reviewId, @RequestBody CreateReviewDTO reviewDTO) {
+        public ResponseEntity<ResponseMessage> modifyReview(@PathVariable int reviewId, @RequestBody ReadReviewDTO reviewDTO) {
             Review Review = reviewService.modifyReview(reviewId, reviewDTO);
 
             ReadReviewDTO updatedReview = modelMapper.map(Review, ReadReviewDTO.class);
@@ -161,7 +164,6 @@ public class ReviewController {
             return ResponseEntity.ok()
                     .body(new ResponseMessage(HttpStatus.NO_CONTENT, reviewId + "번 리뷰가 삭제되었습니다."));
         }
-
 
 
 }

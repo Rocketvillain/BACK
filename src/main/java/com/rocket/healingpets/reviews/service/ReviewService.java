@@ -40,7 +40,6 @@ public class ReviewService {
             "지랄맞은", "쓰레기같은", "개소리", "병신같은", "간섭", "미친놈", "미친년", "찐따",
             "쓰레기 같은", "개자식 같은", "개새끼 같은", "이상한", "정신병", "후진", "거지",
             "지랄맞은",  "어리버리", "더러운", "개같은", "지랄", "쓰레기 같은", "노망"
-
     );
 
     // 리뷰 전체 조회
@@ -60,9 +59,11 @@ public class ReviewService {
                 .map(review -> {
                     ReviewDTO reviewDTO = new ReviewDTO();
                     reviewDTO.setContent(review.getContent());
+                    reviewDTO.setReservationId(review.getReservation().getReservationId());
                     reviewDTO.setCreatedDate(review.getCreatedDate());
                     reviewDTO.setLastModifiedDate(review.getLastModifiedDate());
                     reviewDTO.setReviewId(review.getReviewId());
+                    reviewDTO.setReservationTime(review.getReservation().getReservationTime());
                     Reservation reservation = review.getReservation();
 
                     if (reservation != null) {
@@ -140,6 +141,28 @@ public class ReviewService {
                 }).collect(Collectors.toList());
     }
 
+    // 사용자 아이디로 해당 리뷰 조회
+    public List<ReviewDTO> findReviewByUserId(String userId) {
+        List<Review> foundReviews = reviewRepository.findReviewsByUserId(userId);
+
+        return foundReviews.stream()
+                .map(review -> {
+                    ReviewDTO reviewDTO = new ReviewDTO();
+                    reviewDTO.setReviewId(review.getReviewId());
+                    reviewDTO.setContent(review.getContent());
+                    reviewDTO.setReportState(review.getReportState());
+                    reviewDTO.setCreatedDate(review.getCreatedDate());
+                    reviewDTO.setLastModifiedDate(review.getLastModifiedDate());
+                    reviewDTO.setReservationId(review.getReservation().getReservationId());
+                    reviewDTO.setUserId(review.getReservation().getUserId().getUserId());
+                    reviewDTO.setUserName(review.getReservation().getUserId().getUserName());
+                    reviewDTO.setClinicName(review.getReservation().getClinicType().getClinicName());
+                    reviewDTO.setHosName(review.getReservation().getHosId().getName());
+                    reviewDTO.setReservationTime(review.getReservation().getReservationTime());
+                    return reviewDTO;
+                }).collect(Collectors.toList());
+    }
+
     // 리뷰 등록
     public Review createReview(CreateReviewDTO createReviewDTO, int reservationId) {
         // Reservation을 먼저 조회
@@ -173,9 +196,9 @@ public class ReviewService {
             return reviewRepository.save(review);
         }
     }
-
     // 리뷰 수정
-    public Review modifyReview(int reviewId, CreateReviewDTO reviewDTO) {
+
+    public Review modifyReview(int reviewId, ReadReviewDTO reviewDTO) {
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("리뷰를 찾을 수 없습니다."));
@@ -185,8 +208,8 @@ public class ReviewService {
         return reviewRepository.save(review);
 
     }
-
     // 리뷰 삭제
+
     public void deleteReview(int reviewId) {
 
         Review review = reviewRepository.findById(reviewId)
@@ -194,5 +217,4 @@ public class ReviewService {
 
         reviewRepository.delete(review);
     }
-
 }
