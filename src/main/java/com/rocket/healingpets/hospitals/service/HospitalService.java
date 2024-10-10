@@ -9,9 +9,13 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +27,9 @@ public class HospitalService {
 
     private final HospitalRepository hospitalRepository;
     private final ModelMapper modelMapper;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     // 전체 병원 조회
     public List<HospitalDTO> findAllHospital() {
@@ -75,8 +82,52 @@ public class HospitalService {
         return hospitalRepository.save(hospital);
     }
 
+    // 병원 이미지 수정
+
+
     // 병원 삭제
     public void deleteHospital(int hosId) {
         hospitalRepository.deleteById(hosId);
+    }
+
+    // 이미지 저장 메소드
+    private String saveImage(MultipartFile image) {
+        try{
+            String fileName = System.currentTimeMillis() + ".png"; //파일 이름 생성
+            File uploadDorFile = new File(uploadDir);
+
+            // 디렉토리가 없으면 생성
+            if (!uploadDorFile.exists()) {
+                uploadDorFile.mkdirs();
+            }
+
+            File file = new File(uploadDir + fileName);
+            image.transferTo(file); //파일 저장
+
+            System.out.println("새 이미지 저장 완료" + file.getAbsolutePath());
+            return fileName;
+
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 저장 중 오류 발생", e);
+        }
+    }
+
+    // 기존 이미지를 삭제하는 메소드
+    private void deleteImage(String imagePath) {
+        try {
+            File file = new File(uploadDir + imagePath); // 이미지 경로
+            if (file.exists()) {
+                boolean deleted = file.delete();
+                if (!deleted) {
+                    System.err.println("기존 이미지 삭제 실패: " + imagePath);
+                }else{
+                    System.out.println("기존 이미지 삭제 성공: " + imagePath);
+                }
+            } else {
+                System.out.println("삭제할 이미지가 존재하지 않음 : " + imagePath);
+            }
+        } catch (Exception e) {
+            System.err.println("이미지 삭제 중 오류 발생: " + e.getMessage());
+        }
     }
 }

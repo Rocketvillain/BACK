@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -80,15 +81,29 @@ public class UserController {
 
     }
 
-    // 유저 수정
+    // 유저 정보 수정
     @Operation(summary = "유저 수정")
     @PutMapping("/{user_Id}")
     public ResponseEntity<ResponseMessage> modifyUser(@PathVariable String user_Id, @RequestBody UpdateUserDTO updateUserDTO) {
 
-        User user = userService.updateUser(user_Id, updateUserDTO);
+        User user1 = userService.updateUserInfo(user_Id, updateUserDTO);
 
         Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("user",user);
+        responseMap.put("user1",user1);
+
+        return ResponseEntity.created(URI.create("/api/v1/user/" + user_Id))
+                .body(new ResponseMessage(HttpStatus.OK, "유저 수정 성공", responseMap));
+    }
+
+    // 유저 이미지 수정
+    @Operation(summary = "유저 수정")
+    @PutMapping("/image/{user_Id}")
+    public ResponseEntity<ResponseMessage> modifyUser(@PathVariable String user_Id, @RequestBody MultipartFile image) {
+
+        User user2 = userService.updateUserImage(user_Id,image);
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("user2",user2);
 
         return ResponseEntity.created(URI.create("/api/v1/user/" + user_Id))
                 .body(new ResponseMessage(HttpStatus.OK, "유저 수정 성공", responseMap));

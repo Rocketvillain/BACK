@@ -81,4 +81,7 @@ public class User {
         return pets.stream().anyMatch(pet -> pet.getPetId() == petId);
     }
 
+    // 이미지
+    @Column(name = "image")
+    private String image;
 }

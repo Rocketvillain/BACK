@@ -199,7 +199,7 @@ public class PetService {
             image.transferTo(file); //파일 저장
 
             System.out.println("새 이미지 저장 완료" + file.getAbsolutePath());
-            return "/uploads/" + fileName;
+            return fileName;
 
         } catch (IOException e) {
             throw new RuntimeException("이미지 저장 중 오류 발생", e);

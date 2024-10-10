@@ -25,6 +25,7 @@ public class ReadUserDTO {
     private String phone;
     private List<Pet> pets;
     private String userState;
+    private String image;
     private LocalDate createdDate;
     private LocalDate lastModifiedDate;
 
