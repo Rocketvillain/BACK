@@ -25,7 +25,8 @@ import java.util.stream.Collectors;
 public class PetService {
 
 
-    private String uploadDir="C:\\Users\\8\\Desktop\\parkhyochan\\project\\src\\main\\resources\\static\\uploads\\"; //절대 경로 수정해야됨
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     private final PetRepository petRepository;
     private final UserService userService;
