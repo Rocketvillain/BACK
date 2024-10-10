@@ -1,5 +1,6 @@
 package com.rocket.healingpets.users.model.dto;
 
+import com.rocket.healingpets.users.model.entitiy.Pet;
 import lombok.*;
 
 @NoArgsConstructor
@@ -17,6 +18,6 @@ public class PetDTO {
     private int age;
     private String species;
     private String kind;
-    private String Image;
+    private String image; // 이미지 경로 (선택적)
 
 }
