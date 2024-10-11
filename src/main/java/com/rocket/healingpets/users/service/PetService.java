@@ -61,7 +61,7 @@ public class PetService {
                 pet.getAge(),
                 pet.getSpecies(),
                 pet.getKind(),
-                pet.getImage() != null ? "http://localhost:8080" + pet.getImage() : "" // 이미지 경로
+                pet.getImage() != null ? "http://localhost:8080/uploads/" + pet.getImage() : "" // 이미지 경로
 
         )).collect(Collectors.toList());
     }
